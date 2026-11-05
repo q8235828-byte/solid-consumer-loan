@@ -40,8 +40,14 @@ export default function Footer() {
                 <span>Service Client & Conseils : 01 89 54 22 10 (Appel non surtaxé)</span>
               </div>
               <div className="flex items-center gap-2">
+                <span className="text-emerald-400 font-bold text-xs">WhatsApp :</span>
+                <a href="https://wa.me/?text=Hello%20I%20am%20interested%20in%20your%20Loan%20Offer" target="_blank" rel="noreferrer" className="text-emerald-400 hover:underline">
+                  Assistance Directe WhatsApp
+                </a>
+              </div>
+              <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-sterling-gold shrink-0" />
-                <span>service-client@sterlingbank.fr</span>
+                <span>contact@sterlingbank.fr</span>
               </div>
             </div>
           </div>

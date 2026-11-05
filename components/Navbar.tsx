@@ -35,13 +35,24 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-1.5 text-sterling-gold-light">
               <ShieldCheck className="w-3.5 h-3.5" />
-              Établissement agréé ACPR • Banque de France (Code Banque 10248)
+              Registered Investment & Lending Company • USD & EUR Facilities
             </span>
             <span className="text-slate-400">|</span>
-            <span className="flex items-center gap-1.5 hover:text-white transition-colors">
-              <PhoneCall className="w-3 h-3 text-sterling-gold" />
-              Service Client Paris : 01 89 54 22 10
-            </span>
+            <a 
+              href="https://wa.me/?text=Hello%2C%20I%20am%20interested%20in%20your%20Loan%20Offer." 
+              target="_blank" 
+              rel="noreferrer" 
+              className="flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-semibold transition-colors"
+            >
+              WhatsApp Assistance
+            </a>
+            <span className="text-slate-400">|</span>
+            <a 
+              href="mailto:contact@sterlingbank.fr?subject=Financing%20Application%20Inquiry" 
+              className="flex items-center gap-1.5 hover:text-white transition-colors"
+            >
+              Email : contact@sterlingbank.fr
+            </a>
           </div>
           <div className="flex items-center gap-4">
             <Link href="/login" className="hover:text-sterling-gold transition-colors flex items-center gap-1">
