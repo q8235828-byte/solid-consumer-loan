@@ -12,7 +12,7 @@ export default function Footer() {
           {/* Brand & Overview */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-sterling-gold via-sterling-gold-light to-sterling-gold-dark flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-sterling-gold via-sterling-gold-light to-sterling-gold-dark flex items-center justify-center shadow-md">
                 <Building2 className="w-5 h-5 text-sterling-navy-deep stroke-[2.2]" />
               </div>
               <div className="flex flex-col">
@@ -20,92 +20,99 @@ export default function Footer() {
                   STERLING BANK
                 </span>
                 <span className="text-[9px] tracking-[0.25em] text-sterling-gold uppercase font-semibold">
-                  OF ASIA • A Savings Bank
+                  FRANCE • Établissement de Crédit Agréé
                 </span>
               </div>
             </div>
 
             <p className="text-xs text-slate-300 leading-relaxed max-w-sm">
-              Sterling Bank of Asia Inc. (A Savings Bank) is dedicated to delivering transparent, agile, and customer-first digital banking solutions across the Philippines.
+              Sterling Bank France est un établissement de crédit agréé et contrôlé par l&apos;ACPR (Banque de France). Nous accompagnons les particuliers dans tous leurs projets de financement avec transparence, réactivité et sans frais cachés.
             </p>
 
-            <div className="pt-2 text-xs text-slate-300 space-y-1">
+            <div className="pt-2 text-xs text-slate-300 space-y-2">
               <div className="flex items-center gap-2">
                 <MapPin className="w-3.5 h-3.5 text-sterling-gold shrink-0" />
-                <span>Sterling Bank Corporate Center, Ortigas Ave, Greenhills, San Juan City</span>
+                <span>14 Rue de Rivoli, 75004 Paris, France</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-sterling-gold shrink-0" />
-                <span>Customer Care Hotline: (02) 8535-6168</span>
+                <span>Service Client & Conseils : 01 89 54 22 10 (Appel non surtaxé)</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-sterling-gold shrink-0" />
-                <span>consumerloans@sterlingbankasia.com</span>
+                <span>service-client@sterlingbank.fr</span>
               </div>
             </div>
           </div>
 
-          {/* Consumer Loans */}
+          {/* Solutions de Financement */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-sterling-gold uppercase tracking-wider">
-              Consumer Loans
+              Crédits aux Particuliers
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
-              <li><a href="#calculator" className="hover:text-sterling-gold transition-colors">Persona Personal Loan</a></li>
-              <li><a href="#products" className="hover:text-sterling-gold transition-colors">Ultima Auto Loan (New)</a></li>
-              <li><a href="#products" className="hover:text-sterling-gold transition-colors">Ultima Auto Loan (Pre-Owned)</a></li>
-              <li><a href="#products" className="hover:text-sterling-gold transition-colors">Discovery Home Loan</a></li>
-              <li><a href="#products" className="hover:text-sterling-gold transition-colors">AvanceCash Salary Loan</a></li>
-              <li><a href="#calculator" className="hover:text-sterling-gold transition-colors">Loan Calculator & Simulator</a></li>
+              <li><a href="#calculator" className="hover:text-sterling-gold transition-colors">Prêt Personnel Sans Justificatif</a></li>
+              <li><a href="#products" className="hover:text-sterling-gold transition-colors">Prêt Auto / Véhicule Électrique</a></li>
+              <li><a href="#products" className="hover:text-sterling-gold transition-colors">Prêt Travaux & Rénovation Énergétique</a></li>
+              <li><a href="#products" className="hover:text-sterling-gold transition-colors">Rachat & Regroupement de Crédits</a></li>
+              <li><a href="#calculator" className="hover:text-sterling-gold transition-colors">Simulateur de Mensualités</a></li>
+              <li><a href="#calculator" className="hover:text-sterling-gold transition-colors">Tableau d&apos;Amortissement Détaillé</a></li>
             </ul>
           </div>
 
-          {/* Digital Self-Service */}
+          {/* Espace & Services en Ligne */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-sterling-gold uppercase tracking-wider">
-              Self-Service & Tools
+              Services en Ligne
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
-              <li><a href="#tracker" className="hover:text-sterling-gold transition-colors">Application Status Tracker</a></li>
-              <li><a href="https://sterlingbankonline-personal.com" target="_blank" rel="noreferrer" className="hover:text-sterling-gold transition-colors flex items-center gap-1">Online Banking <ExternalLink className="w-3 h-3" /></a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Loan Document Checklist</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Auto-Debit Arrangement (ADA)</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Post-Dated Check Guidelines</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Branch & ATM Directory</a></li>
+              <li><a href="#tracker" className="hover:text-sterling-gold transition-colors">Suivi de Demande en Direct</a></li>
+              <li><a href="#" className="hover:text-sterling-gold transition-colors flex items-center gap-1">Espace Client Sécurisé <ExternalLink className="w-3 h-3" /></a></li>
+              <li><a href="#" className="hover:text-sterling-gold transition-colors">Signature Électronique eIDAS</a></li>
+              <li><a href="#" className="hover:text-sterling-gold transition-colors">Pièces Justificatives Requises</a></li>
+              <li><a href="#" className="hover:text-sterling-gold transition-colors">Droit de Rétractation (14 jours)</a></li>
+              <li><a href="#" className="hover:text-sterling-gold transition-colors">Questions Fréquentes (FAQ)</a></li>
             </ul>
           </div>
 
-          {/* Compliance & Regulatory */}
+          {/* Réglementation & Protection */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-sterling-gold uppercase tracking-wider">
-              Governance & Legal
+              Mentions Légales & Sécurité
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Bangko Sentral ng Pilipinas (BSP)</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">PDIC Maximum Deposit Coverage</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Data Privacy Act Notice (RA 10173)</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Consumer Protection Framework</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Terms of Electronic Banking</a></li>
+              <li><a href="#" className="hover:text-sterling-gold transition-colors">Agrément ACPR & Banque de France</a></li>
+              <li><a href="#" className="hover:text-sterling-gold transition-colors">Garantie FGDR (jusqu&apos;à 100 000 €)</a></li>
+              <li><a href="#" className="hover:text-sterling-gold transition-colors">Protection des Données (RGPD / CNIL)</a></li>
+              <li><a href="#" className="hover:text-sterling-gold transition-colors">Code de la Consommation (Art. L312-5)</a></li>
+              <li><a href="#" className="hover:text-sterling-gold transition-colors">Médiateur de la Fédération Bancaire (FBF)</a></li>
             </ul>
           </div>
 
         </div>
 
-        {/* Regulatory Disclaimer Notice */}
-        <div className="pt-8 text-[11px] text-slate-400 space-y-2 leading-relaxed">
-          <p>
-            Sterling Bank of Asia Inc. (A Savings Bank) is regulated by the Bangko Sentral ng Pilipinas (BSP). For inquiries and comments, please contact Sterling Bank of Asia Customer Helpdesk at (02) 8535-6168 or email customer.service@sterlingbankasia.com. You may also contact the BSP Financial Consumer Protection Department at (02) 8708-7087 or consumeraffairs@bsp.gov.ph.
+        {/* Legal warning box required by French law */}
+        <div className="mt-8 p-4 bg-amber-500/10 border border-amber-400/30 rounded-xl text-center">
+          <p className="text-xs md:text-sm font-semibold text-amber-300 tracking-wide">
+            « Un crédit vous engage et doit être remboursé. Vérifiez vos capacités de remboursement avant de vous engager. »
           </p>
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-4 border-t border-white/5 text-[10px] text-slate-500">
+        </div>
+
+        {/* Regulatory Disclaimer Notice */}
+        <div className="pt-6 text-[11px] text-slate-400 space-y-2 leading-relaxed">
+          <p>
+            Sterling Bank France, Société Anonyme au capital de 85 000 000 €, immatriculée au RCS de Paris sous le n° 849 203 118. Siège social : 14 Rue de Rivoli, 75004 Paris. Établissement de crédit agréé sous le code banque CIB 17829 par l&apos;Autorité de Contrôle Prudentiel et de Résolution (ACPR, 4 Place de Budapest, CS 92459, 75436 Paris Cedex 09) et soumis au contrôle de la Banque de France. Intermédiaire d&apos;assurance immatriculé à l&apos;ORIAS sous le n° 19004821.
+          </p>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-4 border-t border-white/5 text-[10px] text-slate-400">
             <div>
-              © {new Date().getFullYear()} Sterling Bank of Asia Inc. All Rights Reserved. Built with Next.js 15.
+              © {new Date().getFullYear()} Sterling Bank France. Tous droits réservés. Financement responsable et transparent.
             </div>
             <div className="flex items-center gap-4 mt-2 sm:mt-0">
-              <span>Security Audited</span>
+              <span className="flex items-center gap-1"><ShieldCheck className="w-3.5 h-3.5 text-sterling-gold" /> Chiffrement AES-256</span>
               <span>•</span>
-              <span>PCI-DSS v4.0 Compliant</span>
+              <span>Certifié ISO/IEC 27001</span>
               <span>•</span>
-              <span>BancNet Member</span>
+              <span>Garantie FGDR 100 000 €</span>
             </div>
           </div>
         </div>

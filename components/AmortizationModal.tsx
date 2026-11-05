@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { X, Calendar, Download, Printer } from "lucide-react";
-import { formatPHP } from "@/lib/utils";
+import { X, Calendar, Printer } from "lucide-react";
+import { formatEUR } from "@/lib/utils";
 
 interface AmortizationRow {
   month: number;
@@ -36,7 +36,7 @@ export default function AmortizationModal({
 }: AmortizationModalProps) {
   if (!isOpen) return null;
 
-  // Generate schedule rows
+  // Monthly interest computation
   const monthlyRate = annualRatePct / 100 / 12;
   const rows: AmortizationRow[] = [];
   let balance = principal;
@@ -72,9 +72,9 @@ export default function AmortizationModal({
               <Calendar className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-lg font-bold">Indicative Amortization Schedule</h3>
+              <h3 className="text-lg font-bold">Tableau d&apos;Amortissement Indicatif</h3>
               <p className="text-xs text-slate-300">
-                Loan Amount: {formatPHP(principal)} | Tenor: {tenorMonths} Mos | EIR: {annualRatePct}% p.a.
+                Montant : {formatEUR(principal)} | Durée : {tenorMonths} mois | TAEG fixe : {annualRatePct.toFixed(2)}%
               </p>
             </div>
           </div>
@@ -89,20 +89,20 @@ export default function AmortizationModal({
         {/* Summary Badges */}
         <div className="bg-slate-50 px-6 py-4 grid grid-cols-2 sm:grid-cols-4 gap-4 border-b border-slate-200 text-xs">
           <div>
-            <div className="text-slate-500 font-medium">Monthly Amortization</div>
-            <div className="text-sm font-bold text-sterling-navy">{formatPHP(monthlyPayment)}</div>
+            <div className="text-slate-500 font-medium">Mensualité (hors ass.)</div>
+            <div className="text-sm font-bold text-sterling-navy">{formatEUR(monthlyPayment)} / mois</div>
           </div>
           <div>
-            <div className="text-slate-500 font-medium">Principal Amount</div>
-            <div className="text-sm font-bold text-slate-800">{formatPHP(principal)}</div>
+            <div className="text-slate-500 font-medium">Montant Emprunté</div>
+            <div className="text-sm font-bold text-slate-800">{formatEUR(principal)}</div>
           </div>
           <div>
-            <div className="text-slate-500 font-medium">Total Interest</div>
-            <div className="text-sm font-bold text-amber-600">{formatPHP(totalInterest)}</div>
+            <div className="text-slate-500 font-medium">Coût Total des Intérêts</div>
+            <div className="text-sm font-bold text-amber-600">{formatEUR(totalInterest)}</div>
           </div>
           <div>
-            <div className="text-slate-500 font-medium">Total Payments</div>
-            <div className="text-sm font-bold text-sterling-navy">{formatPHP(totalRepayment)}</div>
+            <div className="text-slate-500 font-medium">Montant Total Dû</div>
+            <div className="text-sm font-bold text-sterling-navy">{formatEUR(totalRepayment)}</div>
           </div>
         </div>
 
@@ -111,23 +111,23 @@ export default function AmortizationModal({
           <table className="w-full text-left text-xs text-slate-600">
             <thead className="bg-slate-100 text-slate-700 font-semibold sticky top-0 uppercase tracking-wider">
               <tr>
-                <th className="py-2.5 px-3">Mo.</th>
-                <th className="py-2.5 px-3">Beg. Balance</th>
-                <th className="py-2.5 px-3">Payment</th>
-                <th className="py-2.5 px-3">Principal</th>
-                <th className="py-2.5 px-3">Interest</th>
-                <th className="py-2.5 px-3">End Balance</th>
+                <th className="py-2.5 px-3">Mois</th>
+                <th className="py-2.5 px-3">Capital restant dû</th>
+                <th className="py-2.5 px-3">Mensualité</th>
+                <th className="py-2.5 px-3">Capital amorti</th>
+                <th className="py-2.5 px-3">Intérêts</th>
+                <th className="py-2.5 px-3">Capital de fin</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 font-mono">
               {rows.map((row) => (
                 <tr key={row.month} className="hover:bg-slate-50/80 transition-colors">
                   <td className="py-2 px-3 font-sans font-medium text-slate-900">{row.month}</td>
-                  <td className="py-2 px-3">{formatPHP(row.beginningBalance)}</td>
-                  <td className="py-2 px-3 font-semibold text-sterling-navy">{formatPHP(row.payment)}</td>
-                  <td className="py-2 px-3 text-emerald-700">{formatPHP(row.principal)}</td>
-                  <td className="py-2 px-3 text-amber-700">{formatPHP(row.interest)}</td>
-                  <td className="py-2 px-3">{formatPHP(row.endingBalance)}</td>
+                  <td className="py-2 px-3">{formatEUR(row.beginningBalance)}</td>
+                  <td className="py-2 px-3 font-semibold text-sterling-navy">{formatEUR(row.payment)}</td>
+                  <td className="py-2 px-3 text-emerald-700">{formatEUR(row.principal)}</td>
+                  <td className="py-2 px-3 text-amber-700">{formatEUR(row.interest)}</td>
+                  <td className="py-2 px-3">{formatEUR(row.endingBalance)}</td>
                 </tr>
               ))}
             </tbody>
@@ -136,20 +136,20 @@ export default function AmortizationModal({
 
         {/* Footer */}
         <div className="bg-slate-50 px-6 py-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
-          <div>* Rates and amortizations shown are indicative and subject to credit evaluation.</div>
+          <div>* Exemple indicatif hors assurance facultative. Offre soumise à étude et acceptation définitive du dossier.</div>
           <div className="flex items-center gap-3">
             <button 
               onClick={handlePrint}
               className="px-4 py-2 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 font-medium rounded-lg flex items-center gap-2 transition-colors shadow-sm"
             >
               <Printer className="w-4 h-4" />
-              Print Schedule
+              Imprimer l&apos;échéancier
             </button>
             <button 
               onClick={onClose}
               className="px-5 py-2 bg-sterling-navy text-white hover:bg-sterling-navy-light font-medium rounded-lg transition-colors"
             >
-              Close
+              Fermer
             </button>
           </div>
         </div>

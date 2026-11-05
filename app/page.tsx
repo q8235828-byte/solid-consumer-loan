@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ProductCards from "@/components/ProductCards";
 import HowItWorks from "@/components/HowItWorks";
+import Testimonials from "@/components/Testimonials";
 import TrackerSection from "@/components/TrackerSection";
 import TrustBadges from "@/components/TrustBadges";
 import Footer from "@/components/Footer";
@@ -20,32 +21,35 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
-      {/* Top Banking Navbar */}
+    <div className="min-h-screen flex flex-col bg-slate-50 font-sans antialiased text-slate-800">
+      {/* Top French Banking Navbar */}
       <Navbar onOpenApply={handleOpenApply} />
 
       {/* Main Content Sections */}
       <main className="flex-1">
-        {/* Hero Section with Live Calculator */}
+        {/* Hero Section with Live Euro Calculator & Real Advisor Photo */}
         <Hero onOpenApply={handleOpenApply} />
 
-        {/* Retail Loan Products Matrix */}
+        {/* Retail Loan Products Matrix with Real Photography */}
         <ProductCards onOpenApply={handleOpenApply} />
 
         {/* 4-Step Application Walkthrough */}
         <HowItWorks />
 
+        {/* Real Customer Testimonials & Verified Reviews */}
+        <Testimonials onOpenApply={handleOpenApply} />
+
         {/* Application Status Tracker */}
         <TrackerSection />
 
-        {/* BSP, PDIC & Encryption Trust Badges */}
+        {/* ACPR, FGDR, RGPD & eIDAS Trust Badges */}
         <TrustBadges />
       </main>
 
-      {/* Enterprise Banking Footer */}
+      {/* Enterprise Banking Footer with French Legal Disclaimers */}
       <Footer />
 
-      {/* 5-Step Digital Onboarding Application Modal */}
+      {/* 5-Step French Digital Onboarding Application Modal */}
       <QuickApplyModal
         isOpen={applyModalOpen}
         onClose={() => setApplyModalOpen(false)}

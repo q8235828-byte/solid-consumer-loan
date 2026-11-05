@@ -5,12 +5,11 @@ import {
   UserCheck, 
   Car, 
   Home, 
-  Coins, 
   ArrowRight, 
   Check, 
-  Sparkles 
+  Sparkles,
+  ShieldCheck 
 } from "lucide-react";
-import { formatPHP } from "@/lib/utils";
 
 interface ProductCardsProps {
   onOpenApply?: (loanType: string) => void;
@@ -19,57 +18,60 @@ interface ProductCardsProps {
 export default function ProductCards({ onOpenApply }: ProductCardsProps) {
   const products = [
     {
-      id: "persona",
-      name: "Persona Personal Loan",
-      badge: "Most Popular",
-      category: "Unsecured Cash Loan",
+      id: "personnel",
+      name: "Prêt Personnel Tous Projets",
+      badge: "Le Plus Populaire",
+      category: "Crédit Sans Justificatif",
       icon: UserCheck,
-      amount: "Up to ₱1,000,000",
-      terms: "12 to 36 Months",
-      rate: "From 1.2% monthly add-on",
+      image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
+      amount: "De 1 000 € à 75 000 €",
+      terms: "12 à 84 Mois",
+      rate: "TAEG fixe dès 3,90%",
       features: [
-        "Zero collateral and no co-maker required",
-        "Fast approval in 2 to 3 banking days",
-        "Multi-purpose: Travel, medical, education, renovation",
-        "Convenient repayment via Post-Dated Checks (PDC)",
+        "Sans justificatif d'utilisation des fonds",
+        "Mensualités modulables à la hausse ou à la baisse",
+        "Aucun frais de dossier ni pénalité de remboursement anticipé",
+        "Remboursement par prélèvement SEPA automatique",
       ],
-      cta: "Apply for Persona",
+      cta: "Simuler mon Prêt Personnel",
       popular: true,
     },
     {
       id: "auto",
-      name: "Ultima Auto Loan",
-      badge: "Low Downpayment",
-      category: "Vehicle Financing",
+      name: "Prêt Auto & Mobilité Propre",
+      badge: "Bonus Éco Inclus",
+      category: "Financement Véhicule",
       icon: Car,
-      amount: "Up to 80% Vehicle Value",
-      terms: "12 to 60 Months",
-      rate: "Competitive dealer rates",
+      image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80",
+      amount: "Jusqu'à 60 000 €",
+      terms: "12 à 84 Mois",
+      rate: "TAEG fixe dès 3,20%",
       features: [
-        "Brand new passenger and commercial vehicles",
-        "Pre-owned / 2nd-hand certified units accepted",
-        "Flexible equity downpayment starting at 20%",
-        "Free chattel mortgage & comprehensive insurance assistance",
+        "Véhicules neufs ou occasions (particulier ou concessionnaire)",
+        "Taux préférentiel pour voitures électriques & hybrides",
+        "Possibilité de financer 100% de la carte grise et accessoires",
+        "Report de la première mensualité jusqu'à 3 mois",
       ],
-      cta: "Apply for Auto Loan",
+      cta: "Simuler mon Prêt Auto",
       popular: false,
     },
     {
-      id: "home",
-      name: "Discovery Home Loan",
-      badge: "Up to 25 Years",
-      category: "Mortgage Financing",
+      id: "immo",
+      name: "Prêt Travaux & Éco-Rénovation",
+      badge: "Jusqu'à 15 Ans",
+      category: "Rénovation & Habitat",
       icon: Home,
-      amount: "Up to ₱25,000,000",
-      terms: "1 to 25 Years",
-      rate: "Low fixed-period rates",
+      image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80",
+      amount: "Jusqu'à 150 000 €",
+      terms: "24 à 180 Mois",
+      rate: "TAEG fixe dès 2,85%",
       features: [
-        "House & lot, townhouse, condominium acquisition",
-        "Home construction, expansion & major remodeling",
-        "Loan take-out / refinancing from other banks",
-        "Accredited top real estate developers across PH",
+        "Travaux d'isolation, panneaux solaires, cuisine ou agrandissement",
+        "Compatible avec les aides de l'État (MaPrimeRénov')",
+        "Déblocage des fonds en une ou plusieurs fois selon factures",
+        "Assurance emprunteur facultative et personnalisée",
       ],
-      cta: "Apply for Home Loan",
+      cta: "Simuler mon Prêt Travaux",
       popular: false,
     },
   ];
@@ -80,63 +82,69 @@ export default function ProductCards({ onOpenApply }: ProductCardsProps) {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-sterling-gold-dark px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-            <Coins className="w-3.5 h-3.5 text-sterling-gold" />
-            Sterling Retail Lending Suite
+            <ShieldCheck className="w-3.5 h-3.5 text-sterling-gold" />
+            Gamme Crédits Sterling Bank France
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-sterling-navy tracking-tight font-display">
-            Tailored Financial Solutions for Every Milestone
+            Des Solutions de Financement Conçues pour Vous
           </h2>
           <p className="text-slate-600 text-base sm:text-lg">
-            Choose the loan product that fits your lifestyle. Enjoy transparent pricing, no hidden charges, and dedicated loan officer assistance.
+            Choisissez l&apos;offre adaptée à votre situation en toute clarté. Profitez d&apos;un taux fixe garanti sur toute la durée de votre prêt.
           </p>
         </div>
 
-        {/* Product Cards Grid */}
+        {/* Product Cards Grid with Real People Photography */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-          {products.map((product) => {
-            const Icon = product.icon;
-            return (
-              <div
-                key={product.id}
-                className={`rounded-3xl p-8 flex flex-col justify-between transition-all duration-300 relative ${
-                  product.popular
-                    ? "bg-white border-2 border-sterling-gold shadow-2xl scale-105 z-10"
-                    : "bg-white border border-slate-200 shadow-lg hover:shadow-xl hover:-translate-y-1"
-                }`}
-              >
+          {products.map((product) => (
+            <div
+              key={product.id}
+              className={`rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 relative ${
+                product.popular
+                  ? "bg-white border-2 border-sterling-gold shadow-2xl scale-105 z-10"
+                  : "bg-white border border-slate-200 shadow-lg hover:shadow-xl hover:-translate-y-1"
+              }`}
+            >
+              {/* Card Image Banner - Authentic Human Photography */}
+              <div className="relative h-48 w-full overflow-hidden bg-slate-100">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent" />
+                
                 {/* Popular Pill */}
                 {product.badge && (
-                  <div className="absolute -top-3.5 right-6 bg-gradient-to-r from-sterling-gold to-sterling-gold-light text-sterling-navy-deep font-extrabold text-[11px] px-3.5 py-1 rounded-full shadow-md uppercase tracking-wider flex items-center gap-1">
+                  <div className="absolute top-4 right-4 bg-gradient-to-r from-sterling-gold to-sterling-gold-light text-sterling-navy-deep font-extrabold text-[11px] px-3.5 py-1 rounded-full shadow-md uppercase tracking-wider flex items-center gap-1">
                     <Sparkles className="w-3 h-3 text-sterling-navy-deep" />
                     {product.badge}
                   </div>
                 )}
 
-                <div>
-                  {/* Icon & Title */}
-                  <div className="w-14 h-14 rounded-2xl bg-sterling-navy/5 border border-sterling-navy/10 flex items-center justify-center text-sterling-navy mb-6">
-                    <Icon className="w-7 h-7 stroke-[2]" />
-                  </div>
-
-                  <div className="text-xs font-bold text-sterling-gold-dark uppercase tracking-wider mb-1">
+                <div className="absolute bottom-3 left-4 text-white">
+                  <span className="text-[11px] font-semibold text-sterling-gold uppercase tracking-wider block">
                     {product.category}
-                  </div>
-                  <h3 className="text-2xl font-black text-sterling-navy font-display mb-4">
+                  </span>
+                  <span className="text-lg font-bold font-display leading-tight">
                     {product.name}
-                  </h3>
+                  </span>
+                </div>
+              </div>
 
+              <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+                <div>
                   {/* Highlights Box */}
                   <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 mb-6 space-y-2">
                     <div className="flex justify-between items-baseline text-xs">
-                      <span className="text-slate-500 font-medium">Loan Limit:</span>
+                      <span className="text-slate-500 font-medium">Montant empruntable :</span>
                       <span className="font-bold text-sterling-navy text-sm">{product.amount}</span>
                     </div>
                     <div className="flex justify-between items-baseline text-xs">
-                      <span className="text-slate-500 font-medium">Flexible Terms:</span>
+                      <span className="text-slate-500 font-medium">Durée de prêt :</span>
                       <span className="font-bold text-slate-800">{product.terms}</span>
                     </div>
                     <div className="flex justify-between items-baseline text-xs">
-                      <span className="text-slate-500 font-medium">Interest Rate:</span>
+                      <span className="text-slate-500 font-medium">Taux garanti :</span>
                       <span className="font-bold text-emerald-700">{product.rate}</span>
                     </div>
                   </div>
@@ -144,7 +152,7 @@ export default function ProductCards({ onOpenApply }: ProductCardsProps) {
                   {/* Features List */}
                   <div className="space-y-3 mb-8">
                     <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                      Key Highlights:
+                      Avantages Clés :
                     </div>
                     {product.features.map((feat, idx) => (
                       <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-600 leading-relaxed">
@@ -170,8 +178,8 @@ export default function ProductCards({ onOpenApply }: ProductCardsProps) {
                   <ArrowRight className="w-4 h-4 stroke-[2.5]" />
                 </button>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </div>
     </section>

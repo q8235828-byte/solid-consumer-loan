@@ -7,7 +7,6 @@ import {
   Menu, 
   X, 
   Lock, 
-  Search, 
   PhoneCall, 
   ShieldCheck, 
   ArrowRight 
@@ -23,32 +22,32 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-sterling-navy-deep shadow-md border-b border-sterling-navy-light/40">
-      {/* Top micro-bar */}
+      {/* Top Notice Bar */}
       <div className="bg-sterling-navy-dark text-slate-300 text-xs py-1.5 px-4 sm:px-8 border-b border-white/10 hidden md:block">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-1.5 text-sterling-gold-light">
               <ShieldCheck className="w-3.5 h-3.5" />
-              A Proud Member of BancNet | Regulated by Bangko Sentral ng Pilipinas
+              Établissement agréé par l&apos;ACPR • Banque de France (Code Banque 10248)
             </span>
             <span className="text-slate-400">|</span>
             <span className="flex items-center gap-1.5 hover:text-white transition-colors cursor-pointer">
               <PhoneCall className="w-3 h-3 text-sterling-gold" />
-              Customer Service: (02) 8535-6168
+              Service Client (Paris) : 01 89 54 22 10 (Appel non surtaxé)
             </span>
           </div>
           <div className="flex items-center gap-4">
             <a href="#tracker" className="hover:text-sterling-gold transition-colors">
-              Track Loan Status
+              Suivi de Demande
             </a>
             <span className="text-slate-500">|</span>
             <a href="#rates" className="hover:text-sterling-gold transition-colors">
-              Rates & Fees
+              Barème & TAEG
             </a>
             <span className="text-slate-500">|</span>
-            <a href="#branches" className="hover:text-sterling-gold transition-colors">
-              Branches & ATMs
-            </a>
+            <span className="text-sterling-gold font-semibold flex items-center gap-1">
+              🇫🇷 France (EUR €)
+            </span>
           </div>
         </div>
       </div>
@@ -57,7 +56,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Brand Logo */}
-          <div className="flex items-center gap-3">
+          <a href="#" className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-sterling-gold via-sterling-gold-light to-sterling-gold-dark flex items-center justify-center shadow-lg shadow-sterling-gold/20">
               <Building2 className="w-6 h-6 text-sterling-navy-deep stroke-[2.2]" />
             </div>
@@ -66,10 +65,10 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                 STERLING BANK
               </span>
               <span className="text-[10px] tracking-[0.25em] text-sterling-gold uppercase font-semibold">
-                OF ASIA • A Savings Bank
+                FRANCE • CRÉDIT & BANQUE EN LIGNE
               </span>
             </div>
-          </div>
+          </a>
 
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-8">
@@ -79,77 +78,78 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               onMouseLeave={() => setLoansDropdownOpen(false)}
             >
               <button className="flex items-center gap-1.5 text-white/90 hover:text-sterling-gold font-medium text-sm transition-colors py-2">
-                Consumer Loans
+                Nos Crédits
                 <ChevronDown className="w-4 h-4 text-sterling-gold" />
               </button>
 
               {/* Loans Dropdown */}
               {loansDropdownOpen && (
-                <div className="absolute top-full left-0 w-72 bg-white rounded-xl shadow-2xl border border-slate-100 py-3 mt-1 animate-in fade-in slide-in-from-top-2 z-50">
+                <div className="absolute top-full left-0 w-80 bg-white rounded-xl shadow-2xl border border-slate-100 py-3 mt-1 animate-in fade-in slide-in-from-top-2 z-50">
                   <div className="px-4 py-2 border-b border-slate-100 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    Retail Loan Products
+                    Crédits aux Particuliers
                   </div>
                   <a 
                     href="#calculator" 
                     className="block px-4 py-2.5 hover:bg-slate-50 text-slate-800 transition-colors"
                   >
-                    <div className="text-sm font-semibold text-sterling-navy">Persona Personal Loan</div>
-                    <div className="text-xs text-slate-500">Unsecured multi-purpose cash loan</div>
+                    <div className="text-sm font-semibold text-sterling-navy">Prêt Personnel</div>
+                    <div className="text-xs text-slate-500">De 1 000 € à 75 000 € sans justificatif d&apos;utilisation</div>
                   </a>
                   <a 
                     href="#products" 
                     className="block px-4 py-2.5 hover:bg-slate-50 text-slate-800 transition-colors"
                   >
-                    <div className="text-sm font-semibold text-sterling-navy">Ultima Auto Loan</div>
-                    <div className="text-xs text-slate-500">Brand new & pre-owned vehicle financing</div>
+                    <div className="text-sm font-semibold text-sterling-navy">Prêt Auto & Moto</div>
+                    <div className="text-xs text-slate-500">Véhicules neufs ou d&apos;occasion, bonus écologique</div>
                   </a>
                   <a 
                     href="#products" 
                     className="block px-4 py-2.5 hover:bg-slate-50 text-slate-800 transition-colors"
                   >
-                    <div className="text-sm font-semibold text-sterling-navy">Discovery Home Loan</div>
-                    <div className="text-xs text-slate-500">Purchase, construction & refinancing</div>
+                    <div className="text-sm font-semibold text-sterling-navy">Prêt Travaux & Immobilier</div>
+                    <div className="text-xs text-slate-500">Rénovation, achat immobilier, jusqu&apos;à 25 ans</div>
                   </a>
                   <a 
                     href="#products" 
                     className="block px-4 py-2.5 hover:bg-slate-50 text-slate-800 transition-colors"
                   >
-                    <div className="text-sm font-semibold text-sterling-navy">AvanceCash Salary Loan</div>
-                    <div className="text-xs text-slate-500">Payroll emergency financial assistance</div>
+                    <div className="text-sm font-semibold text-sterling-navy">Rachat de Crédits</div>
+                    <div className="text-xs text-slate-500">Regroupez vos mensualités pour alléger votre budget</div>
                   </a>
                 </div>
               )}
             </div>
 
             <a href="#how-it-works" className="text-white/90 hover:text-sterling-gold font-medium text-sm transition-colors">
-              How It Works
+              Comment ça marche
             </a>
             <a href="#calculator" className="text-white/90 hover:text-sterling-gold font-medium text-sm transition-colors">
-              Loan Calculator
+              Simulateur
+            </a>
+            <a href="#testimonials" className="text-white/90 hover:text-sterling-gold font-medium text-sm transition-colors">
+              Avis Clients
             </a>
             <a href="#tracker" className="text-white/90 hover:text-sterling-gold font-medium text-sm transition-colors">
-              Track Status
+              Suivi de Dossier
             </a>
           </nav>
 
           {/* Action CTAs */}
           <div className="hidden sm:flex items-center gap-3">
             <button 
-              onClick={() => onOpenApply?.("persona")}
+              onClick={() => onOpenApply?.("personnel")}
               className="bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold text-sterling-navy-deep hover:shadow-lg hover:shadow-sterling-gold/30 hover:scale-[1.02] active:scale-[0.98] font-bold text-sm px-5 py-2.5 rounded-lg transition-all flex items-center gap-2"
             >
-              Apply Online
+              Demande en Ligne
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
             </button>
 
             <a 
-              href="https://sterlingbankonline-personal.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
+              href="#login" 
               className="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-medium text-sm px-4 py-2.5 rounded-lg transition-all flex items-center gap-2"
             >
               <Lock className="w-3.5 h-3.5 text-sterling-gold" />
-              Online Banking
+              Espace Client
             </a>
           </div>
 
@@ -175,35 +175,42 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-base font-medium text-white hover:bg-white/10 rounded-md"
             >
-              Persona Personal Loan
+              Prêt Personnel
             </a>
             <a 
               href="#products" 
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-base font-medium text-white hover:bg-white/10 rounded-md"
             >
-              Ultima Auto Loan
+              Prêt Auto & Véhicule
             </a>
             <a 
               href="#products" 
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-base font-medium text-white hover:bg-white/10 rounded-md"
             >
-              Discovery Home Loan
+              Prêt Travaux & Immobilier
             </a>
             <a 
               href="#how-it-works" 
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-base font-medium text-white hover:bg-white/10 rounded-md"
             >
-              How It Works
+              Comment ça marche
+            </a>
+            <a 
+              href="#testimonials" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-base font-medium text-white hover:bg-white/10 rounded-md"
+            >
+              Avis Clients Vérifiés
             </a>
             <a 
               href="#tracker" 
               onClick={() => setMobileMenuOpen(false)}
               className="block px-3 py-2 text-base font-medium text-white hover:bg-white/10 rounded-md"
             >
-              Track Status
+              Suivi de Demande
             </a>
           </div>
 
@@ -211,20 +218,18 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
-                onOpenApply?.("persona");
+                onOpenApply?.("personnel");
               }}
               className="w-full bg-sterling-gold text-sterling-navy-deep font-bold py-3 rounded-lg text-center shadow-md"
             >
-              Apply Online Now
+              Faire une Simulation Immédiate
             </button>
             <a
-              href="https://sterlingbankonline-personal.com"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#login"
               className="w-full bg-white/10 text-white font-medium py-2.5 rounded-lg text-center flex items-center justify-center gap-2 border border-white/20"
             >
               <Lock className="w-4 h-4 text-sterling-gold" />
-              Online Banking Login
+              Connexion Espace Client
             </a>
           </div>
         </div>

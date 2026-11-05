@@ -5,10 +5,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatPHP(amount: number): string {
-  return new Intl.NumberFormat("en-PH", {
+// French Euro formatting: e.g. 15 000 €
+export function formatEUR(amount: number): string {
+  return new Intl.NumberFormat("fr-FR", {
     style: "currency",
-    currency: "PHP",
+    currency: "EUR",
     maximumFractionDigits: 0,
     minimumFractionDigits: 0,
   }).format(amount);

@@ -15,31 +15,31 @@ export default function HowItWorks() {
   const steps = [
     {
       number: "01",
-      title: "Calculate & Choose",
-      description: "Customize your desired loan amount and repayment tenor using our live amortization simulator to fit your monthly budget.",
+      title: "Simulez Votre Crédit",
+      description: "Choisissez le montant et la durée adaptés à votre budget mensuel. Visualisez immédiatement votre TAEG fixe et vos mensualités sans engagement.",
       icon: Sliders,
       eta: "1 Minute",
     },
     {
       number: "02",
-      title: "5-Minute Online Form",
-      description: "Fill in your personal, employment, and income details with real-time field validation and draft auto-saving.",
+      title: "Remplissez le Formulaire",
+      description: "Saisissez vos informations personnelles et professionnelles en quelques clics grâce à notre parcours simplifié et sécurisé.",
       icon: FileText,
       eta: "3-5 Minutes",
     },
     {
       number: "03",
-      title: "Secure KYC Upload",
-      description: "Snap and upload photos of your valid government ID, latest payslips, and proof of billing straight from your phone.",
+      title: "Téléversez vos Justificatifs",
+      description: "Prenez en photo votre pièce d'identité (CNI/Passeport), vos bulletins de paie et votre RIB depuis votre smartphone.",
       icon: UploadCloud,
-      eta: "Instant",
+      eta: "Instantané",
     },
     {
       number: "04",
-      title: "Fast Disbursement",
-      description: "Receive rapid credit evaluation and underwriting decision within 24 to 48 hours, followed by prompt loan disbursement.",
+      title: "Fonds Versés sous 48h",
+      description: "Après étude et signature électronique de votre contrat, vos fonds sont transférés directement par virement SEPA sur votre compte bancaire.",
       icon: Banknote,
-      eta: "24-48 Hours",
+      eta: "48 Heures",
     },
   ];
 
@@ -50,19 +50,19 @@ export default function HowItWorks() {
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="inline-flex items-center gap-1.5 text-xs font-bold text-sterling-gold uppercase tracking-wider bg-sterling-navy/5 px-3 py-1 rounded-full">
             <Clock className="w-3.5 h-3.5" />
-            Simple 4-Step Process
+            Parcours 100% Digital
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-sterling-navy font-display tracking-tight">
-            How Digital Loan Application Works
+            Comment Obtenir Votre Crédit en 4 Étapes Simples
           </h2>
           <p className="text-slate-600 text-base sm:text-lg">
-            Say goodbye to long bank queues, endless paper forms, and physical branch visits. Complete your loan journey entirely online.
+            Fini les rendez-vous en agence, les dossiers papier interminables et les délais d&apos;attente. Gérez votre demande entièrement à distance.
           </p>
         </div>
 
         {/* Steps Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
-          {steps.map((step, idx) => {
+          {steps.map((step) => {
             const Icon = step.icon;
             return (
               <div
@@ -97,7 +97,7 @@ export default function HowItWorks() {
 
                 <div className="pt-3 border-t border-slate-200/60 flex items-center gap-1 text-[11px] font-bold text-sterling-gold-dark">
                   <CheckCircle2 className="w-3.5 h-3.5 text-sterling-gold" />
-                  <span>Verified Banking Channel</span>
+                  <span>Canal Bancaire Sécurisé</span>
                 </div>
               </div>
             );
@@ -108,17 +108,17 @@ export default function HowItWorks() {
         <div className="mt-14 bg-gradient-to-r from-sterling-navy-deep to-sterling-navy rounded-2xl p-6 sm:p-8 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
           <div className="space-y-1 text-center sm:text-left">
             <h4 className="text-lg font-bold text-sterling-gold-light">
-              Already submitted your loan application?
+              Vous avez déjà déposé un dossier de crédit ?
             </h4>
             <p className="text-xs sm:text-sm text-slate-300">
-              Track your real-time approval status anytime using your Application Reference Number.
+              Consultez l&apos;état d&apos;avancement de votre demande en temps réel à l&apos;aide de votre référence dossier.
             </p>
           </div>
           <a
             href="#tracker"
             className="shrink-0 bg-white hover:bg-slate-100 text-sterling-navy-deep font-bold text-xs sm:text-sm px-6 py-3 rounded-xl transition-all shadow-md flex items-center gap-2"
           >
-            Track My Application
+            Suivre Mon Dossier
             <ArrowRight className="w-4 h-4 stroke-[2.5]" />
           </a>
         </div>

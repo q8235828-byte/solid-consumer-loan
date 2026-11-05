@@ -1,33 +1,33 @@
 "use client";
 
 import React from "react";
-import { ShieldCheck, Lock, Award, Building, CheckCircle } from "lucide-react";
+import { ShieldCheck, Lock, Award, Building } from "lucide-react";
 
 export default function TrustBadges() {
   const badges = [
     {
-      title: "Bangko Sentral ng Pilipinas",
-      subtitle: "Supervised Financial Institution",
-      description: "Sterling Bank of Asia is a thrift bank regulated by BSP. Circulars 808 & 982 IT Risk compliance certified.",
+      title: "ACPR • Banque de France",
+      subtitle: "Établissement de Crédit Agréé",
+      description: "Sterling Bank est agréée et contrôlée par l'Autorité de Contrôle Prudentiel et de Résolution (Code Banque 10248).",
       icon: Building,
     },
     {
-      title: "PDIC Insured",
-      subtitle: "Deposit Insurance Protection",
-      description: "Deposits are insured by the Philippine Deposit Insurance Corporation up to ₱500,000 per depositor.",
+      title: "Garantie FGDR",
+      subtitle: "Protection des Avoirs",
+      description: "Adhérent au Fonds de Garantie des Dépôts et de Résolution, vos comptes sont couverts jusqu'à 100 000 € par déposant.",
       icon: Award,
     },
     {
-      title: "256-Bit Bank Encryption",
-      subtitle: "Enterprise TLS 1.3 & CSP",
-      description: "All loan data and uploaded KYC documents are protected with field-level AES-256 encryption.",
-      icon: Lock,
+      title: "Conformité RGPD",
+      subtitle: "Protection des Données Personnelles",
+      description: "Vos informations sont traitées dans le strict respect de la réglementation européenne et de la CNIL.",
+      icon: ShieldCheck,
     },
     {
-      title: "Data Privacy Act (RA 10173)",
-      subtitle: "NPC Registered Bank",
-      description: "Full compliance with the National Privacy Commission for consumer personal data protection.",
-      icon: ShieldCheck,
+      title: "Sécurité & E-Signature eIDAS",
+      subtitle: "Chiffrement Bancaire 256-bit",
+      description: "Protocole TLS 1.3 certifié et signature électronique qualifiée conforme aux normes bancaires de l'Union Européenne.",
+      icon: Lock,
     },
   ];
 
