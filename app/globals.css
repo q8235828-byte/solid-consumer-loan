@@ -56,26 +56,55 @@ input[type="range"]::-moz-range-thumb {
   border: 3px solid #FFFFFF;
 }
 
-/* Google Translate Widget Styling Clean-Up */
-.goog-te-banner-frame.skiptranslate,
+/* Google Translate Widget Styling Clean-Up & Complete Banner Suppression */
 .goog-te-banner-frame,
-iframe.goog-te-banner-frame {
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame,
+.goog-te-banner,
+.VIpgJd-ZVi9od-ORHb-OEVmcd,
+.VIpgJd-ZVi9od-ORHb-OEVmcd.skiptranslate,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMy,
+.VIpgJd-ZVi9od-xl07Ob-OEVmcd,
+iframe.VIpgJd-ZVi9od-ORHb-OEVmcd,
+.skiptranslate > iframe,
+iframe[id*=":1.container"],
+iframe[id*=":2.container"],
+iframe[id*="google_translate"],
+iframe[name*="google_translate"],
+.goog-te-spinner-pos,
+#goog-gt-tt,
+#goog-gt-vt,
+.goog-te-balloon-frame,
+.goog-tooltip,
+.goog-tooltip:hover {
   display: none !important;
   visibility: hidden !important;
-  height: 0 !important;
-  width: 0 !important;
+  height: 0px !important;
+  width: 0px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  border: none !important;
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+  z-index: -9999 !important;
 }
 
+html,
 body {
   top: 0px !important;
-}
-
-#goog-gt-tt,
-.goog-te-balloon-frame {
-  display: none !important;
+  position: static !important;
+  margin-top: 0px !important;
+  padding-top: 0px !important;
+  transform: none !important;
 }
 
 .goog-text-highlight {
   background: none !important;
   box-shadow: none !important;
+}
+
+.goog-te-gadget,
+.goog-te-gadget-simple {
+  display: none !important;
 }

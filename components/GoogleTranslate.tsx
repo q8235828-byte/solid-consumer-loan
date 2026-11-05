@@ -57,6 +57,56 @@ export default function GoogleTranslate() {
       script.async = true;
       document.body.appendChild(script);
     }
+
+    // Suppress Google Translate Top Banner and Body Shift
+    const suppressGoogleBanner = () => {
+      if (document.body) {
+        if (document.body.style.top && document.body.style.top !== "0px") {
+          document.body.style.setProperty("top", "0px", "important");
+        }
+        if (document.body.style.position && document.body.style.position !== "static") {
+          document.body.style.setProperty("position", "static", "important");
+        }
+      }
+      if (document.documentElement && document.documentElement.style.marginTop && document.documentElement.style.marginTop !== "0px") {
+        document.documentElement.style.setProperty("margin-top", "0px", "important");
+      }
+
+      // Hide banner iframes
+      const bannerFrames = document.querySelectorAll<HTMLElement>(
+        '.goog-te-banner-frame, .VIpgJd-ZVi9od-ORHb-OEVmcd, iframe.skiptranslate, iframe[id*=":1.container"], iframe[id*=":2.container"], iframe[name*="google_translate"]'
+      );
+      bannerFrames.forEach((frame) => {
+        frame.style.setProperty("display", "none", "important");
+        frame.style.setProperty("visibility", "hidden", "important");
+        frame.style.setProperty("height", "0px", "important");
+        frame.style.setProperty("width", "0px", "important");
+        frame.style.setProperty("position", "absolute", "important");
+        frame.style.setProperty("top", "-9999px", "important");
+        frame.setAttribute("hidden", "true");
+      });
+    };
+
+    suppressGoogleBanner();
+    const interval = setInterval(suppressGoogleBanner, 150);
+
+    const observer = new MutationObserver(() => {
+      suppressGoogleBanner();
+    });
+
+    if (document.documentElement) {
+      observer.observe(document.documentElement, {
+        attributes: true,
+        childList: true,
+        subtree: true,
+        attributeFilter: ["style", "class"],
+      });
+    }
+
+    return () => {
+      clearInterval(interval);
+      observer.disconnect();
+    };
   }, []);
 
   const handleSelectLanguage = (code: string) => {
