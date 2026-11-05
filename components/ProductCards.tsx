@@ -186,7 +186,25 @@ export default function ProductCards({ onOpenApply }: ProductCardsProps) {
                       href="/personal-loans"
                       className="w-full py-2 px-3 text-xs font-semibold text-sterling-navy hover:text-sterling-gold text-center block transition-colors border border-slate-200 rounded-lg bg-slate-50 hover:bg-slate-100"
                     >
-                      Consulter la page détaillée Prêt Personnel →
+                      Découvrir la page dédiée Prêt Personnel (Persona) →
+                    </Link>
+                  )}
+
+                  {product.id === "auto" && (
+                    <Link
+                      href="/auto-loans"
+                      className="w-full py-2 px-3 text-xs font-semibold text-sterling-navy hover:text-sterling-gold text-center block transition-colors border border-slate-200 rounded-lg bg-slate-50 hover:bg-slate-100"
+                    >
+                      Découvrir la page dédiée Prêt Auto (Ultima) →
+                    </Link>
+                  )}
+
+                  {product.id === "immo" && (
+                    <Link
+                      href="/home-loans"
+                      className="w-full py-2 px-3 text-xs font-semibold text-sterling-navy hover:text-sterling-gold text-center block transition-colors border border-slate-200 rounded-lg bg-slate-50 hover:bg-slate-100"
+                    >
+                      Découvrir la page dédiée Prêt Habitat (Discovery) →
                     </Link>
                   )}
                 </div>

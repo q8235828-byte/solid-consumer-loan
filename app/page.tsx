@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ProductCards from "@/components/ProductCards";
+import EligibilityQuiz from "@/components/EligibilityQuiz";
 import HowItWorks from "@/components/HowItWorks";
 import Testimonials from "@/components/Testimonials";
 import TrackerSection from "@/components/TrackerSection";
@@ -32,6 +33,9 @@ export default function HomePage() {
 
         {/* Retail Loan Products Matrix with Real Photography */}
         <ProductCards onOpenApply={handleOpenApply} />
+
+        {/* 30-Second Pre-Eligibility Quiz */}
+        <EligibilityQuiz onOpenApply={handleOpenApply} />
 
         {/* 4-Step Application Walkthrough */}
         <HowItWorks />

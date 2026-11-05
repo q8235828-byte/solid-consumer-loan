@@ -53,10 +53,10 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
               <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors font-medium text-sterling-gold">Prêt Personnel Dédié (Persona)</Link></li>
-              <li><a href="/#products" className="hover:text-sterling-gold transition-colors">Prêt Auto / Véhicule Électrique</a></li>
-              <li><a href="/#products" className="hover:text-sterling-gold transition-colors">Prêt Travaux & Rénovation Énergétique</a></li>
-              <li><a href="/#products" className="hover:text-sterling-gold transition-colors">Rachat & Regroupement de Crédits</a></li>
-              <li><a href="/#calculator" className="hover:text-sterling-gold transition-colors">Simulateur de Mensualités</a></li>
+              <li><Link href="/auto-loans" className="hover:text-sterling-gold transition-colors">Prêt Auto & Éco-Mobilité (Ultima)</Link></li>
+              <li><Link href="/home-loans" className="hover:text-sterling-gold transition-colors">Prêt Travaux & Habitat (Discovery)</Link></li>
+              <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Dossier de Demande en Ligne</Link></li>
+              <li><Link href="/tracker" className="hover:text-sterling-gold transition-colors">Portail Suivi de Dossier</Link></li>
               <li><Link href="/personal-loans#calculator-section" className="hover:text-sterling-gold transition-colors">Tableau d&apos;Amortissement Détaillé</Link></li>
             </ul>
           </div>
@@ -69,7 +69,8 @@ export default function Footer() {
             <ul className="space-y-2 text-xs text-slate-300">
               <li><Link href="/login" className="hover:text-sterling-gold transition-colors flex items-center gap-1.5"><UserCheck className="w-3.5 h-3.5 text-sterling-gold" /> Espace Client (Connexion)</Link></li>
               <li><Link href="/register" className="hover:text-sterling-gold transition-colors flex items-center gap-1.5"><UserCheck className="w-3.5 h-3.5 text-emerald-400" /> Ouvrir un Compte (Inscription)</Link></li>
-              <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Suivi de Demande en Direct</Link></li>
+              <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Tableau de Bord Emprunteur</Link></li>
+              <li><Link href="/tracker" className="hover:text-sterling-gold transition-colors">Suivi de Demande en Direct</Link></li>
               <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Pièces Justificatives Requises</Link></li>
               <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Questions Fréquentes (FAQ)</Link></li>
             </ul>

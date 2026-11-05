@@ -120,25 +120,25 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                     <div className="text-xs text-slate-500">Sans justificatif d&apos;utilisation, de 1 000 € à 75 000 €</div>
                   </Link>
                   <Link 
-                    href="/#products" 
+                    href="/auto-loans" 
                     className="block px-4 py-2.5 hover:bg-slate-50 text-slate-800 transition-colors"
                   >
-                    <div className="text-sm font-semibold text-sterling-navy">Prêt Auto & Mobilité Propre</div>
+                    <div className="text-sm font-semibold text-sterling-navy">Prêt Auto & Mobilité Propre (Ultima)</div>
                     <div className="text-xs text-slate-500">Véhicules neufs ou d&apos;occasion, bonus écologique</div>
                   </Link>
                   <Link 
-                    href="/#products" 
+                    href="/home-loans" 
                     className="block px-4 py-2.5 hover:bg-slate-50 text-slate-800 transition-colors"
                   >
-                    <div className="text-sm font-semibold text-sterling-navy">Prêt Travaux & Éco-Rénovation</div>
-                    <div className="text-xs text-slate-500">Panneaux solaires, pompes à chaleur, isolation</div>
+                    <div className="text-sm font-semibold text-sterling-navy">Prêt Travaux & Immobilier (Discovery)</div>
+                    <div className="text-xs text-slate-500">Panneaux solaires, pompes à chaleur, jusqu&apos;à 25 ans</div>
                   </Link>
                   <Link 
-                    href="/#products" 
+                    href="/tracker" 
                     className="block px-4 py-2.5 hover:bg-slate-50 text-slate-800 transition-colors"
                   >
-                    <div className="text-sm font-semibold text-sterling-navy">Rachat de Crédits</div>
-                    <div className="text-xs text-slate-500">Regroupez vos mensualités pour alléger votre budget</div>
+                    <div className="text-sm font-semibold text-sterling-navy">Suivi de Demande en Direct</div>
+                    <div className="text-xs text-slate-500">Suivez l&apos;instruction de votre dossier en temps réel</div>
                   </Link>
                 </div>
               )}
