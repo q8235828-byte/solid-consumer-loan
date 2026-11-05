@@ -44,14 +44,23 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/dashboard" className="hover:text-sterling-gold transition-colors flex items-center gap-1">
+            <Link href="/login" className="hover:text-sterling-gold transition-colors flex items-center gap-1">
+              <Lock className="w-3.5 h-3.5 text-sterling-gold" />
+              Connexion
+            </Link>
+            <span className="text-slate-500">|</span>
+            <Link href="/register" className="hover:text-sterling-gold transition-colors flex items-center gap-1">
               <UserCheck className="w-3.5 h-3.5 text-sterling-gold" />
+              Créer un Compte
+            </Link>
+            <span className="text-slate-500">|</span>
+            <Link href="/dashboard" className="hover:text-sterling-gold transition-colors">
               Espace Client
             </Link>
             <span className="text-slate-500">|</span>
-            <Link href="/admin" className="hover:text-sterling-gold transition-colors flex items-center gap-1">
+            <Link href="/admin" className="hover:text-amber-300 transition-colors flex items-center gap-1">
               <SlidersHorizontal className="w-3.5 h-3.5 text-amber-400" />
-              Espace Admin
+              Admin
             </Link>
             <span className="text-slate-500">|</span>
             {/* Google Translate Europe Top 5 Language Switcher */}
@@ -170,7 +179,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
             </button>
 
             <Link 
-              href="/dashboard" 
+              href="/login" 
               className="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-medium text-sm px-4 py-2.5 rounded-lg transition-all flex items-center gap-2"
             >
               <Lock className="w-3.5 h-3.5 text-sterling-gold" />
@@ -217,6 +226,22 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
             >
               Simulateur de Mensualités
             </a>
+            <Link 
+              href="/login" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-base font-medium text-white hover:bg-white/10 rounded-md flex items-center gap-2"
+            >
+              <Lock className="w-4 h-4 text-sterling-gold" />
+              Se Connecter (Connexion)
+            </Link>
+            <Link 
+              href="/register" 
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 text-base font-medium text-emerald-400 hover:bg-white/10 rounded-md flex items-center gap-2"
+            >
+              <UserCheck className="w-4 h-4 text-emerald-400" />
+              Ouvrir un Compte (Inscription)
+            </Link>
             <Link 
               href="/dashboard" 
               onClick={() => setMobileMenuOpen(false)}
