@@ -69,7 +69,6 @@ export default function Footer() {
             <ul className="space-y-2 text-xs text-slate-300">
               <li><Link href="/login" className="hover:text-sterling-gold transition-colors flex items-center gap-1.5"><UserCheck className="w-3.5 h-3.5 text-sterling-gold" /> Espace Client (Connexion)</Link></li>
               <li><Link href="/register" className="hover:text-sterling-gold transition-colors flex items-center gap-1.5"><UserCheck className="w-3.5 h-3.5 text-emerald-400" /> Ouvrir un Compte (Inscription)</Link></li>
-              <li><Link href="/admin" className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-amber-200"><SlidersHorizontal className="w-3.5 h-3.5" /> Espace Admin & Contrôle</Link></li>
               <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Suivi de Demande en Direct</Link></li>
               <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Pièces Justificatives Requises</Link></li>
               <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Questions Fréquentes (FAQ)</Link></li>

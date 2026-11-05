@@ -216,12 +216,6 @@ export default function TrackerSection() {
                   <UserCheck className="w-3.5 h-3.5 text-sterling-gold" />
                   Ouvrir mon Espace Client Dédié
                 </Link>
-                <Link
-                  href="/admin"
-                  className="bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-medium py-2 px-4 rounded-xl text-xs transition-colors inline-flex items-center justify-center gap-1.5"
-                >
-                  Gérer dans la Console Admin
-                </Link>
               </div>
             </div>
 

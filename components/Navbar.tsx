@@ -58,11 +58,6 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               Espace Client
             </Link>
             <span className="text-slate-500">|</span>
-            <Link href="/admin" className="hover:text-amber-300 transition-colors flex items-center gap-1">
-              <SlidersHorizontal className="w-3.5 h-3.5 text-amber-400" />
-              Admin
-            </Link>
-            <span className="text-slate-500">|</span>
             {/* Google Translate Europe Top 5 Language Switcher */}
             <GoogleTranslate />
           </div>
@@ -161,11 +156,6 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               <UserCheck className="w-3.5 h-3.5 text-sterling-gold" />
               Espace Client
             </Link>
-
-            <Link href="/admin" className="text-amber-300 hover:text-amber-200 font-semibold text-xs px-2.5 py-1 rounded-md bg-amber-500/10 border border-amber-400/30 transition-colors flex items-center gap-1">
-              <SlidersHorizontal className="w-3 h-3" />
-              Admin
-            </Link>
           </nav>
 
           {/* Action CTAs & Mobile Lang */}
@@ -249,14 +239,6 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
             >
               <UserCheck className="w-4 h-4 text-sterling-gold" />
               Espace Client (Dashboard)
-            </Link>
-            <Link 
-              href="/admin" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="block px-3 py-2 text-base font-medium text-amber-300 hover:bg-white/10 rounded-md flex items-center gap-2"
-            >
-              <SlidersHorizontal className="w-4 h-4 text-amber-400" />
-              Espace Administrateur
             </Link>
           </div>
 

@@ -55,6 +55,12 @@ export default function LoginPage() {
       return;
     }
 
+    if (identifier.toLowerCase().includes("admin")) {
+      setRole("admin");
+    } else {
+      setRole("client");
+    }
+
     setLoading(true);
 
     // Simulate authentication delay
@@ -117,61 +123,23 @@ export default function LoginPage() {
               </p>
             </div>
 
-            {/* Role Switcher (Client vs Admin) */}
+            {/* Demo Helpers Button */}
             {!requires2FA && (
-              <div className="mt-6 p-1 bg-slate-100 rounded-xl grid grid-cols-2 gap-1 text-xs font-bold">
-                <button
-                  type="button"
-                  onClick={() => setRole("client")}
-                  className={`py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
-                    role === "client"
-                      ? "bg-white text-sterling-navy shadow-sm"
-                      : "text-slate-500 hover:text-slate-800"
-                  }`}
-                >
-                  <UserCheck className="w-3.5 h-3.5 text-sterling-gold" />
-                  Espace Particulier
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setRole("admin")}
-                  className={`py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
-                    role === "admin"
-                      ? "bg-white text-sterling-navy shadow-sm"
-                      : "text-slate-500 hover:text-slate-800"
-                  }`}
-                >
-                  <SlidersHorizontal className="w-3.5 h-3.5 text-amber-500" />
-                  Administration
-                </button>
-              </div>
-            )}
-
-            {/* Demo Helpers Buttons */}
-            {!requires2FA && (
-              <div className="mt-4 p-3 bg-amber-50/70 border border-amber-200/80 rounded-xl space-y-2">
+              <div className="mt-6 p-3 bg-amber-50/70 border border-amber-200/80 rounded-xl space-y-2">
                 <div className="text-[11px] font-bold text-amber-900 flex items-center justify-between">
-                  <span>Identifiants Démo en 1 Clic :</span>
+                  <span>Identifiants Démo Client en 1 Clic :</span>
                   <span className="text-[9px] uppercase tracking-wider text-amber-700 bg-amber-200/60 px-1.5 py-0.5 rounded font-black">
                     Test Facile
                   </span>
                 </div>
-                <div className="grid grid-cols-2 gap-2 text-[11px]">
-                  <button
-                    type="button"
-                    onClick={() => handleQuickDemo("client")}
-                    className="p-1.5 rounded-lg bg-white border border-amber-300 text-slate-700 hover:border-sterling-gold hover:text-sterling-navy font-semibold transition-colors text-left truncate"
-                  >
-                    👤 Démo Client
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleQuickDemo("admin")}
-                    className="p-1.5 rounded-lg bg-white border border-amber-300 text-slate-700 hover:border-sterling-gold hover:text-sterling-navy font-semibold transition-colors text-left truncate"
-                  >
-                    ⚙️ Démo Admin
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => handleQuickDemo("client")}
+                  className="w-full p-2 rounded-lg bg-white border border-amber-300 text-slate-700 hover:border-sterling-gold hover:text-sterling-navy font-semibold transition-colors text-left text-xs flex items-center justify-between"
+                >
+                  <span>👤 Remplir Identifiants Client Démo (Jean-Pierre)</span>
+                  <span className="text-[10px] text-sterling-gold font-bold">Auto-Fill →</span>
+                </button>
               </div>
             )}
 

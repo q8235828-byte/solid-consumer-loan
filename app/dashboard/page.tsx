@@ -142,13 +142,6 @@ export default function UserDashboard() {
               <Plus className="w-4 h-4 stroke-[3]" />
               Nouvelle Demande
             </button>
-            <Link
-              href="/admin"
-              className="bg-white/10 hover:bg-white/20 text-white font-medium text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-white/20 transition-all flex items-center gap-2"
-            >
-              <ArrowUpRight className="w-4 h-4 text-amber-300" />
-              Accès Console Admin
-            </Link>
           </div>
         </div>
 
