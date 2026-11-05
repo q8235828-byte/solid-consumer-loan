@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { Building2, Phone, Mail, MapPin, ExternalLink, ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import { Building2, Phone, Mail, MapPin, ExternalLink, ShieldCheck, UserCheck, SlidersHorizontal } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -51,12 +52,12 @@ export default function Footer() {
               Crédits aux Particuliers
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
-              <li><a href="#calculator" className="hover:text-sterling-gold transition-colors">Prêt Personnel Sans Justificatif</a></li>
-              <li><a href="#products" className="hover:text-sterling-gold transition-colors">Prêt Auto / Véhicule Électrique</a></li>
-              <li><a href="#products" className="hover:text-sterling-gold transition-colors">Prêt Travaux & Rénovation Énergétique</a></li>
-              <li><a href="#products" className="hover:text-sterling-gold transition-colors">Rachat & Regroupement de Crédits</a></li>
-              <li><a href="#calculator" className="hover:text-sterling-gold transition-colors">Simulateur de Mensualités</a></li>
-              <li><a href="#calculator" className="hover:text-sterling-gold transition-colors">Tableau d&apos;Amortissement Détaillé</a></li>
+              <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors font-medium text-sterling-gold">Prêt Personnel Dédié (Persona)</Link></li>
+              <li><a href="/#products" className="hover:text-sterling-gold transition-colors">Prêt Auto / Véhicule Électrique</a></li>
+              <li><a href="/#products" className="hover:text-sterling-gold transition-colors">Prêt Travaux & Rénovation Énergétique</a></li>
+              <li><a href="/#products" className="hover:text-sterling-gold transition-colors">Rachat & Regroupement de Crédits</a></li>
+              <li><a href="/#calculator" className="hover:text-sterling-gold transition-colors">Simulateur de Mensualités</a></li>
+              <li><Link href="/personal-loans#calculator-section" className="hover:text-sterling-gold transition-colors">Tableau d&apos;Amortissement Détaillé</Link></li>
             </ul>
           </div>
 
@@ -66,12 +67,12 @@ export default function Footer() {
               Services en Ligne
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
-              <li><a href="#tracker" className="hover:text-sterling-gold transition-colors">Suivi de Demande en Direct</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors flex items-center gap-1">Espace Client Sécurisé <ExternalLink className="w-3 h-3" /></a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Signature Électronique eIDAS</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Pièces Justificatives Requises</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Droit de Rétractation (14 jours)</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Questions Fréquentes (FAQ)</a></li>
+              <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors flex items-center gap-1.5"><UserCheck className="w-3.5 h-3.5 text-sterling-gold" /> Espace Client & Suivi Dossier</Link></li>
+              <li><Link href="/admin" className="hover:text-amber-300 transition-colors flex items-center gap-1.5 text-amber-200"><SlidersHorizontal className="w-3.5 h-3.5" /> Espace Admin & Contrôle</Link></li>
+              <li><a href="/personal-loans" className="hover:text-sterling-gold transition-colors">Signature Électronique eIDAS</a></li>
+              <li><a href="/personal-loans" className="hover:text-sterling-gold transition-colors">Pièces Justificatives Requises</a></li>
+              <li><a href="/personal-loans" className="hover:text-sterling-gold transition-colors">Droit de Rétractation (14 jours)</a></li>
+              <li><a href="/personal-loans" className="hover:text-sterling-gold transition-colors">Questions Fréquentes (FAQ)</a></li>
             </ul>
           </div>
 

@@ -1,13 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { 
   Search, 
   CheckCircle2, 
   Clock, 
   ShieldCheck, 
-  ArrowRight
+  ArrowRight,
+  UserCheck
 } from "lucide-react";
+import { getApplications } from "@/lib/loanStore";
 
 export default function TrackerSection() {
   const [refNumber, setRefNumber] = useState("");
@@ -19,23 +22,51 @@ export default function TrackerSection() {
     e.preventDefault();
     setSearched(true);
 
-    // Mock tracking status for demo in France
-    setStatusResult({
-      ref: refNumber || "SBF-CR-202611-98421",
-      applicant: "Marc Delaunay",
-      loanType: "Prêt Personnel Tous Projets",
-      amount: "18 500 €",
-      submissionDate: "04 Novembre 2026",
-      currentStage: 3,
-      stages: [
-        { name: "Dossier Enregistré en Ligne", date: "04 Nov 2026 • 10:14", status: "completed" },
-        { name: "Vérification des Justificatifs & CNI", date: "04 Nov 2026 • 14:30", status: "completed" },
-        { name: "Étude de Solvabilité & Comité de Crédit", date: "En cours d'analyse (Délai estimé : 24h)", status: "active" },
-        { name: "Offre Préalable & Signature Électronique", date: "En attente de validation", status: "pending" },
-        { name: "Virement des Fonds sur votre RIB", date: "En attente de signature", status: "pending" },
-      ],
-      remarks: "Vos bulletins de paie et votre justificatif de domicile ont été validés avec succès. Votre demande est actuellement en cours d'étude par notre service d'octroi de crédit à Paris.",
-    });
+    const apps = getApplications();
+    const query = refNumber.trim().toLowerCase();
+    const found = apps.find(a => 
+      a.referenceNumber.toLowerCase().includes(query) || 
+      (phoneDigits && a.phone.endsWith(phoneDigits))
+    );
+
+    if (found) {
+      const isApproved = found.status === "approved" || found.status === "disbursed";
+      const isDisbursed = found.status === "disbursed";
+      setStatusResult({
+        ref: found.referenceNumber,
+        applicant: found.applicantName,
+        loanType: found.loanTypeLabel,
+        amount: `${found.amount.toLocaleString("fr-FR")} €`,
+        submissionDate: new Date(found.createdAt).toLocaleDateString("fr-FR"),
+        statusLabel: found.statusLabelFr,
+        stages: [
+          { name: "Dossier Enregistré en Ligne", date: "Complet", status: "completed" },
+          { name: "Vérification des Justificatifs", date: "Vérifié", status: "completed" },
+          { name: "Étude de Solvabilité & Comité", date: isApproved ? "Avis Favorable" : "En cours", status: isApproved ? "completed" : "active" },
+          { name: "Offre Préalable & Signature", date: isApproved ? "Contrat émis" : "En attente", status: isApproved ? (isDisbursed ? "completed" : "active") : "pending" },
+          { name: "Virement des Fonds sur votre RIB", date: isDisbursed ? "Virement Exécuté" : "En attente", status: isDisbursed ? "completed" : "pending" },
+        ],
+        remarks: found.officerNotes[0] || "Votre dossier est géré par notre pôle crédit à Paris.",
+      });
+    } else {
+      // Mock tracking fallback
+      setStatusResult({
+        ref: refNumber || "SBA-FR-2026-89412",
+        applicant: "Jean-Pierre Lambert",
+        loanType: "Prêt Personnel Express",
+        amount: "15 000 €",
+        submissionDate: "03 Novembre 2026",
+        statusLabel: "Approuvé - En attente de signature",
+        stages: [
+          { name: "Dossier Enregistré en Ligne", date: "03 Nov 2026 • 10:15", status: "completed" },
+          { name: "Vérification des Justificatifs & CNI", date: "03 Nov 2026 • 14:30", status: "completed" },
+          { name: "Étude de Solvabilité & Comité de Crédit", date: "Avis Favorable Émis", status: "completed" },
+          { name: "Offre Préalable & Signature Électronique", date: "En attente de signature eIDAS", status: "active" },
+          { name: "Virement des Fonds sur votre RIB", date: "Sous 48h après signature", status: "pending" },
+        ],
+        remarks: "Ratio d'endettement validé à 28.5%. Votre offre de crédit est disponible sur votre Espace Client.",
+      });
+    }
   };
 
   return (
@@ -167,13 +198,31 @@ export default function TrackerSection() {
               </div>
             </div>
 
-            {/* Officer Remarks */}
-            <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-xs text-slate-700 space-y-1">
-              <div className="font-bold text-sterling-navy flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-sterling-gold" />
-                Note de votre Conseiller Crédit
+            {/* Officer Remarks & Dashboard CTA */}
+            <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-xs text-slate-700 space-y-3">
+              <div className="space-y-1">
+                <div className="font-bold text-sterling-navy flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-sterling-gold" />
+                  Note de votre Conseiller Crédit
+                </div>
+                <p className="leading-relaxed text-slate-600">{statusResult.remarks}</p>
               </div>
-              <p className="leading-relaxed text-slate-600">{statusResult.remarks}</p>
+
+              <div className="pt-2 border-t border-slate-200/60 flex flex-col sm:flex-row gap-2">
+                <Link
+                  href="/dashboard"
+                  className="bg-sterling-navy hover:bg-sterling-navy-light text-white font-bold py-2 px-4 rounded-xl text-xs transition-colors inline-flex items-center justify-center gap-1.5"
+                >
+                  <UserCheck className="w-3.5 h-3.5 text-sterling-gold" />
+                  Ouvrir mon Espace Client Dédié
+                </Link>
+                <Link
+                  href="/admin"
+                  className="bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-medium py-2 px-4 rounded-xl text-xs transition-colors inline-flex items-center justify-center gap-1.5"
+                >
+                  Gérer dans la Console Admin
+                </Link>
+              </div>
             </div>
 
           </div>

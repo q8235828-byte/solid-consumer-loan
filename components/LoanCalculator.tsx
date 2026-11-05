@@ -16,9 +16,10 @@ import AmortizationModal from "./AmortizationModal";
 
 interface LoanCalculatorProps {
   onApply?: (loanType: string, amount: number, tenor: number) => void;
+  onOpenApply?: (loanType?: string) => void;
 }
 
-export default function LoanCalculator({ onApply }: LoanCalculatorProps) {
+export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorProps) {
   const [selectedProduct, setSelectedProduct] = useState<"personnel" | "auto" | "immo">("personnel");
   const [loanAmount, setLoanAmount] = useState<number>(15000);
   const [tenorMonths, setTenorMonths] = useState<number>(48);
@@ -232,7 +233,10 @@ export default function LoanCalculator({ onApply }: LoanCalculatorProps) {
         {/* Action Buttons */}
         <div className="space-y-3">
           <button
-            onClick={() => onApply?.(selectedProduct, loanAmount, tenorMonths)}
+            onClick={() => {
+              if (onApply) onApply(selectedProduct, loanAmount, tenorMonths);
+              if (onOpenApply) onOpenApply(selectedProduct);
+            }}
             className="w-full bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold hover:from-sterling-gold-dark hover:to-sterling-gold text-sterling-navy-deep font-extrabold py-3.5 px-6 rounded-xl shadow-lg shadow-sterling-gold/25 hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2"
           >
             Faire ma demande en ligne (3 min)

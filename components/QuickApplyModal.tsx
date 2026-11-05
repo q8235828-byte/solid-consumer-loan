@@ -12,6 +12,8 @@ import {
   CheckCircle2
 } from "lucide-react";
 import { formatEUR } from "@/lib/utils";
+import { addApplication } from "@/lib/loanStore";
+import Link from "next/link";
 
 interface QuickApplyModalProps {
   isOpen: boolean;
@@ -76,8 +78,23 @@ export default function QuickApplyModal({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const refNum = `SBF-CR-${new Date().getFullYear()}${String(new Date().getMonth() + 1).padStart(2, "0")}-${Math.floor(10000 + Math.random() * 90000)}`;
-    setApplicationRef(refNum);
+    const created = addApplication({
+      applicantName: `${formData.firstName} ${formData.lastName}`.trim() || "Nouveau Demandeur",
+      email: formData.email || "demandeur@example.fr",
+      phone: formData.mobile || "06 00 00 00 00",
+      loanType: (loanType as any) || "persona",
+      loanTypeLabel: loanType === "persona" ? "Prêt Personnel Express" : loanType === "auto" ? "Prêt Auto" : "Prêt Travaux",
+      amount: amount,
+      termMonths: defaultTenor || 36,
+      monthlyPayment: Math.round((amount / (defaultTenor || 36)) * 1.05 * 100) / 100,
+      monthlyIncome: parseFloat(formData.netMonthlyIncome) || 2800,
+      address: formData.address || "Paris",
+      city: formData.city || "Paris",
+      postalCode: formData.postalCode || "75001",
+      employmentType: formData.contractType || "Salarié CDI",
+    });
+
+    setApplicationRef(created.referenceNumber);
     setIsSubmitted(true);
   };
 
@@ -182,12 +199,22 @@ export default function QuickApplyModal({
                 <div>3. Virement de vos fonds sous 48h dès validation définitive (délai légal de rétractation de 14 jours applicable).</div>
               </div>
 
-              <button
-                onClick={handleReset}
-                className="w-full bg-sterling-navy hover:bg-sterling-navy-light text-white font-bold py-3 rounded-xl transition-all shadow-md"
-              >
-                Retour à l&apos;accueil
-              </button>
+              <div className="space-y-2">
+                <Link
+                  href="/dashboard"
+                  onClick={handleReset}
+                  className="w-full bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold text-sterling-navy-deep font-extrabold py-3 rounded-xl transition-all shadow-md block text-center text-xs"
+                >
+                  Accéder à mon Espace Client (Suivre mon dossier)
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl transition-all text-xs"
+                >
+                  Retour à la page d&apos;accueil
+                </button>
+              </div>
             </div>
           ) : (
             /* Wizard Steps */
