@@ -8,6 +8,7 @@ export interface LoanApplication {
   phone: string;
   loanType: "persona" | "auto" | "home" | "ecosolutions" | "education";
   loanTypeLabel: string;
+  currency?: "USD" | "EUR";
   amount: number;
   termMonths: number;
   monthlyPayment: number;
@@ -206,6 +207,7 @@ export function addApplication(newApp: Partial<LoanApplication>): LoanApplicatio
     phone: newApp.phone || "01 00 00 00 00",
     loanType: newApp.loanType || "persona",
     loanTypeLabel: newApp.loanTypeLabel || "Prêt Personnel Express",
+    currency: newApp.currency || "USD",
     amount: newApp.amount || 10000,
     termMonths: newApp.termMonths || 36,
     monthlyPayment: newApp.monthlyPayment || 290,

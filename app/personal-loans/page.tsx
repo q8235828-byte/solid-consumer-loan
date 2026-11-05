@@ -82,8 +82,8 @@ export default function PersonalLoansPage() {
                     <div className="text-xs text-slate-300">Utilisation 100% libre des fonds</div>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
-                    <div className="text-xl font-bold text-sterling-gold">1 000 € à 75 000 €</div>
-                    <div className="text-xs text-slate-300">Durée de 12 à 84 mois</div>
+                    <div className="text-xl font-bold text-sterling-gold">1 000 à 75 000 $ / €</div>
+                    <div className="text-xs text-slate-300">USD ($) & EUR (€) • 12 à 84 mois</div>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10 col-span-2 sm:col-span-1">
                     <div className="text-xl font-bold text-sterling-gold">24h à 48h</div>
@@ -179,8 +179,8 @@ export default function PersonalLoansPage() {
                   </div>
 
                   <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
-                    <div className="text-xs text-slate-500">Montant finançable</div>
-                    <div className="text-2xl font-extrabold text-sterling-navy">1 000 € à 75 000 €</div>
+                    <div className="text-xs text-slate-500">Montant finançable (USD / EUR)</div>
+                    <div className="text-2xl font-extrabold text-sterling-navy">1 000 à 75 000 $ / €</div>
                     <div className="text-[11px] text-emerald-600 font-semibold">TAEG fixe dès 2,85% • 12 à 84 mois</div>
                   </div>
 
@@ -224,8 +224,8 @@ export default function PersonalLoansPage() {
                   </div>
 
                   <div className="p-4 rounded-xl bg-emerald-50/50 border border-emerald-100 space-y-1">
-                    <div className="text-xs text-slate-500">Montant finançable</div>
-                    <div className="text-2xl font-extrabold text-emerald-700">2 500 € à 50 000 €</div>
+                    <div className="text-xs text-slate-500">Montant finançable (USD / EUR)</div>
+                    <div className="text-2xl font-extrabold text-emerald-700">2 500 à 50 000 $ / €</div>
                     <div className="text-[11px] text-emerald-700 font-semibold">Taux vert bonifié dès 2,50% TAEG</div>
                   </div>
 
@@ -269,8 +269,8 @@ export default function PersonalLoansPage() {
                   </div>
 
                   <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
-                    <div className="text-xs text-slate-500">Montant finançable</div>
-                    <div className="text-2xl font-extrabold text-sterling-navy">3 000 € à 60 000 €</div>
+                    <div className="text-xs text-slate-500">Montant finançable (USD / EUR)</div>
+                    <div className="text-2xl font-extrabold text-sterling-navy">3 000 à 60 000 $ / €</div>
                     <div className="text-[11px] text-indigo-600 font-semibold">Différé d&apos;amortissement possible (franchise)</div>
                   </div>
 

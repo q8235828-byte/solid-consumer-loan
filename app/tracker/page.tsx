@@ -5,6 +5,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getApplications } from "@/lib/loanStore";
+import { formatMoney } from "@/lib/utils";
 import { 
   Search, 
   CheckCircle2, 
@@ -44,7 +45,7 @@ export default function TrackerPage() {
         ref: found.referenceNumber,
         applicant: found.applicantName,
         loanType: found.loanTypeLabel,
-        amount: `${found.amount.toLocaleString("fr-FR")} €`,
+        amount: formatMoney(found.amount, found.currency || "USD"),
         submissionDate: new Date(found.createdAt).toLocaleDateString("fr-FR"),
         statusLabel: found.statusLabelFr,
         stages: [

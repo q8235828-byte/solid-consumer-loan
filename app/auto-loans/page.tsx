@@ -82,11 +82,11 @@ export default function AutoLoansPage() {
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
-                    <div className="text-xl font-bold text-sterling-gold">Jusqu&apos;à 60 000 €</div>
-                    <div className="text-xs text-slate-300">Neuf & Occasion récente</div>
+                    <div className="text-xl font-bold text-sterling-gold">Jusqu&apos;à 60 000 $ / €</div>
+                    <div className="text-xs text-slate-300">USD & EUR • Neuf & Occasion</div>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
-                    <div className="text-xl font-bold text-sterling-gold">0 € Apport Requis</div>
+                    <div className="text-xl font-bold text-sterling-gold">0 $ / € Apport</div>
                     <div className="text-xs text-slate-300">Financement à 100% possible</div>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10 col-span-2 sm:col-span-1">

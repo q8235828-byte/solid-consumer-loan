@@ -11,7 +11,7 @@ import {
   Lock,
   CheckCircle2
 } from "lucide-react";
-import { formatEUR } from "@/lib/utils";
+import { formatEUR, formatMoney, CurrencyCode } from "@/lib/utils";
 import { addApplication } from "@/lib/loanStore";
 import Link from "next/link";
 
@@ -32,6 +32,7 @@ export default function QuickApplyModal({
 }: QuickApplyModalProps) {
   const [step, setStep] = useState(1);
   const [loanType, setLoanType] = useState(defaultLoanType);
+  const [currency, setCurrency] = useState<CurrencyCode>("USD");
   const [amount, setAmount] = useState(defaultAmount);
 
   // Form State for France
@@ -84,6 +85,7 @@ export default function QuickApplyModal({
       phone: formData.mobile || "06 00 00 00 00",
       loanType: (loanType as any) || "persona",
       loanTypeLabel: loanType === "persona" ? "Prêt Personnel Express" : loanType === "auto" ? "Prêt Auto" : "Prêt Travaux",
+      currency: currency,
       amount: amount,
       termMonths: defaultTenor || 36,
       monthlyPayment: Math.round((amount / (defaultTenor || 36)) * 1.05 * 100) / 100,
@@ -226,6 +228,41 @@ export default function QuickApplyModal({
                   <div className="border-b border-slate-100 pb-2">
                     <h4 className="text-base font-bold text-sterling-navy">Étape 1 : Vos Informations Personnelles</h4>
                     <p className="text-xs text-slate-500">Renseignez vos coordonnées exactes telles qu&apos;inscrites sur vos papiers d&apos;identité.</p>
+                  </div>
+
+                  {/* Currency Selection: USD or EUR only */}
+                  <div className="bg-amber-50/70 border border-sterling-gold/40 rounded-2xl p-3.5 flex items-center justify-between">
+                    <div>
+                      <div className="text-xs font-bold text-sterling-navy flex items-center gap-1.5">
+                        <span>Devise du prêt / Loan Currency</span>
+                        <span className="text-[10px] font-semibold text-sterling-gold-dark bg-amber-100 px-2 py-0.5 rounded-full">USD & EUR Uniquement</span>
+                      </div>
+                      <p className="text-[11px] text-slate-600 mt-0.5">Choisissez la monnaie de versement et de remboursement.</p>
+                    </div>
+                    <div className="inline-flex rounded-xl p-1 bg-white border border-slate-200 shadow-inner">
+                      <button
+                        type="button"
+                        onClick={() => setCurrency("USD")}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                          currency === "USD"
+                            ? "bg-sterling-navy text-white shadow-sm"
+                            : "text-slate-600 hover:text-slate-900"
+                        }`}
+                      >
+                        USD ($)
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCurrency("EUR")}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                          currency === "EUR"
+                            ? "bg-sterling-navy text-white shadow-sm"
+                            : "text-slate-600 hover:text-slate-900"
+                        }`}
+                      >
+                        EUR (€)
+                      </button>
+                    </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -533,7 +570,7 @@ export default function QuickApplyModal({
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-500">Montant souhaité :</span>
-                      <span className="font-bold text-slate-800">{formatEUR(amount)}</span>
+                      <span className="font-bold text-slate-800">{formatMoney(amount, currency)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-500">Téléphone de contact :</span>

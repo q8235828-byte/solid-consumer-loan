@@ -9,6 +9,7 @@ import {
   getApplications, 
   LoanApplication 
 } from "@/lib/loanStore";
+import { formatMoney } from "@/lib/utils";
 import { 
   Building2, 
   UserCheck, 
@@ -153,10 +154,10 @@ export default function UserDashboard() {
               <CreditCard className="w-4 h-4 text-sterling-gold" />
             </div>
             <div className="text-2xl font-black text-sterling-navy">
-              {activeApp ? (activeApp.amount * 0.76).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "11 400,00"} €
+              {formatMoney(activeApp ? activeApp.amount * 0.76 : 11400, activeApp?.currency || "USD")}
             </div>
             <div className="text-[11px] text-slate-500 flex items-center gap-1">
-              <span>Montant initial : {activeApp?.amount.toLocaleString("fr-FR")} €</span>
+              <span>Montant initial : {formatMoney(activeApp?.amount || 15000, activeApp?.currency || "USD")}</span>
             </div>
           </div>
 
@@ -166,7 +167,7 @@ export default function UserDashboard() {
               <Calendar className="w-4 h-4 text-sterling-navy" />
             </div>
             <div className="text-2xl font-black text-emerald-600">
-              {activeApp?.monthlyPayment.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
+              {formatMoney(activeApp?.monthlyPayment || 435, activeApp?.currency || "USD")}
             </div>
             <div className="text-[11px] text-slate-500 flex items-center gap-1">
               <span>Prélèvement SEPA : <strong>05 Décembre 2026</strong></span>
@@ -253,7 +254,7 @@ export default function UserDashboard() {
                       {app.loanTypeLabel}
                     </div>
                     <div className="text-xs text-slate-500 mt-0.5">
-                      {app.amount.toLocaleString("fr-FR")} € • {app.termMonths} mois à {app.monthlyPayment.toFixed(2)} €/m
+                      {formatMoney(app.amount, app.currency || "USD")} • {app.termMonths} mois à {formatMoney(app.monthlyPayment, app.currency || "USD")}/m
                     </div>
                   </button>
                 ))}

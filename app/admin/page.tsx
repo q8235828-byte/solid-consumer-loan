@@ -10,6 +10,7 @@ import {
   updateApplicationStatus, 
   LoanApplication 
 } from "@/lib/loanStore";
+import { formatMoney } from "@/lib/utils";
 import { 
   Building2, 
   SlidersHorizontal, 
@@ -320,10 +321,10 @@ export default function AdminDashboard() {
                           <span className="text-[10px] font-mono text-slate-400">{app.referenceNumber}</span>
                         </div>
                         <div className="text-xs text-slate-600">
-                          {app.loanTypeLabel} • <strong>{app.amount.toLocaleString("fr-FR")} €</strong> sur {app.termMonths} mois
+                          {app.loanTypeLabel} • <strong>{formatMoney(app.amount, app.currency || "USD")}</strong> sur {app.termMonths} mois
                         </div>
                         <div className="text-[10px] text-slate-400">
-                          Revenus : {app.monthlyIncome.toLocaleString("fr-FR")} €/m • Score solvabilité : {app.creditScore}/900
+                          Revenus : {formatMoney(app.monthlyIncome, app.currency || "USD")}/m • Score solvabilité : {app.creditScore}/900
                         </div>
                       </div>
 
@@ -376,14 +377,14 @@ export default function AdminDashboard() {
                   {/* Financial & Underwriting Details */}
                   <div className="grid grid-cols-2 gap-3 text-xs">
                     <div className="p-3 bg-slate-50 rounded-xl space-y-0.5">
-                      <div className="text-slate-400 text-[10px]">Montant sollicité</div>
-                      <div className="font-bold text-base text-sterling-navy">{selectedApp.amount.toLocaleString("fr-FR")} €</div>
-                      <div className="text-slate-500">{selectedApp.termMonths} mois à {selectedApp.monthlyPayment.toFixed(2)} €/m</div>
+                      <div className="text-slate-400 text-[10px]">Montant sollicité ({selectedApp.currency || "USD"})</div>
+                      <div className="font-bold text-base text-sterling-navy">{formatMoney(selectedApp.amount, selectedApp.currency || "USD")}</div>
+                      <div className="text-slate-500">{selectedApp.termMonths} mois à {formatMoney(selectedApp.monthlyPayment, selectedApp.currency || "USD")}/m</div>
                     </div>
 
                     <div className="p-3 bg-slate-50 rounded-xl space-y-0.5">
                       <div className="text-slate-400 text-[10px]">Profil Financier</div>
-                      <div className="font-bold text-base text-emerald-700">{selectedApp.monthlyIncome.toLocaleString("fr-FR")} €/m</div>
+                      <div className="font-bold text-base text-emerald-700">{formatMoney(selectedApp.monthlyIncome, selectedApp.currency || "USD")}/m</div>
                       <div className="text-slate-500">{selectedApp.employmentType}</div>
                     </div>
 

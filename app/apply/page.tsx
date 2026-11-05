@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { addApplication } from "@/lib/loanStore";
-import { formatEUR } from "@/lib/utils";
+import { formatEUR, formatMoney, CurrencyCode } from "@/lib/utils";
 import { 
   Building2, 
   FileCheck2, 
@@ -27,7 +27,8 @@ import {
 export default function ApplyPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
-  const [loanType, setLoanType] = useState<"persona" | "auto" | "home">("persona");
+  const [loanType, setLoanType] = useState<"persona" | "auto" | "home" | "ecosolutions">("persona");
+  const [currency, setCurrency] = useState<CurrencyCode>("USD");
   const [amount, setAmount] = useState(15000);
   const [tenorMonths, setTenorMonths] = useState(36);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -64,7 +65,12 @@ export default function ApplyPage() {
       email: formData.email,
       phone: formData.phone,
       loanType: loanType,
-      loanTypeLabel: loanType === "persona" ? "Prêt Personnel Express" : loanType === "auto" ? "Prêt Auto" : "Prêt Travaux",
+      loanTypeLabel: 
+        loanType === "persona" ? "Prêt Personnel Express" : 
+        loanType === "auto" ? "Prêt Auto" : 
+        loanType === "home" ? "Prêt Travaux & Habitat" : 
+        "Private Investment & Lending",
+      currency: currency,
       amount: amount,
       termMonths: tenorMonths,
       monthlyPayment: Math.round((amount / tenorMonths) * 1.05 * 100) / 100,
@@ -135,63 +141,124 @@ export default function ApplyPage() {
                 {/* STEP 1: Loan Parameters */}
                 {step === 1 && (
                   <div className="space-y-6">
-                    <h3 className="text-base font-bold text-sterling-navy">Étape 1 : Paramètres de votre Financement</h3>
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                      <div>
+                        <h3 className="text-base font-bold text-sterling-navy">Étape 1 : Paramètres de votre Financement</h3>
+                        <p className="text-xs text-slate-500">Devises officielles : USD ($) & EUR (€) exclusivement</p>
+                      </div>
+
+                      {/* Currency Toggle */}
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold text-slate-500">Devise :</span>
+                        <div className="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200">
+                          <button
+                            type="button"
+                            onClick={() => setCurrency("USD")}
+                            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                              currency === "USD"
+                                ? "bg-sterling-navy text-white shadow-sm"
+                                : "text-slate-600 hover:text-slate-900"
+                            }`}
+                          >
+                            USD ($)
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setCurrency("EUR")}
+                            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                              currency === "EUR"
+                                ? "bg-sterling-navy text-white shadow-sm"
+                                : "text-slate-600 hover:text-slate-900"
+                            }`}
+                          >
+                            EUR (€)
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                     
-                    <div className="grid grid-cols-3 gap-3">
+                    {/* Loan Product Selection */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                       {[
-                        { id: "persona", label: "Prêt Personnel", desc: "Sans justificatif" },
-                        { id: "auto", label: "Prêt Auto", desc: "Véhicule neuf ou occasion" },
-                        { id: "home", label: "Prêt Travaux", desc: "Habitat & Rénovation" },
+                        { id: "persona", label: "Prêt Personnel", desc: "Sans justificatif d'utilisation" },
+                        { id: "auto", label: "Prêt Véhicule", desc: "Auto, moto & écomobilité" },
+                        { id: "home", label: "Prêt Travaux", desc: "Habitat & rénovation" },
+                        { id: "ecosolutions", label: "Private & Corporate", desc: "Investissement $100k-$500M" },
                       ].map((t) => (
                         <button
                           key={t.id}
                           type="button"
-                          onClick={() => setLoanType(t.id as any)}
-                          className={`p-4 rounded-xl border text-left transition-all ${
+                          onClick={() => {
+                            setLoanType(t.id as any);
+                            if (t.id === "ecosolutions" && amount < 100000) {
+                              setAmount(1000000);
+                              setTenorMonths(120);
+                            } else if (t.id !== "ecosolutions" && amount > 75000) {
+                              setAmount(15000);
+                              setTenorMonths(36);
+                            }
+                          }}
+                          className={`p-3 rounded-xl border text-left transition-all ${
                             loanType === t.id
-                              ? "border-sterling-gold bg-amber-50/50 shadow-sm"
-                              : "border-slate-200 hover:border-slate-300"
+                              ? "border-sterling-gold bg-amber-50/60 shadow-sm ring-1 ring-sterling-gold"
+                              : "border-slate-200 hover:border-slate-300 bg-white"
                           }`}
                         >
-                          <div className="text-xs font-bold text-sterling-navy">{t.label}</div>
-                          <div className="text-[10px] text-slate-500 mt-0.5">{t.desc}</div>
+                          <div className="text-xs font-bold text-sterling-navy leading-tight">{t.label}</div>
+                          <div className="text-[10px] text-slate-500 mt-1 leading-tight">{t.desc}</div>
                         </button>
                       ))}
                     </div>
 
+                    {/* Amount Range Slider */}
                     <div>
                       <div className="flex justify-between items-center mb-1">
-                        <label className="text-xs font-bold text-slate-700">Montant souhaité (€)</label>
-                        <span className="text-xl font-black text-sterling-navy font-mono">{formatEUR(amount)}</span>
+                        <label className="text-xs font-bold text-slate-700">
+                          Montant souhaité ({currency === "USD" ? "USD $" : "EUR €"})
+                        </label>
+                        <span className="text-xl font-black text-sterling-navy font-mono">
+                          {formatMoney(amount, currency)}
+                        </span>
                       </div>
                       <input
                         type="range"
-                        min={1000}
-                        max={75000}
-                        step={500}
+                        min={loanType === "ecosolutions" ? 100000 : 1000}
+                        max={loanType === "ecosolutions" ? 500000000 : 75000}
+                        step={loanType === "ecosolutions" ? 100000 : 500}
                         value={amount}
                         onChange={(e) => setAmount(Number(e.target.value))}
+                        className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sterling-navy"
                       />
+                      <div className="flex justify-between text-[10px] text-slate-400 mt-1">
+                        <span>Min: {loanType === "ecosolutions" ? formatMoney(100000, currency) : formatMoney(1000, currency)}</span>
+                        <span>Max: {loanType === "ecosolutions" ? formatMoney(500000000, currency) : formatMoney(75000, currency)}</span>
+                      </div>
                     </div>
 
+                    {/* Duration / Tenor */}
                     <div>
                       <div className="flex justify-between items-center mb-1">
-                        <label className="text-xs font-bold text-slate-700">Durée du prêt</label>
-                        <span className="text-base font-bold text-sterling-navy font-mono">{tenorMonths} mois ({tenorMonths / 12} ans)</span>
+                        <label className="text-xs font-bold text-slate-700">Durée de remboursement</label>
+                        <span className="text-base font-bold text-sterling-navy font-mono">
+                          {tenorMonths} mois ({Math.round((tenorMonths / 12) * 10) / 10} ans)
+                        </span>
                       </div>
-                      <div className="grid grid-cols-5 gap-2">
-                        {[12, 24, 36, 48, 60, 72, 84].slice(0, 5).map((m) => (
+                      <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+                        {(loanType === "ecosolutions" 
+                          ? [12, 36, 60, 120, 180, 240, 300] 
+                          : [12, 24, 36, 48, 60, 72, 84]
+                        ).map((m) => (
                           <button
                             key={m}
                             type="button"
                             onClick={() => setTenorMonths(m)}
                             className={`py-2 rounded-xl text-xs font-bold border transition-colors ${
                               tenorMonths === m
-                                ? "bg-sterling-navy text-white border-sterling-navy"
-                                : "bg-slate-50 text-slate-600 border-slate-200"
+                                ? "bg-sterling-navy text-white border-sterling-navy shadow-sm"
+                                : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
                             }`}
                           >
-                            {m} m.
+                            {m >= 12 ? `${m / 12} an${m > 12 ? "s" : ""}` : `${m} m.`}
                           </button>
                         ))}
                       </div>
@@ -383,16 +450,20 @@ export default function ApplyPage() {
                         <span className="font-bold text-slate-800">{formData.firstName} {formData.lastName}</span>
                       </div>
                       <div className="flex justify-between">
+                        <span className="text-slate-500">Devise sélectionnée :</span>
+                        <span className="font-bold text-sterling-navy">{currency === "USD" ? "USD ($) Dollar US" : "EUR (€) Euro"}</span>
+                      </div>
+                      <div className="flex justify-between">
                         <span className="text-slate-500">Montant demandé :</span>
-                        <span className="font-bold text-sterling-navy font-mono text-sm">{formatEUR(amount)}</span>
+                        <span className="font-bold text-sterling-navy font-mono text-sm">{formatMoney(amount, currency)}</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-slate-500">Durée :</span>
-                        <span className="font-bold text-slate-800">{tenorMonths} mois</span>
+                        <span className="font-bold text-slate-800">{tenorMonths} mois ({Math.round((tenorMonths / 12) * 10) / 10} ans)</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-slate-500">Mensualité estimée :</span>
-                        <span className="font-bold text-emerald-700 font-mono text-sm">{formatEUR(Math.round((amount / tenorMonths) * 1.05 * 100) / 100)} / mois</span>
+                        <span className="font-bold text-emerald-700 font-mono text-sm">{formatMoney(Math.round((amount / tenorMonths) * 1.05 * 100) / 100, currency)} / mois</span>
                       </div>
                     </div>
 
