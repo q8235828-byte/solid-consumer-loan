@@ -69,6 +69,11 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               Espace Client
             </Link>
             <span className="text-slate-500">|</span>
+            {/* Currency Indicator (USD & EUR Only) */}
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-white/10 text-sterling-gold font-bold text-[11px] border border-sterling-gold/30">
+              USD ($) & EUR (€)
+            </span>
+            <span className="text-slate-500">|</span>
             {/* Google Translate Europe Top 5 Language Switcher */}
             <GoogleTranslate />
           </div>
