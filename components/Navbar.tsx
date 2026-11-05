@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { 
   Building2, 
   ChevronDown, 
@@ -86,16 +87,15 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
           
           {/* Brand Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-sterling-gold via-sterling-gold-light to-sterling-gold-dark flex items-center justify-center shadow-lg shadow-sterling-gold/20 group-hover:scale-105 transition-transform">
-              <Building2 className="w-6 h-6 text-sterling-navy-deep stroke-[2.2]" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-white font-display">
-                STERLING BANK
-              </span>
-              <span className="text-[10px] tracking-[0.25em] text-sterling-gold uppercase font-semibold">
-                FRANCE • CRÉDIT & BANQUE EN LIGNE
-              </span>
+            <div className="bg-white px-3.5 py-1.5 rounded-2xl shadow-md flex items-center transition-transform group-hover:scale-105 border border-white/20">
+              <Image
+                src="/logo.png"
+                alt="Sterling Bank of Asia"
+                width={160}
+                height={50}
+                className="h-9 sm:h-10 w-auto object-contain"
+                priority
+              />
             </div>
           </Link>
 

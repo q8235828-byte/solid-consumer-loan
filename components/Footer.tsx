@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Building2, Phone, Mail, MapPin, ExternalLink, ShieldCheck, UserCheck, SlidersHorizontal } from "lucide-react";
 
 export default function Footer() {
@@ -13,16 +14,14 @@ export default function Footer() {
           {/* Brand & Overview */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-sterling-gold via-sterling-gold-light to-sterling-gold-dark flex items-center justify-center shadow-md">
-                <Building2 className="w-5 h-5 text-sterling-navy-deep stroke-[2.2]" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl font-extrabold tracking-tight text-white font-display">
-                  STERLING BANK
-                </span>
-                <span className="text-[9px] tracking-[0.25em] text-sterling-gold uppercase font-semibold">
-                  FRANCE • Établissement de Crédit Agréé
-                </span>
+              <div className="bg-white px-3.5 py-1.5 rounded-2xl shadow-md inline-flex items-center border border-white/20">
+                <Image
+                  src="/logo.png"
+                  alt="Sterling Bank of Asia"
+                  width={150}
+                  height={48}
+                  className="h-9 w-auto object-contain"
+                />
               </div>
             </div>
 
