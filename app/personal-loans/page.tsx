@@ -11,19 +11,16 @@ import {
   CheckCircle2, 
   ArrowRight, 
   ShieldCheck, 
-  Zap, 
-  Leaf, 
-  GraduationCap, 
-  AlertTriangle, 
-  FileText, 
-  Clock, 
+  ChevronRight, 
+  Calculator, 
+  Lock, 
+  Sparkles, 
+  Smartphone, 
+  AlertTriangle,
   HelpCircle,
-  Building2,
-  ChevronRight,
-  Calculator,
-  Lock,
-  Sparkles,
-  Award
+  FileText,
+  Clock,
+  ExternalLink
 } from "lucide-react";
 
 export default function PersonalLoansPage() {
@@ -36,449 +33,426 @@ export default function PersonalLoansPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-800">
+    <div className="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-800 antialiased">
+      {/* Official Sterling Bank Navbar */}
       <Navbar onOpenApply={handleOpenApply} />
 
       <main className="flex-1">
-        {/* Breadcrumb Navigation */}
-        <div className="bg-slate-100 border-b border-slate-200 py-2.5 px-4 sm:px-8">
-          <div className="max-w-7xl mx-auto flex items-center gap-2 text-xs text-slate-500">
-            <Link href="/" className="hover:text-sterling-navy transition-colors">Accueil</Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-slate-400">Crédits Particuliers</span>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span className="font-semibold text-sterling-navy">Prêt Personnel (Persona)</span>
+        {/* Breadcrumb Navigation (Official Style) */}
+        <div className="bg-[#F4F6F9] border-b border-slate-200 py-3 px-4 sm:px-8">
+          <div className="max-w-7xl mx-auto flex items-center gap-2 text-xs text-slate-500 font-medium">
+            <Link href="/" className="hover:text-sterling-navy transition-colors">Home</Link>
+            <ChevronRight className="w-3 h-3 text-slate-400" />
+            <Link href="/personal-loans" className="hover:text-sterling-navy transition-colors">Personal</Link>
+            <ChevronRight className="w-3 h-3 text-slate-400" />
+            <span className="text-slate-400">Consumer Loans</span>
+            <ChevronRight className="w-3 h-3 text-slate-400" />
+            <span className="font-bold text-sterling-navy">Personal Loans</span>
           </div>
         </div>
 
-        {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-sterling-navy-deep via-sterling-navy to-sterling-navy-light text-white py-16 lg:py-24 overflow-hidden">
+        {/* Hero Section Banner */}
+        <section className="relative bg-gradient-to-r from-[#002244] via-[#003366] to-[#03234D] text-white py-14 lg:py-20 overflow-hidden">
           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#C89D35_1px,transparent_1px)] [background-size:24px_24px]" />
           
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="max-w-3xl space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sterling-gold/20 border border-sterling-gold/40 text-sterling-gold text-xs font-bold tracking-wide">
+                <Sparkles className="w-3.5 h-3.5" />
+                Sterling Bank of Asia Consumer Financing
+              </div>
+
+              <h1 className="text-3xl sm:text-5xl font-black tracking-tight font-display text-white leading-tight">
+                Personal Loans
+              </h1>
+
+              <p className="text-base sm:text-lg text-slate-200 leading-relaxed">
+                Fund your goals with a personal loan you can trust. Sterling Bank of Asia offers flexible loan terms ideal for emergencies, education, travel, home upgrades, and corporate capital structuring. Available in <strong>USD ($)</strong> and <strong>EUR (€)</strong>.
+              </p>
+
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => handleOpenApply("persona")}
+                  className="bg-gradient-to-r from-sterling-gold to-sterling-gold-light hover:from-amber-600 hover:to-sterling-gold text-white font-bold text-xs uppercase tracking-wider px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition-all"
+                >
+                  Apply Online Now
+                </button>
+                <a
+                  href="#calculator"
+                  className="bg-white/10 hover:bg-white/20 text-white font-semibold text-xs px-5 py-3 rounded-lg border border-white/20 transition-all flex items-center gap-2"
+                >
+                  <Calculator className="w-4 h-4 text-sterling-gold" />
+                  Loan Calculator
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================================
+            SECTION: Choose what is right for you (Official 3-Card Grid)
+            ========================================================================= */}
+        <section className="py-16 sm:py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            {/* Section Heading */}
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <h2 className="text-3xl sm:text-4xl font-black text-sterling-navy font-display tracking-tight mb-3">
+                Choose what is right for you
+              </h2>
+              <p className="text-slate-600 text-sm sm:text-base">
+                Discover the financing solution tailored to your personal goals and investment requirements.
+              </p>
+            </div>
+
+            {/* 3 Product Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              
+              {/* CARD 1: Persona Personal Loan */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden group hover:border-sterling-gold/50">
+                <div className="p-8 flex flex-col items-center text-center border-b border-slate-100 bg-[#FAFAFA] min-h-[160px] justify-center">
+                  <div className="h-20 flex items-center justify-center">
+                    <img 
+                      src="/images/personal-loans/sterling_bank_persona_01_0.png" 
+                      alt="Persona Personal Loan" 
+                      className="max-h-16 w-auto object-contain transition-transform group-hover:scale-105"
+                    />
+                  </div>
+                </div>
+
+                <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-6">
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-xl font-bold text-sterling-navy">Persona Personal Loan</h3>
+                      <p className="text-xs font-semibold text-sterling-gold uppercase tracking-wider mt-1">
+                        Loan anytime with no collateral
+                      </p>
+                    </div>
+
+                    <ul className="space-y-2.5 text-xs text-slate-600">
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <span>Low fixed interest rates from <strong>2.85% p.a.</strong></span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <span>Loan amounts from <strong>$5,000 to $1,000,000+</strong></span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <span>Available in dual currency: <strong>USD ($)</strong> & <strong>EUR (€)</strong></span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <span>Fast approval upon submission of complete documents</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="pt-4 border-t border-slate-100 space-y-2">
+                    <button
+                      type="button"
+                      onClick={() => handleOpenApply("persona")}
+                      className="w-full py-3 px-4 rounded-xl bg-[#002244] hover:bg-sterling-navy-deep text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow hover:shadow-md"
+                    >
+                      <span>Apply for Persona</span>
+                      <ChevronRight className="w-4 h-4 text-sterling-gold" />
+                    </button>
+                    <a
+                      href="#calculator"
+                      className="w-full py-2 px-4 rounded-xl text-center text-xs font-semibold text-slate-600 hover:text-sterling-navy block transition-colors"
+                    >
+                      Simulate Repayment →
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* CARD 2: EcoSolutions Personal Loan */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden group hover:border-emerald-500/50">
+                <div className="p-8 flex flex-col items-center text-center border-b border-slate-100 bg-[#FAFAFA] min-h-[160px] justify-center">
+                  <div className="h-20 flex items-center justify-center">
+                    <img 
+                      src="/images/personal-loans/SES-Logo-Website-24.png" 
+                      alt="EcoSolutions Personal Loan" 
+                      className="max-h-16 w-auto object-contain transition-transform group-hover:scale-105"
+                    />
+                  </div>
+                </div>
+
+                <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-6">
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-xl font-bold text-sterling-navy">EcoSolutions Personal Loan</h3>
+                      <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider mt-1">
+                        Small loan, big green impact
+                      </p>
+                    </div>
+
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      The Sterling EcoSolutions Personal Loan makes it easy to go green—with flexible financing for solar panels, e-bikes, energy-efficient appliances, and sustainable home upgrades.
+                    </p>
+
+                    <ul className="space-y-2.5 text-xs text-slate-600">
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <span>Eco-preferential fixed interest rate</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <span>Flexible repayment tenors from 12 to 60 months</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <span>100% digital paperless application</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="pt-4 border-t border-slate-100 space-y-2">
+                    <button
+                      type="button"
+                      onClick={() => handleOpenApply("persona")}
+                      className="w-full py-3 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow hover:shadow-md"
+                    >
+                      <span>Apply for EcoSolutions</span>
+                      <ChevronRight className="w-4 h-4 text-emerald-200" />
+                    </button>
+                    <a
+                      href="#calculator"
+                      className="w-full py-2 px-4 rounded-xl text-center text-xs font-semibold text-slate-600 hover:text-emerald-700 block transition-colors"
+                    >
+                      Simulate Repayment →
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* CARD 3: Pangarap Personal Loan */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden group hover:border-amber-500/50">
+                <div className="p-8 flex flex-col items-center text-center border-b border-slate-100 bg-[#FAFAFA] min-h-[160px] justify-center">
+                  <div className="h-20 flex items-center justify-center">
+                    <img 
+                      src="/images/personal-loans/PPL-Logo-Website-24-25.png" 
+                      alt="Pangarap Personal Loan" 
+                      className="max-h-16 w-auto object-contain transition-transform group-hover:scale-105"
+                    />
+                  </div>
+                </div>
+
+                <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between space-y-6">
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-xl font-bold text-sterling-navy">Pangarap Personal Loan</h3>
+                      <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider mt-1">
+                        Your future starts with a dream
+                      </p>
+                    </div>
+
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      Turn your dreams into reality and invest in a brighter future! Whether you&apos;re paying for your child&apos;s education or taking the next step in your career through studies or upskilling, Pangarap Personal Loan is here to support your goals.
+                    </p>
+
+                    <ul className="space-y-2.5 text-xs text-slate-600">
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <span>Financing for tuition, career upskilling, and certifications</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <span>Low monthly amortizations structured around your cashflow</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <span>Quick disbursement to accredited institutions or personal account</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="pt-4 border-t border-slate-100 space-y-2">
+                    <button
+                      type="button"
+                      onClick={() => handleOpenApply("persona")}
+                      className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-sterling-gold to-sterling-gold-light hover:from-amber-600 hover:to-sterling-gold text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow hover:shadow-md"
+                    >
+                      <span>Apply for Pangarap</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                    <a
+                      href="#calculator"
+                      className="w-full py-2 px-4 rounded-xl text-center text-xs font-semibold text-slate-600 hover:text-amber-700 block transition-colors"
+                    >
+                      Simulate Repayment →
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================================
+            SECTION: Interactive Loan Simulator & Parameters (USD / EUR)
+            ========================================================================= */}
+        <section id="calculator" className="py-20 bg-gradient-to-b from-slate-900 via-sterling-navy-deep to-[#002244] text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               
-              <div className="lg:col-span-7 space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sterling-gold/20 border border-sterling-gold/40 text-sterling-gold text-xs font-bold tracking-wide">
-                  <Sparkles className="w-4 h-4" />
-                  Prêt Personnel Express • Taux Fixe Garanti
+              <div className="lg:col-span-5 space-y-6">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sterling-gold/20 border border-sterling-gold/40 text-sterling-gold text-xs font-bold uppercase tracking-wider">
+                  <Calculator className="w-4 h-4" />
+                  Instant Repayment Simulator
                 </div>
 
-                <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight font-display text-white leading-tight">
-                  Vous avez un projet en tête ? <br />
-                  <span className="bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-amber-200 bg-clip-text text-transparent">
-                    Donnez-lui vie sans attendre.
-                  </span>
-                </h1>
+                <h2 className="text-3xl sm:text-4xl font-black font-display tracking-tight text-white leading-tight">
+                  Calculate Your Monthly Personal Loan Payment
+                </h2>
 
-                <p className="text-base sm:text-lg text-slate-200 leading-relaxed max-w-2xl">
-                  Qu&apos;il s&apos;agisse de financer un voyage en famille, d&apos;équiper votre logement, de faire face à un imprévu ou d&apos;investir dans l&apos;avenir de vos enfants : nos prêts personnels flexibles et transparents s&apos;adaptent à votre budget avec un TAEG fixe dès <strong>2,85%</strong>.
+                <p className="text-sm text-slate-300 leading-relaxed">
+                  Plan your financing with complete transparency. Use our real-time calculator to evaluate monthly amortizations, interest schedules, and repayment tenors in either <strong>USD ($)</strong> or <strong>EUR (€)</strong>.
                 </p>
 
-                {/* Highlights */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
-                    <div className="text-xl font-bold text-sterling-gold">Sans Justificatif</div>
-                    <div className="text-xs text-slate-300">Utilisation 100% libre des fonds</div>
+                <div className="space-y-3 pt-2 text-xs text-slate-300">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-sterling-gold shrink-0">
+                      <Clock className="w-4 h-4" />
+                    </div>
+                    <span>Fast decision in principle within 24 to 48 hours</span>
                   </div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
-                    <div className="text-xl font-bold text-sterling-gold">1 000 à 75 000 $ / €</div>
-                    <div className="text-xs text-slate-300">USD ($) & EUR (€) • 12 à 84 mois</div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-sterling-gold shrink-0">
+                      <ShieldCheck className="w-4 h-4" />
+                    </div>
+                    <span>Zero prepayment penalty on standard early settlement</span>
                   </div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10 col-span-2 sm:col-span-1">
-                    <div className="text-xl font-bold text-sterling-gold">24h à 48h</div>
-                    <div className="text-xs text-slate-300">Réponse de principe immédiate</div>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-sterling-gold shrink-0">
+                      <Lock className="w-4 h-4" />
+                    </div>
+                    <span>Encrypted SSL financial data submission</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:col-span-7">
+                <LoanCalculator onApply={(loanType) => handleOpenApply(loanType)} />
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* =========================================================================
+            PREFOOTER SECTION: Bank on-the-go (Official Sterling Mobile App Banner)
+            ========================================================================= */}
+        <section className="relative bg-[#001833] text-white py-16 overflow-hidden border-t border-slate-800">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              
+              {/* Text Left Column */}
+              <div className="lg:col-span-7 space-y-5">
+                <h3 className="text-3xl sm:text-4xl font-black font-display text-white">
+                  Bank on-the-go
+                </h3>
+                <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl">
+                  Make transactions on-the-go with Sterling Bank&apos;s mobile app, available on iOS and Android. Manage your personal loans, check amortizations, and transfer funds seamlessly.
+                </p>
+
+                <div className="space-y-3 text-xs sm:text-sm text-slate-200">
+                  <div className="flex items-start gap-3">
+                    <img 
+                      src="/images/personal-loans/yellow-check-icon.png" 
+                      alt="check" 
+                      className="w-5 h-5 shrink-0 mt-0.5" 
+                    />
+                    <p>With Sterling Bank Online, you can address your banking needs with ease, anytime, anywhere.</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <img 
+                      src="/images/personal-loans/yellow-check-icon.png" 
+                      alt="check" 
+                      className="w-5 h-5 shrink-0 mt-0.5" 
+                    />
+                    <p>Manage your funds, pay bills and more through seamless and secure online banking right at your fingertips.</p>
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-4 pt-4">
-                  <button
-                    onClick={() => handleOpenApply("persona")}
-                    className="bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold text-sterling-navy-deep font-bold px-7 py-3.5 rounded-xl shadow-lg hover:shadow-sterling-gold/30 hover:scale-[1.02] transition-all flex items-center gap-2"
+                {/* App Download Store Badges */}
+                <div className="flex items-center gap-4 pt-3">
+                  <a 
+                    href="https://play.google.com/store/apps/details?id=com.sterlingbankasia.retailbanking" 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="hover:opacity-90 transition-opacity"
                   >
-                    Faire ma Demande en Ligne
-                    <ArrowRight className="w-4 h-4 stroke-[2.5]" />
-                  </button>
-                  <a
-                    href="#calculator-section"
-                    className="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3.5 rounded-xl border border-white/20 transition-all flex items-center gap-2"
+                    <img 
+                      src="/images/personal-loans/google-download_0.png" 
+                      alt="Get it on Google Play" 
+                      className="h-10 w-auto" 
+                    />
+                  </a>
+                  <a 
+                    href="https://apps.apple.com/ph/app/sterling-bank-online-personal/id1225810096" 
+                    target="_blank" 
+                    rel="noreferrer"
+                    className="hover:opacity-90 transition-opacity"
                   >
-                    <Calculator className="w-4 h-4 text-sterling-gold" />
-                    Simuler mes Mensualités
+                    <img 
+                      src="/images/personal-loans/ios-download_0.png" 
+                      alt="Download on the App Store" 
+                      className="h-10 w-auto" 
+                    />
                   </a>
                 </div>
               </div>
 
-              {/* Real Human Photography Image */}
-              <div className="lg:col-span-5 relative">
-                <div className="relative mx-auto max-w-md rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 bg-slate-800">
-                  <img
-                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80"
-                    alt="Conseillère Sterling Bank en agence à Paris"
-                    className="w-full h-80 sm:h-96 object-cover object-top"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                      <span className="text-xs font-semibold uppercase tracking-wider text-sterling-gold">Conseiller Dédié en France</span>
-                    </div>
-                    <div className="text-lg font-bold">Un accompagnement humain de A à Z</div>
-                    <div className="text-xs text-slate-300">Sans intermédiaire, nos conseillers certifiés vous répondent à Paris du lundi au samedi.</div>
-                  </div>
-                </div>
-
-                {/* Floating badge */}
-                <div className="absolute -bottom-4 -left-4 bg-white text-slate-800 p-4 rounded-xl shadow-xl border border-slate-200 hidden sm:flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
-                    <Award className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-sterling-navy">0 € Frais de Dossier</div>
-                    <div className="text-[10px] text-slate-500">Offre exclusive souscription 100% web</div>
-                  </div>
-                </div>
+              {/* Phone Mockup Right Column */}
+              <div className="lg:col-span-5 flex justify-center lg:justify-end">
+                <img 
+                  src="/images/personal-loans/sterling-bank-phone-images.png" 
+                  alt="Sterling Bank Mobile App" 
+                  className="max-h-[340px] w-auto object-contain drop-shadow-2xl" 
+                />
               </div>
 
             </div>
           </div>
         </section>
 
-        {/* 3 Personal Loan Variants matching Sterling Bank */}
-        <section className="py-20 bg-slate-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-sterling-gold bg-sterling-navy/5 px-3 py-1 rounded-full">
-                Gamme Prêts Personnels
-              </span>
-              <h2 className="text-3xl font-extrabold text-sterling-navy font-display">
-                Choisissez la formule adaptée à votre projet
-              </h2>
-              <p className="text-sm text-slate-600">
-                Trois solutions sur-mesure conçues pour répondre à chaque étape de votre vie avec un taux garanti.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              
-              {/* Option 1: Persona Personal Loan */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm border-2 border-sterling-gold/30 hover:border-sterling-gold hover:shadow-xl transition-all flex flex-col justify-between relative group">
-                <div className="absolute -top-3 right-6 bg-sterling-gold text-sterling-navy-deep text-[11px] font-extrabold px-3 py-1 rounded-full shadow-sm">
-                  LE PLUS DEMANDÉ
-                </div>
-
-                <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-xl bg-sterling-navy/5 text-sterling-navy flex items-center justify-center group-hover:bg-sterling-navy group-hover:text-sterling-gold transition-colors">
-                    <Zap className="w-6 h-6" />
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-bold text-sterling-navy">Persona Prêt Personnel</h3>
-                    <p className="text-xs text-slate-500 mt-1">
-                      Empruntez librement sans fournir de facture d&apos;achat ou de justificatif de dépense.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
-                    <div className="text-xs text-slate-500">Montant finançable (USD / EUR)</div>
-                    <div className="text-2xl font-extrabold text-sterling-navy">1 000 à 75 000 $ / €</div>
-                    <div className="text-[11px] text-emerald-600 font-semibold">TAEG fixe dès 2,85% • 12 à 84 mois</div>
-                  </div>
-
-                  <ul className="space-y-2.5 text-xs text-slate-600">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                      <span>Aucune caution ni hypothèque exigée</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                      <span>Mensualité fixe et connue à l&apos;avance</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                      <span>Virement instantané sous 48h après acceptation</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <button
-                  onClick={() => handleOpenApply("persona")}
-                  className="mt-6 w-full py-2.5 px-4 rounded-xl font-bold text-xs bg-sterling-navy hover:bg-sterling-navy-light text-white transition-colors flex items-center justify-center gap-2"
-                >
-                  Souscrire Persona
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
+        {/* =========================================================================
+            SECURITY NOTICE: Never Click That Link (Official Advisory)
+            ========================================================================= */}
+        <section className="bg-amber-50 border-y border-amber-200/80 py-10 px-4 sm:px-8">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-amber-500/20 border border-amber-400/30 flex items-center justify-center text-amber-700 shrink-0">
+                <AlertTriangle className="w-6 h-6" />
               </div>
-
-              {/* Option 2: EcoSolutions Green Loan */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-emerald-500 hover:shadow-xl transition-all flex flex-col justify-between group">
-                <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-                    <Leaf className="w-6 h-6" />
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-bold text-sterling-navy">EcoSolutions Prêt Vert</h3>
-                    <p className="text-xs text-slate-500 mt-1">
-                      Petit emprunt, grand impact écologique. Pour une transition énergétique accessible.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-emerald-50/50 border border-emerald-100 space-y-1">
-                    <div className="text-xs text-slate-500">Montant finançable (USD / EUR)</div>
-                    <div className="text-2xl font-extrabold text-emerald-700">2 500 à 50 000 $ / €</div>
-                    <div className="text-[11px] text-emerald-700 font-semibold">Taux vert bonifié dès 2,50% TAEG</div>
-                  </div>
-
-                  <ul className="space-y-2.5 text-xs text-slate-600">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                      <span>Panneaux solaires, pompes à chaleur, isolation</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                      <span>Vélos électriques & bornes de recharge à domicile</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                      <span>Cumulable avec MaPrimeRénov&apos; et aides de l&apos;État</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <button
-                  onClick={() => handleOpenApply("ecosolutions")}
-                  className="mt-6 w-full py-2.5 px-4 rounded-xl font-bold text-xs bg-emerald-600 hover:bg-emerald-700 text-white transition-colors flex items-center justify-center gap-2"
-                >
-                  Souscrire EcoSolutions
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              {/* Option 3: Pangarap / Projets d'Avenir Loan */}
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:border-sterling-gold hover:shadow-xl transition-all flex flex-col justify-between group">
-                <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                    <GraduationCap className="w-6 h-6" />
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-bold text-sterling-navy">Pangarap Avenir & Études</h3>
-                    <p className="text-xs text-slate-500 mt-1">
-                      Votre avenir commence par un projet. Financez vos études supérieures, masters et reconversions.
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
-                    <div className="text-xs text-slate-500">Montant finançable (USD / EUR)</div>
-                    <div className="text-2xl font-extrabold text-sterling-navy">3 000 à 60 000 $ / €</div>
-                    <div className="text-[11px] text-indigo-600 font-semibold">Différé d&apos;amortissement possible (franchise)</div>
-                  </div>
-
-                  <ul className="space-y-2.5 text-xs text-slate-600">
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                      <span>Frais de scolarité grandes écoles, MBA, universités</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                      <span>Matériel informatique, logement étudiant, mobilité</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                      <span>Possibilité de co-emprunteur ou caution parentale</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <button
-                  onClick={() => handleOpenApply("education")}
-                  className="mt-6 w-full py-2.5 px-4 rounded-xl font-bold text-xs bg-slate-800 hover:bg-sterling-navy text-white transition-colors flex items-center justify-center gap-2"
-                >
-                  Souscrire Pangarap
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-            </div>
-          </div>
-        </section>
-
-        {/* Eligibility & Required Documents Tabs */}
-        <section className="py-16 bg-white border-y border-slate-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              
-              {/* Eligibility */}
-              <div className="space-y-6">
-                <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-sterling-gold bg-sterling-navy/5 px-3 py-1 rounded-full">
-                    Conditions d&apos;Éligibilité
-                  </span>
-                  <h3 className="text-2xl font-bold text-sterling-navy mt-2">
-                    Qui peut prétendre au Prêt Personnel ?
-                  </h3>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                    <div>
-                      <div className="text-sm font-bold text-slate-800">Âge et Situation Géographique</div>
-                      <div className="text-xs text-slate-600">Être âgé de 18 à 75 ans à la souscription et résider fiscalement en France Métropolitaine ou dans un pays de l&apos;Union Européenne.</div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                    <div>
-                      <div className="text-sm font-bold text-slate-800">Situation Professionnelle & Revenus</div>
-                      <div className="text-xs text-slate-600">Salarié en CDI (hors période d&apos;essai), fonctionnaire, profession libérale, artisan ou retraité justifiant d&apos;un revenu régulier net d&apos;au moins 1 200 € / mois.</div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
-                    <div>
-                      <div className="text-sm font-bold text-slate-800">Capacité de Remboursement & Solvabilité</div>
-                      <div className="text-xs text-slate-600">Ne pas être inscrit au FICP (Fichier des Incidents de Remboursement des Crédits) ni au FCC (Fichier Central des Chèques) auprès de la Banque de France.</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Documents Checklist */}
-              <div className="space-y-6">
-                <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-sterling-gold bg-sterling-navy/5 px-3 py-1 rounded-full">
-                    Pièces Justificatives
-                  </span>
-                  <h3 className="text-2xl font-bold text-sterling-navy mt-2">
-                    Documents requis pour votre dossier
-                  </h3>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3">
-                    <FileText className="w-5 h-5 text-sterling-gold shrink-0 mt-0.5" />
-                    <div>
-                      <div className="text-sm font-bold text-slate-800">1. Pièce d&apos;Identité Officielle</div>
-                      <div className="text-xs text-slate-600">Carte Nationale d&apos;Identité (CNI recto-verso), Passeport européen ou Titre de séjour valide.</div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3">
-                    <FileText className="w-5 h-5 text-sterling-gold shrink-0 mt-0.5" />
-                    <div>
-                      <div className="text-sm font-bold text-slate-800">2. Justificatif de Domicile Récent</div>
-                      <div className="text-xs text-slate-600">Facture d&apos;électricité, gaz, eau ou téléphone fixe / internet de moins de 3 mois.</div>
-                    </div>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-start gap-3">
-                    <FileText className="w-5 h-5 text-sterling-gold shrink-0 mt-0.5" />
-                    <div>
-                      <div className="text-sm font-bold text-slate-800">3. Justificatifs de Revenus & Relevé Bancaire</div>
-                      <div className="text-xs text-slate-600">Vos 3 derniers bulletins de paie (ou dernier avis d&apos;imposition pour les indépendants) + un RIB à votre nom.</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </section>
-
-        {/* Embedded Calculator Section */}
-        <section id="calculator-section" className="py-20 bg-slate-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-sterling-gold bg-sterling-navy/5 px-3 py-1 rounded-full">
-                Simulateur en Direct
-              </span>
-              <h2 className="text-3xl font-extrabold text-sterling-navy font-display">
-                Calculez votre mensualité en toute clarté
-              </h2>
-              <p className="text-xs text-slate-500">
-                Ajustez le montant et la durée pour visualiser immédiatement votre TAEG fixe et le coût total du crédit.
-              </p>
-            </div>
-
-            <LoanCalculator onOpenApply={handleOpenApply} />
-          </div>
-        </section>
-
-        {/* Mandatory French Credit Alert Banner */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="p-4 bg-amber-500/10 border border-amber-400/30 rounded-xl text-center">
-            <p className="text-xs md:text-sm font-semibold text-amber-800 tracking-wide">
-              « Un crédit vous engage et doit être remboursé. Vérifiez vos capacités de remboursement avant de vous engager. »
-            </p>
-          </div>
-        </div>
-
-        {/* Never Click That Link - Sterling Security Notice */}
-        <section className="py-12 bg-white border-t border-slate-200">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-gradient-to-r from-red-50 via-amber-50 to-orange-50 border border-red-200 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center gap-6">
-              <div className="w-16 h-16 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center shrink-0 shadow-md">
-                <AlertTriangle className="w-8 h-8" />
-              </div>
-              <div className="space-y-2 text-center md:text-left">
-                <div className="inline-block px-2.5 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] tracking-wider uppercase">
-                  Sécurité Bancaire Essentielle
-                </div>
-                <h4 className="text-lg font-extrabold text-slate-900">
-                  « Never Click That Link » • Vigilance Anti-Fraude
-                </h4>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Sterling Bank ne vous demandera <strong>jamais</strong> vos identifiants secrets, votre mot de passe bancaire ou votre code de confirmation SMS par e-mail ou SMS non sollicité. Ne cliquez jamais sur des liens douteux et vérifiez toujours l&apos;URL sécurisée <strong>https://solid-consumer-loan.pages.dev</strong>. En cas de doute, contactez notre centre d&apos;assistance au <strong>01 89 54 22 10</strong>.
+              <div className="space-y-1">
+                <h4 className="text-base font-bold text-slate-900">Security Advisory: Never Click That Link</h4>
+                <p className="text-xs text-slate-600 leading-relaxed max-w-2xl">
+                  Sterling Bank of Asia will never send links via SMS, email, or any messaging app asking for your passwords or OTPs. Always protect your account credentials and verify loan offers through our official portal.
                 </p>
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* FAQ Section */}
-        <section className="py-20 bg-slate-50">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-            <div className="text-center space-y-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-sterling-gold bg-sterling-navy/5 px-3 py-1 rounded-full">
-                FAQ Prêt Personnel
-              </span>
-              <h2 className="text-2xl font-bold text-sterling-navy">
-                Questions Fréquemment Posées
-              </h2>
-            </div>
-
-            <div className="space-y-3 pt-4">
-              <div className="p-4 bg-white rounded-xl border border-slate-200 space-y-1">
-                <h4 className="text-sm font-bold text-sterling-navy">Quand les fonds sont-ils versés sur mon compte bancaire ?</h4>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Conformément au Code de la consommation (Art. L312-19), vous bénéficiez d&apos;un délai légal de rétractation de 14 jours calendaires. Vous pouvez toutefois demander la réduction de ce délai au 8ème jour ouvré pour obtenir vos fonds de manière accélérée par virement SEPA immédiat.
-                </p>
-              </div>
-
-              <div className="p-4 bg-white rounded-xl border border-slate-200 space-y-1">
-                <h4 className="text-sm font-bold text-sterling-navy">Puis-je rembourser mon prêt personnel par anticipation ?</h4>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Oui, à tout moment, de façon totale ou partielle. Pour tout montant inférieur à 10 000 € remboursé par anticipation sur une période de 12 mois, aucune pénalité de remboursement anticipé (IRA) ne vous sera facturée.
-                </p>
-              </div>
-
-              <div className="p-4 bg-white rounded-xl border border-slate-200 space-y-1">
-                <h4 className="text-sm font-bold text-sterling-navy">L&apos;assurance emprunteur est-elle obligatoire ?</h4>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Pour un prêt personnel à la consommation, l&apos;assurance décès-invalidité et perte d&apos;emploi reste facultative. Nous vous proposons une couverture avantageuse pour protéger vos proches en toute sérénité.
-                </p>
-              </div>
-            </div>
+            <a
+              href="mailto:contact@sterlingbankasia.com"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-white border border-amber-300 text-slate-800 text-xs font-bold hover:bg-amber-100 transition-colors shadow-sm shrink-0"
+            >
+              Report Suspicious Activity
+            </a>
           </div>
         </section>
 
       </main>
 
+      {/* Official Sterling Bank Footer */}
       <Footer />
 
+      {/* Quick Application Modal */}
       <QuickApplyModal
         isOpen={applyModalOpen}
         onClose={() => setApplyModalOpen(false)}
