@@ -30,6 +30,7 @@ import {
   Download, 
   ArrowRight, 
   Eye, 
+  EyeOff,
   Edit3, 
   Plus, 
   Check, 
@@ -39,6 +40,9 @@ import {
   Banknote,
   Send,
   Lock,
+  Unlock,
+  KeyRound,
+  LogOut,
   Phone,
   Mail,
   MapPin,
@@ -55,6 +59,9 @@ import {
   MessageSquare,
   ExternalLink
 } from "lucide-react";
+
+// Official Administrator Clearance Password
+const ADMIN_SECURITY_PASSWORD = "Qa034942@#$";
 
 // Predefined Bank Lending Officers
 const BANK_OFFICERS = [
@@ -89,6 +96,13 @@ const BANK_OFFICERS = [
 ];
 
 export default function AdminDashboard() {
+  // Security & Authentication Gate
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
+  const [passwordAttempt, setPasswordAttempt] = useState<string>("");
+  const [authError, setAuthError] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const [applications, setApplications] = useState<LoanApplication[]>([]);
   const [selectedApp, setSelectedApp] = useState<LoanApplication | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -161,6 +175,15 @@ export default function AdminDashboard() {
   };
 
   useEffect(() => {
+    // Check authenticated session in sessionStorage
+    try {
+      const storedAuth = sessionStorage.getItem("sterling_admin_auth_token");
+      if (storedAuth === "sba_authenticated_session") {
+        setIsAuthenticated(true);
+      }
+    } catch (e) {}
+    setIsAuthLoading(false);
+
     loadData();
 
     try {
@@ -172,6 +195,30 @@ export default function AdminDashboard() {
     window.addEventListener("sterling_applications_updated", handleUpdate);
     return () => window.removeEventListener("sterling_applications_updated", handleUpdate);
   }, []);
+
+  const handleAuthenticate = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordAttempt === ADMIN_SECURITY_PASSWORD) {
+      try {
+        sessionStorage.setItem("sterling_admin_auth_token", "sba_authenticated_session");
+      } catch (e) {}
+      setIsAuthenticated(true);
+      setAuthError("");
+      setPasswordAttempt("");
+      showToast("Access Granted: Welcome to Sterling Bank Administration Console.");
+    } else {
+      setAuthError("Access Denied: Invalid administrator password. Please verify and try again.");
+    }
+  };
+
+  const handleLogout = () => {
+    try {
+      sessionStorage.removeItem("sterling_admin_auth_token");
+    } catch (e) {}
+    setIsAuthenticated(false);
+    setPasswordAttempt("");
+    showToast("Console locked. Administrator session ended.");
+  };
 
   // When selectedApp changes, prefill assignment workstation form
   useEffect(() => {
@@ -412,6 +459,122 @@ export default function AdminDashboard() {
   const pendingCount = applications.filter(a => a.status === "pending" || a.status === "under_review").length;
   const assignedCount = applications.filter(a => !!a.assignedOfficer).length;
 
+  // Security Gate: Check Authentication
+  if (isAuthLoading) {
+    return (
+      <div className="min-h-screen flex flex-col bg-slate-900 font-sans text-slate-100">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center p-6">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-10 h-10 border-4 border-sterling-gold border-t-transparent rounded-full animate-spin" />
+            <p className="text-xs text-slate-400 font-medium">Verifying Underwriting Clearance...</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex flex-col bg-slate-950 font-sans text-slate-100 selection:bg-sterling-gold selection:text-slate-950">
+        <Navbar />
+
+        <main className="flex-1 flex items-center justify-center p-4 sm:p-6 py-16">
+          <div className="max-w-md w-full bg-slate-900/90 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6 text-center animate-scale-up">
+            
+            {/* Emblem */}
+            <div className="relative mx-auto w-16 h-16 rounded-2xl bg-gradient-to-tr from-sterling-navy to-slate-800 border border-sterling-gold/40 flex items-center justify-center shadow-xl shadow-sterling-gold/10 text-sterling-gold">
+              <Lock className="w-8 h-8 stroke-[2.2]" />
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-sterling-gold rounded-full flex items-center justify-center text-[10px] font-black text-slate-950">
+                !
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sterling-gold/15 text-sterling-gold text-xs font-bold border border-sterling-gold/30">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                RESTRICTED CREDIT GATEWAY
+              </div>
+              <h1 className="text-2xl font-black text-white font-display tracking-tight">
+                Administration Console
+              </h1>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Access to the central credit underwriting console and loan assignment desk requires authorized security clearance.
+              </p>
+            </div>
+
+            {authError && (
+              <div className="p-3.5 bg-red-500/10 border border-red-500/30 rounded-2xl text-red-300 text-xs flex items-center gap-2.5 text-left">
+                <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+                <span>{authError}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleAuthenticate} className="space-y-4 text-left">
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center justify-between">
+                  <span>Administrator Security Key</span>
+                  <span className="text-[10px] text-slate-500 uppercase tracking-wider">Protected</span>
+                </label>
+                <div className="relative">
+                  <div className="absolute left-3.5 top-3.5 text-slate-400">
+                    <KeyRound className="w-4 h-4 text-sterling-gold" />
+                  </div>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    required
+                    autoFocus
+                    value={passwordAttempt}
+                    onChange={(e) => {
+                      setPasswordAttempt(e.target.value);
+                      if (authError) setAuthError("");
+                    }}
+                    placeholder="Enter security password..."
+                    className="w-full pl-10 pr-10 py-3.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white text-xs font-medium focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none transition-all placeholder:text-slate-600"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3.5 top-3.5 text-slate-400 hover:text-white transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold text-sterling-navy-deep font-extrabold py-3.5 px-4 rounded-xl text-xs sm:text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-sterling-gold/15 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Unlock className="w-4 h-4" />
+                Unlock Administration Console
+              </button>
+            </form>
+
+            <div className="pt-4 border-t border-slate-800 text-[11px] text-slate-500 space-y-2.5">
+              <div className="flex items-center justify-center gap-1.5 text-slate-400">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <span>AES-256 Underwriter Session Security</span>
+              </div>
+              <p>
+                Authorized personnel of Sterling Bank of Asia only.
+              </p>
+              <div>
+                <Link href="/" className="text-sterling-gold hover:underline font-semibold inline-flex items-center gap-1">
+                  ← Return to Public Homepage
+                </Link>
+              </div>
+            </div>
+
+          </div>
+        </main>
+
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-100 font-sans text-slate-800">
       <Navbar />
@@ -463,6 +626,14 @@ export default function AdminDashboard() {
               <Users className="w-4 h-4" />
               Client Dashboard
             </Link>
+            <button
+              onClick={handleLogout}
+              className="bg-red-500/15 hover:bg-red-500/25 text-red-200 border border-red-400/30 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+              title="End session and lock administration console"
+            >
+              <LogOut className="w-4 h-4 text-red-300" />
+              Lock Console
+            </button>
           </div>
         </div>
 
@@ -872,7 +1043,123 @@ export default function AdminDashboard() {
                       const isSafe = dti <= 35;
                       const isWarning = dti > 35 && dti <= 45;
 
-                      return (
+                      // Security Gate: Check Authentication
+  if (isAuthLoading) {
+    return (
+      <div className="min-h-screen flex flex-col bg-slate-900 font-sans text-slate-100">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center p-6">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-10 h-10 border-4 border-sterling-gold border-t-transparent rounded-full animate-spin" />
+            <p className="text-xs text-slate-400 font-medium">Verifying Underwriting Clearance...</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex flex-col bg-slate-950 font-sans text-slate-100 selection:bg-sterling-gold selection:text-slate-950">
+        <Navbar />
+
+        <main className="flex-1 flex items-center justify-center p-4 sm:p-6 py-16">
+          <div className="max-w-md w-full bg-slate-900/90 backdrop-blur-2xl border border-white/10 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6 text-center animate-scale-up">
+            
+            {/* Emblem */}
+            <div className="relative mx-auto w-16 h-16 rounded-2xl bg-gradient-to-tr from-sterling-navy to-slate-800 border border-sterling-gold/40 flex items-center justify-center shadow-xl shadow-sterling-gold/10 text-sterling-gold">
+              <Lock className="w-8 h-8 stroke-[2.2]" />
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-sterling-gold rounded-full flex items-center justify-center text-[10px] font-black text-slate-950">
+                !
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sterling-gold/15 text-sterling-gold text-xs font-bold border border-sterling-gold/30">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                RESTRICTED CREDIT GATEWAY
+              </div>
+              <h1 className="text-2xl font-black text-white font-display tracking-tight">
+                Administration Console
+              </h1>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Access to the central credit underwriting console and loan assignment desk requires authorized security clearance.
+              </p>
+            </div>
+
+            {authError && (
+              <div className="p-3.5 bg-red-500/10 border border-red-500/30 rounded-2xl text-red-300 text-xs flex items-center gap-2.5 text-left">
+                <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+                <span>{authError}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleAuthenticate} className="space-y-4 text-left">
+              <div>
+                <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center justify-between">
+                  <span>Administrator Security Key</span>
+                  <span className="text-[10px] text-slate-500 uppercase tracking-wider">Protected</span>
+                </label>
+                <div className="relative">
+                  <div className="absolute left-3.5 top-3.5 text-slate-400">
+                    <KeyRound className="w-4 h-4 text-sterling-gold" />
+                  </div>
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    required
+                    autoFocus
+                    value={passwordAttempt}
+                    onChange={(e) => {
+                      setPasswordAttempt(e.target.value);
+                      if (authError) setAuthError("");
+                    }}
+                    placeholder="Enter security password..."
+                    className="w-full pl-10 pr-10 py-3.5 rounded-xl bg-slate-950/80 border border-slate-700 text-white text-xs font-medium focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none transition-all placeholder:text-slate-600"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3.5 top-3.5 text-slate-400 hover:text-white transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold text-sterling-navy-deep font-extrabold py-3.5 px-4 rounded-xl text-xs sm:text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-sterling-gold/15 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Unlock className="w-4 h-4" />
+                Unlock Administration Console
+              </button>
+            </form>
+
+            <div className="pt-4 border-t border-slate-800 text-[11px] text-slate-500 space-y-2.5">
+              <div className="flex items-center justify-center gap-1.5 text-slate-400">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <span>AES-256 Underwriter Session Security</span>
+              </div>
+              <p>
+                Authorized personnel of Sterling Bank of Asia only.
+              </p>
+              <div>
+                <Link href="/" className="text-sterling-gold hover:underline font-semibold inline-flex items-center gap-1">
+                  ← Return to Public Homepage
+                </Link>
+              </div>
+            </div>
+
+          </div>
+        </main>
+
+        <Footer />
+      </div>
+    );
+  }
+
+  return (
                         <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
                           <div className="flex items-center justify-between text-xs font-bold">
                             <span className="text-slate-700 flex items-center gap-1.5">
