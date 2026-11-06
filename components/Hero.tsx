@@ -144,14 +144,14 @@ export default function Hero({ onOpenApply }: HeroProps) {
             <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 flex items-center gap-4">
               <img
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=160&q=80"
-                alt="Émilie Bernard - Senior Lending Advisor"
+                alt="Emily Vance - Senior Lending Officer"
                 className="w-13 h-13 rounded-full object-cover ring-2 ring-sterling-gold shrink-0 shadow-md"
               />
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-bold text-white">Émilie Bernard</span>
+                  <span className="text-xs font-bold text-white">Emily Vance</span>
                   <span className="text-[10px] text-sterling-gold bg-sterling-navy-deep px-2 py-0.5 rounded-full border border-sterling-gold/30 font-semibold">
-                    Senior Financing & Investment Officer
+                    Senior Financing & Lending Specialist
                   </span>
                 </div>
                 <p className="text-[11px] text-slate-300 italic">
