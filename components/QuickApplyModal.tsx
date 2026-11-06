@@ -81,6 +81,7 @@ export default function QuickApplyModal({
     e.preventDefault();
     const created = addApplication({
       applicantName: `${formData.firstName} ${formData.lastName}`.trim() || "New Applicant",
+      civility: formData.civilStatus === "Married" ? "Mr./Mrs." : "Mr.",
       email: formData.email || "applicant@example.com",
       phone: formData.mobile || "+1 555-0199",
       loanType: (loanType as any) || "persona",
@@ -90,10 +91,20 @@ export default function QuickApplyModal({
       termMonths: defaultTenor || 36,
       monthlyPayment: Math.round((amount / (defaultTenor || 36)) * 1.05 * 100) / 100,
       monthlyIncome: parseFloat(formData.netMonthlyIncome) || 3500,
+      monthlyExpenses: 1100,
+      residenceStatus: formData.residenceOwnership === "Tenant" ? "Tenant / Renting" : "Homeowner",
       address: formData.address || "Main Street",
       city: formData.city || "Metropolis",
       postalCode: formData.postalCode || "10001",
       employmentType: formData.contractType || "Full-Time",
+      documents: Object.keys(uploadedFiles).length > 0 
+        ? Object.entries(uploadedFiles).map(([k, v]) => ({
+            name: v,
+            type: k === "id" ? "Identity" : k === "income" ? "Income" : "General",
+            status: "pending" as const,
+            uploadedAt: new Date().toISOString().slice(0, 10)
+          }))
+        : undefined,
     });
 
     setApplicationRef(created.referenceNumber);

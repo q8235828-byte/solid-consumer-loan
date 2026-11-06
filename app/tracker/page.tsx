@@ -45,9 +45,11 @@ export default function TrackerPage() {
         ref: found.referenceNumber,
         applicant: found.applicantName,
         loanType: found.loanTypeLabel,
-        amount: formatMoney(found.amount, found.currency || "USD"),
+        amount: formatMoney(found.assignedAmount || found.amount, found.currency || "USD"),
         submissionDate: new Date(found.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
         statusLabel: isDisbursed ? "Disbursed - Funds Released" : isApproved ? "Approved - Facility Offer Ready" : "In Review - Underwriting Active",
+        assignedOfficer: found.assignedOfficer,
+        assignedOfficerPhone: found.assignedOfficerPhone,
         stages: [
           { name: "Application Submitted Online", date: "Completed", status: "completed" },
           { name: "Document & Identity Verification", date: "Verified", status: "completed" },
@@ -159,6 +161,11 @@ export default function TrackerPage() {
                 <div className="text-xs text-slate-600 mt-0.5">
                   Applicant: <span className="font-semibold">{statusResult.applicant}</span> • {statusResult.loanType} ({statusResult.amount})
                 </div>
+                {statusResult.assignedOfficer && (
+                  <div className="text-[11px] text-indigo-700 font-semibold mt-1 flex items-center gap-1">
+                    <UserCheck className="w-3.5 h-3.5" /> Assigned Lending Officer: {statusResult.assignedOfficer}
+                  </div>
+                )}
               </div>
               <div className="sm:text-right">
                 <span className="inline-flex items-center gap-1.5 bg-amber-50 text-amber-800 border border-amber-200 px-3 py-1 rounded-full text-xs font-bold">

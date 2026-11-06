@@ -445,7 +445,7 @@ export default function UserDashboard() {
                 </div>
                 <div>
                   <div className="text-xs text-slate-400">Assigned Lending Specialist</div>
-                  <div className="text-sm font-bold text-sterling-navy">Emily Vance</div>
+                  <div className="text-sm font-bold text-sterling-navy">{activeApp?.assignedOfficer || "Emily Vance"}</div>
                   <div className="text-[11px] text-emerald-600 font-semibold">Online • Head Office Lending Desk</div>
                 </div>
               </div>
@@ -453,12 +453,17 @@ export default function UserDashboard() {
               <div className="text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-1">
                 <div className="flex items-center gap-2">
                   <PhoneCall className="w-3.5 h-3.5 text-sterling-gold" />
-                  <span>Direct Desk: +1 (800) 555-0199</span>
+                  <span>Direct Desk: {activeApp?.assignedOfficerPhone || "+1 (800) 555-0199"}</span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-500">
                   <Clock className="w-3.5 h-3.5 text-slate-400" />
                   <span>Mon - Fri: 8:30 AM - 6:00 PM EST</span>
                 </div>
+                {activeApp?.assignedOfficerEmail && (
+                  <div className="text-[11px] text-sterling-navy font-medium pt-1">
+                    Email: <a href={`mailto:${activeApp.assignedOfficerEmail}`} className="underline text-sterling-gold hover:text-amber-600">{activeApp.assignedOfficerEmail}</a>
+                  </div>
+                )}
               </div>
 
               {/* Chat Window */}

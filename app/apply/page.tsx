@@ -62,6 +62,7 @@ export default function ApplyPage() {
     e.preventDefault();
     const created = addApplication({
       applicantName: `${formData.firstName} ${formData.lastName}`.trim() || "New Applicant",
+      civility: formData.civility,
       email: formData.email,
       phone: formData.phone,
       loanType: loanType,
@@ -76,10 +77,19 @@ export default function ApplyPage() {
       monthlyPayment: Math.round((amount / tenorMonths) * 1.05 * 100) / 100,
       monthlyIncome: parseFloat(formData.monthlyIncome) || 5000,
       monthlyExpenses: parseFloat(formData.monthlyExpenses) || 1200,
+      residenceStatus: formData.residenceStatus,
       address: formData.address,
       city: formData.city,
       postalCode: formData.postalCode,
       employmentType: formData.employment,
+      documents: Object.keys(uploadedFiles).length > 0 
+        ? Object.entries(uploadedFiles).map(([k, v]) => ({
+            name: v,
+            type: k === "id" ? "Identity" : k === "income" ? "Income" : k === "tax" ? "Tax" : "General",
+            status: "pending" as const,
+            uploadedAt: new Date().toISOString().slice(0, 10)
+          }))
+        : undefined,
     });
 
     setRefNumber(created.referenceNumber);
