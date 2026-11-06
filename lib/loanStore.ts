@@ -12,9 +12,9 @@ export interface LoanApplication {
   amount: number;
   termMonths: number;
   monthlyPayment: number;
-  interestRate: number; // TAEG
+  interestRate: number; // APR
   status: "pending" | "under_review" | "approved" | "rejected" | "disbursed";
-  statusLabelFr: string;
+  statusLabelFr: string; // Kept as key for backwards-compatibility, storing clean English label
   employmentType: string;
   monthlyIncome: number;
   monthlyExpenses: number;
@@ -35,139 +35,143 @@ export interface LoanApplication {
 
 const INITIAL_APPLICATIONS: LoanApplication[] = [
   {
-    id: "app-fr-101",
-    referenceNumber: "SBA-FR-2026-89412",
-    applicantName: "Jean-Pierre Lambert",
-    email: "jp.lambert@example.fr",
-    phone: "06 45 89 12 30",
+    id: "app-101",
+    referenceNumber: "SBA-2026-89412",
+    applicantName: "David Harrison",
+    email: "d.harrison@example.com",
+    phone: "+1 (555) 234-8930",
     loanType: "persona",
-    loanTypeLabel: "Prêt Personnel Express",
+    loanTypeLabel: "Persona Personal Loan",
+    currency: "USD",
     amount: 15000,
     termMonths: 36,
     monthlyPayment: 435.12,
     interestRate: 2.85,
     status: "approved",
-    statusLabelFr: "Approuvé - En attente de signature",
-    employmentType: "Salarié CDI (Cadre)",
-    monthlyIncome: 3850,
-    monthlyExpenses: 1100,
-    address: "24 Rue de Courcelles",
-    city: "Paris",
-    postalCode: "75008",
+    statusLabelFr: "Approved - Facility Offer Ready",
+    employmentType: "Employed Full-Time (Senior Engineer)",
+    monthlyIncome: 6500,
+    monthlyExpenses: 1800,
+    address: "742 Evergreen Terrace",
+    city: "New York",
+    postalCode: "10001",
     createdAt: "2026-11-03T10:15:00Z",
     lastUpdated: "2026-11-05T09:30:00Z",
     creditScore: 785,
     documents: [
-      { name: "CNI_Recto_Verso.pdf", type: "Identité", status: "verified", uploadedAt: "2026-11-03" },
-      { name: "Bulletins_Salaire_3Mois.pdf", type: "Revenus", status: "verified", uploadedAt: "2026-11-03" },
-      { name: "Avis_Imposition_2025.pdf", type: "Fiscalité", status: "verified", uploadedAt: "2026-11-03" },
-      { name: "RIB_Compte_Courant.pdf", type: "Bancaire", status: "verified", uploadedAt: "2026-11-03" },
+      { name: "Government_Photo_ID.pdf", type: "Identity", status: "verified", uploadedAt: "2026-11-03" },
+      { name: "Pay_Stubs_3_Months.pdf", type: "Income", status: "verified", uploadedAt: "2026-11-03" },
+      { name: "Annual_Tax_Return_2025.pdf", type: "Tax", status: "verified", uploadedAt: "2026-11-03" },
+      { name: "Bank_Statement_Current.pdf", type: "Banking", status: "verified", uploadedAt: "2026-11-03" },
     ],
     officerNotes: [
-      "Ratio d'endettement à 28.5%, excellent profil.",
-      "Accord de principe émis avec TAEG bonifié 2.85%."
+      "Debt-to-income ratio confirmed at 28.5%, prime risk profile.",
+      "Credit committee issued preliminary facility approval with 2.85% fixed APR."
     ]
   },
   {
-    id: "app-fr-102",
-    referenceNumber: "SBA-FR-2026-92147",
-    applicantName: "Sophie Delaunay",
-    email: "sophie.delaunay@example.fr",
-    phone: "07 82 34 56 78",
+    id: "app-102",
+    referenceNumber: "SBA-2026-92147",
+    applicantName: "Sofia Morales",
+    email: "sofia.morales@example.com",
+    phone: "+1 (555) 891-3421",
     loanType: "auto",
-    loanTypeLabel: "Prêt Auto Électrique",
+    loanTypeLabel: "Auto & Vehicle Loan",
+    currency: "USD",
     amount: 28000,
     termMonths: 48,
     monthlyPayment: 620.45,
     interestRate: 3.10,
     status: "under_review",
-    statusLabelFr: "En cours d'étude par le comité",
-    employmentType: "Profession Libérale",
-    monthlyIncome: 4500,
-    monthlyExpenses: 1450,
-    address: "12 Allée des Tilleuls",
-    city: "Lyon",
-    postalCode: "69006",
+    statusLabelFr: "Underwriting Risk Assessment Active",
+    employmentType: "Self-Employed / Practice Owner",
+    monthlyIncome: 7500,
+    monthlyExpenses: 2400,
+    address: "12 Meadow Lane",
+    city: "Austin",
+    postalCode: "78701",
     createdAt: "2026-11-04T14:20:00Z",
     lastUpdated: "2026-11-05T11:45:00Z",
     creditScore: 740,
     documents: [
-      { name: "Passeport_Biometrique.pdf", type: "Identité", status: "verified", uploadedAt: "2026-11-04" },
-      { name: "Bilan_Comptable_2025.pdf", type: "Revenus", status: "verified", uploadedAt: "2026-11-04" },
-      { name: "Bon_Commande_Tesla_Y.pdf", type: "Projet", status: "pending", uploadedAt: "2026-11-05" },
+      { name: "Passport_Biometric.pdf", type: "Identity", status: "verified", uploadedAt: "2026-11-04" },
+      { name: "Audited_Financials_2025.pdf", type: "Income", status: "verified", uploadedAt: "2026-11-04" },
+      { name: "Dealer_Purchase_Order.pdf", type: "Project", status: "pending", uploadedAt: "2026-11-05" },
     ],
     officerNotes: [
-      "Véhicule éligible au bonus écologique.",
-      "En attente de vérification du bon de commande définitif."
+      "Vehicle qualifies for Clean Mobility program.",
+      "Pending final dealer purchase invoice confirmation."
     ]
   },
   {
-    id: "app-fr-103",
-    referenceNumber: "SBA-FR-2026-93820",
-    applicantName: "Marc Vasseur",
-    email: "marc.vasseur@example.fr",
-    phone: "06 11 22 33 44",
+    id: "app-103",
+    referenceNumber: "SBA-2026-93820",
+    applicantName: "Marcus Vance",
+    email: "marcus.vance@example.com",
+    phone: "+1 (555) 345-6712",
     loanType: "ecosolutions",
-    loanTypeLabel: "Prêt Éco-Transition & Solaire",
-    amount: 18500,
+    loanTypeLabel: "EcoSolutions Solar & Energy Facility",
+    currency: "USD",
+    amount: 35000,
     termMonths: 60,
-    monthlyPayment: 335.80,
-    interestRate: 2.85,
+    monthlyPayment: 625.80,
+    interestRate: 2.50,
     status: "disbursed",
-    statusLabelFr: "Fonds débloqués sur votre compte",
-    employmentType: "Fonctionnaire d'État",
-    monthlyIncome: 2950,
-    monthlyExpenses: 800,
-    address: "5 Rue Gambetta",
-    city: "Bordeaux",
-    postalCode: "33000",
+    statusLabelFr: "Disbursed - Funds Released",
+    employmentType: "Public Sector Director",
+    monthlyIncome: 5800,
+    monthlyExpenses: 1500,
+    address: "54 Cambridge Drive",
+    city: "Boston",
+    postalCode: "02108",
     createdAt: "2026-10-28T08:00:00Z",
     lastUpdated: "2026-11-02T15:00:00Z",
     creditScore: 810,
     documents: [
-      { name: "CNI_France.pdf", type: "Identité", status: "verified", uploadedAt: "2026-10-28" },
-      { name: "Devis_Panneaux_Photovoltaiques.pdf", type: "Travaux", status: "verified", uploadedAt: "2026-10-28" },
-      { name: "RIB_Virement_Immediat.pdf", type: "Bancaire", status: "verified", uploadedAt: "2026-10-28" },
+      { name: "National_ID.pdf", type: "Identity", status: "verified", uploadedAt: "2026-10-28" },
+      { name: "Solar_Contract_Estimate.pdf", type: "Works", status: "verified", uploadedAt: "2026-10-28" },
+      { name: "Wire_Transfer_Routing.pdf", type: "Banking", status: "verified", uploadedAt: "2026-10-28" },
     ],
     officerNotes: [
-      "Dossier conforme RGE. Fonds débloqués sous 48h.",
-      "Prélèvement mensuel SEPA activé pour le 5 de chaque mois."
+      "Energy transition criteria fully satisfied. Funds disbursed via direct wire.",
+      "Recurring direct debit scheduled for the 5th of each calendar month."
     ]
   },
   {
-    id: "app-fr-104",
-    referenceNumber: "SBA-FR-2026-94011",
-    applicantName: "Camille Roussel",
-    email: "camille.roussel@example.fr",
-    phone: "07 55 66 77 88",
+    id: "app-104",
+    referenceNumber: "SBA-2026-94011",
+    applicantName: "Claire Bennett",
+    email: "claire.bennett@example.com",
+    phone: "+1 (555) 789-0123",
     loanType: "persona",
-    loanTypeLabel: "Prêt Personnel Express",
-    amount: 6000,
+    loanTypeLabel: "Persona Personal Loan",
+    currency: "USD",
+    amount: 8000,
     termMonths: 24,
-    monthlyPayment: 257.45,
+    monthlyPayment: 343.20,
     interestRate: 2.85,
     status: "pending",
-    statusLabelFr: "Dossier reçu - Pièces en cours de validation",
-    employmentType: "Salarié CDD",
-    monthlyIncome: 1850,
-    monthlyExpenses: 650,
-    address: "8 Place de la République",
-    city: "Nantes",
-    postalCode: "44000",
+    statusLabelFr: "Application Received - Initial Review",
+    employmentType: "Employed Full-Time",
+    monthlyIncome: 3400,
+    monthlyExpenses: 1100,
+    address: "88 Lincoln Boulevard",
+    city: "Chicago",
+    postalCode: "60601",
     createdAt: "2026-11-05T09:12:00Z",
     lastUpdated: "2026-11-05T09:12:00Z",
-    creditScore: 660,
+    creditScore: 680,
     documents: [
-      { name: "CNI_Camille.pdf", type: "Identité", status: "verified", uploadedAt: "2026-11-05" },
-      { name: "Contrat_Travail.pdf", type: "Contrat", status: "pending", uploadedAt: "2026-11-05" },
+      { name: "ID_Card.pdf", type: "Identity", status: "verified", uploadedAt: "2026-11-05" },
+      { name: "Employment_Verification.pdf", type: "Contract", status: "pending", uploadedAt: "2026-11-05" },
     ],
     officerNotes: [
-      "Demande reçue via le portail en ligne."
+      "Application submitted via online portal."
     ]
   }
 ];
 
-export const STORAGE_KEY = "sterling_bank_applications_v2";
+export const STORAGE_KEY = "sterling_bank_applications_v3";
 
 export function getApplications(): LoanApplication[] {
   if (typeof window === "undefined") return INITIAL_APPLICATIONS;
@@ -196,38 +200,38 @@ export function saveApplications(apps: LoanApplication[]): void {
 
 export function addApplication(newApp: Partial<LoanApplication>): LoanApplication {
   const apps = getApplications();
-  const id = `app-fr-${Date.now().toString().slice(-5)}`;
-  const ref = `SBA-FR-2026-${Math.floor(10000 + Math.random() * 90000)}`;
+  const id = `app-${Date.now().toString().slice(-5)}`;
+  const ref = `SBA-2026-${Math.floor(10000 + Math.random() * 90000)}`;
   
   const created: LoanApplication = {
     id,
     referenceNumber: ref,
-    applicantName: newApp.applicantName || "Nouveau Demandeur",
-    email: newApp.email || "client@example.fr",
-    phone: newApp.phone || "01 00 00 00 00",
+    applicantName: newApp.applicantName || "New Applicant",
+    email: newApp.email || "client@sterlingbankasia.com",
+    phone: newApp.phone || "+1 (555) 000-0000",
     loanType: newApp.loanType || "persona",
-    loanTypeLabel: newApp.loanTypeLabel || "Prêt Personnel Express",
+    loanTypeLabel: newApp.loanTypeLabel || "Persona Personal Loan",
     currency: newApp.currency || "USD",
     amount: newApp.amount || 10000,
     termMonths: newApp.termMonths || 36,
     monthlyPayment: newApp.monthlyPayment || 290,
     interestRate: newApp.interestRate || 2.85,
     status: "pending",
-    statusLabelFr: "Dossier reçu - Pièces en cours de validation",
-    employmentType: newApp.employmentType || "Salarié",
-    monthlyIncome: newApp.monthlyIncome || 2500,
-    monthlyExpenses: newApp.monthlyExpenses || 700,
-    address: newApp.address || "Paris",
-    city: newApp.city || "Paris",
-    postalCode: newApp.postalCode || "75001",
+    statusLabelFr: "Application Received - Under Initial Review",
+    employmentType: newApp.employmentType || "Employed",
+    monthlyIncome: newApp.monthlyIncome || 4500,
+    monthlyExpenses: newApp.monthlyExpenses || 1200,
+    address: newApp.address || "100 Financial Way",
+    city: newApp.city || "New York",
+    postalCode: newApp.postalCode || "10001",
     createdAt: new Date().toISOString(),
     lastUpdated: new Date().toISOString(),
     creditScore: 720,
     documents: [
-      { name: "Piece_Identite.pdf", type: "Identité", status: "pending", uploadedAt: new Date().toISOString().slice(0, 10) },
-      { name: "Dernier_Bulletin_Salaire.pdf", type: "Revenus", status: "pending", uploadedAt: new Date().toISOString().slice(0, 10) },
+      { name: "Government_Photo_ID.pdf", type: "Identity", status: "pending", uploadedAt: new Date().toISOString().slice(0, 10) },
+      { name: "Recent_Income_Statement.pdf", type: "Income", status: "pending", uploadedAt: new Date().toISOString().slice(0, 10) },
     ],
-    officerNotes: ["Demande transmise avec succès via le portail en ligne."]
+    officerNotes: ["Application submitted successfully via secure online portal."]
   };
 
   const updated = [created, ...apps];

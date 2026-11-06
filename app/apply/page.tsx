@@ -35,7 +35,7 @@ export default function ApplyPage() {
   const [refNumber, setRefNumber] = useState("");
 
   const [formData, setFormData] = useState({
-    civility: "M.",
+    civility: "Mr.",
     firstName: "",
     lastName: "",
     birthDate: "",
@@ -44,10 +44,10 @@ export default function ApplyPage() {
     address: "",
     postalCode: "",
     city: "",
-    residenceStatus: "Locataire",
-    employment: "Salarié CDI",
-    monthlyIncome: "3000",
-    monthlyExpenses: "800",
+    residenceStatus: "Tenant / Renting",
+    employment: "Employed Full-Time (Permanent)",
+    monthlyIncome: "5000",
+    monthlyExpenses: "1200",
     consentRGPD: true,
     consentFICP: true,
   });
@@ -61,21 +61,21 @@ export default function ApplyPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const created = addApplication({
-      applicantName: `${formData.firstName} ${formData.lastName}`.trim() || "Nouveau Demandeur",
+      applicantName: `${formData.firstName} ${formData.lastName}`.trim() || "New Applicant",
       email: formData.email,
       phone: formData.phone,
       loanType: loanType,
       loanTypeLabel: 
-        loanType === "persona" ? "Prêt Personnel Express" : 
-        loanType === "auto" ? "Prêt Auto" : 
-        loanType === "home" ? "Prêt Travaux & Habitat" : 
-        "Private Investment & Lending",
+        loanType === "persona" ? "Persona Personal Loan" : 
+        loanType === "auto" ? "Auto & Vehicle Loan" : 
+        loanType === "home" ? "Home Loan & Renovation" : 
+        "Private Investment & Corporate Lending",
       currency: currency,
       amount: amount,
       termMonths: tenorMonths,
       monthlyPayment: Math.round((amount / tenorMonths) * 1.05 * 100) / 100,
-      monthlyIncome: parseFloat(formData.monthlyIncome) || 3000,
-      monthlyExpenses: parseFloat(formData.monthlyExpenses) || 800,
+      monthlyIncome: parseFloat(formData.monthlyIncome) || 5000,
+      monthlyExpenses: parseFloat(formData.monthlyExpenses) || 1200,
       address: formData.address,
       city: formData.city,
       postalCode: formData.postalCode,
@@ -99,23 +99,23 @@ export default function ApplyPage() {
               <div className="border-b border-slate-100 pb-6 mb-8 text-center space-y-2">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sterling-gold/15 text-sterling-gold text-xs font-bold">
                   <ShieldCheck className="w-3.5 h-3.5" />
-                  Demande en Ligne • Sécurisée SSL 256-Bit
+                  Online Application • 256-Bit SSL Encryption
                 </div>
                 <h1 className="text-2xl sm:text-3xl font-black text-sterling-navy font-display tracking-tight">
-                  Dossier de Demande de Financement
+                  Financing & Credit Facility Application
                 </h1>
                 <p className="text-xs text-slate-500">
-                  Remplissez votre dossier en 5 étapes rapides pour recevoir une réponse de principe immédiate.
+                  Complete your application in 5 straightforward steps to receive immediate preliminary underwriting feedback.
                 </p>
 
                 {/* Stepper Dots */}
                 <div className="flex items-center justify-between max-w-md mx-auto pt-4">
                   {[
-                    { s: 1, label: "Projet" },
-                    { s: 2, label: "Identité" },
-                    { s: 3, label: "Revenus" },
-                    { s: 4, label: "Justificatifs" },
-                    { s: 5, label: "Validation" },
+                    { s: 1, label: "Project" },
+                    { s: 2, label: "Identity" },
+                    { s: 3, label: "Income" },
+                    { s: 4, label: "Documents" },
+                    { s: 5, label: "Review" },
                   ].map((item) => (
                     <div key={item.s} className="flex flex-col items-center">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
@@ -143,13 +143,13 @@ export default function ApplyPage() {
                   <div className="space-y-6">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
                       <div>
-                        <h3 className="text-base font-bold text-sterling-navy">Étape 1 : Paramètres de votre Financement</h3>
-                        <p className="text-xs text-slate-500">Devises officielles : USD ($) & EUR (€) exclusivement</p>
+                        <h3 className="text-base font-bold text-sterling-navy">Step 1: Financing Facility Parameters</h3>
+                        <p className="text-xs text-slate-500">Official currencies: USD ($) & EUR (€) exclusively</p>
                       </div>
 
                       {/* Currency Toggle */}
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-slate-500">Devise :</span>
+                        <span className="text-xs font-bold text-slate-500">Currency:</span>
                         <div className="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200">
                           <button
                             type="button"
@@ -180,10 +180,10 @@ export default function ApplyPage() {
                     {/* Loan Product Selection */}
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                       {[
-                        { id: "persona", label: "Prêt Personnel", desc: "Sans justificatif d'utilisation" },
-                        { id: "auto", label: "Prêt Véhicule", desc: "Auto, moto & écomobilité" },
-                        { id: "home", label: "Prêt Travaux", desc: "Habitat & rénovation" },
-                        { id: "ecosolutions", label: "Private & Corporate", desc: "Investissement $100k-$500M" },
+                        { id: "persona", label: "Persona Personal Loan", desc: "Multi-purpose personal financing" },
+                        { id: "auto", label: "Auto & Vehicle Loan", desc: "New & pre-owned vehicle financing" },
+                        { id: "home", label: "Home Loan & Renovation", desc: "Renovation & residential upgrades" },
+                        { id: "ecosolutions", label: "Private & Corporate", desc: "Capital facility $100k-$500M" },
                       ].map((t) => (
                         <button
                           key={t.id}
@@ -214,7 +214,7 @@ export default function ApplyPage() {
                     <div>
                       <div className="flex justify-between items-center mb-1">
                         <label className="text-xs font-bold text-slate-700">
-                          Montant souhaité ({currency === "USD" ? "USD $" : "EUR €"})
+                          Requested Loan Amount ({currency === "USD" ? "USD $" : "EUR €"})
                         </label>
                         <span className="text-xl font-black text-sterling-navy font-mono">
                           {formatMoney(amount, currency)}
@@ -238,9 +238,9 @@ export default function ApplyPage() {
                     {/* Duration / Tenor */}
                     <div>
                       <div className="flex justify-between items-center mb-1">
-                        <label className="text-xs font-bold text-slate-700">Durée de remboursement</label>
+                        <label className="text-xs font-bold text-slate-700">Repayment Term</label>
                         <span className="text-base font-bold text-sterling-navy font-mono">
-                          {tenorMonths} mois ({Math.round((tenorMonths / 12) * 10) / 10} ans)
+                          {tenorMonths} months ({Math.round((tenorMonths / 12) * 10) / 10} yrs)
                         </span>
                       </div>
                       <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
@@ -258,7 +258,7 @@ export default function ApplyPage() {
                                 : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
                             }`}
                           >
-                            {m >= 12 ? `${m / 12} an${m > 12 ? "s" : ""}` : `${m} m.`}
+                            {m >= 12 ? `${m / 12} yr${m > 12 ? "s" : ""}` : `${m} mos`}
                           </button>
                         ))}
                       </div>
@@ -269,25 +269,27 @@ export default function ApplyPage() {
                 {/* STEP 2: Personal Identity */}
                 {step === 2 && (
                   <div className="space-y-4">
-                    <h3 className="text-base font-bold text-sterling-navy">Étape 2 : Vos Coordonnées Personnelles</h3>
+                    <h3 className="text-base font-bold text-sterling-navy">Step 2: Personal Contact Details</h3>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Prénom *</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">First Name *</label>
                         <input
                           type="text"
                           value={formData.firstName}
                           onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                          placeholder="e.g. David"
                           className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium outline-none focus:ring-2 focus:ring-sterling-gold"
                           required
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Nom *</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Last Name *</label>
                         <input
                           type="text"
                           value={formData.lastName}
                           onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                          placeholder="e.g. Harrison"
                           className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium outline-none focus:ring-2 focus:ring-sterling-gold"
                           required
                         />
@@ -296,21 +298,23 @@ export default function ApplyPage() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Email *</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Email Address *</label>
                         <input
                           type="email"
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          placeholder="david.harrison@example.com"
                           className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium outline-none focus:ring-2 focus:ring-sterling-gold"
                           required
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Mobile Français (06 ou 07) *</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Mobile Phone Number *</label>
                         <input
                           type="tel"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          placeholder="+1 (555) 234-5678"
                           className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium outline-none focus:ring-2 focus:ring-sterling-gold"
                           required
                         />
@@ -319,22 +323,23 @@ export default function ApplyPage() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div className="sm:col-span-2">
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Adresse Postale *</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Residential Address *</label>
                         <input
                           type="text"
                           value={formData.address}
                           onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                          placeholder="Street address, building, suite"
                           className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium outline-none focus:ring-2 focus:ring-sterling-gold"
                           required
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Code Postal *</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Postal / ZIP Code *</label>
                         <input
                           type="text"
-                          maxLength={5}
                           value={formData.postalCode}
                           onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
+                          placeholder="10001"
                           className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium outline-none focus:ring-2 focus:ring-sterling-gold"
                           required
                         />
@@ -346,55 +351,57 @@ export default function ApplyPage() {
                 {/* STEP 3: Financial Profile */}
                 {step === 3 && (
                   <div className="space-y-4">
-                    <h3 className="text-base font-bold text-sterling-navy">Étape 3 : Situation Professionnelle & Revenus</h3>
+                    <h3 className="text-base font-bold text-sterling-navy">Step 3: Professional Profile & Income</h3>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Contrat de Travail</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Employment Type</label>
                         <select
                           value={formData.employment}
                           onChange={(e) => setFormData({ ...formData, employment: e.target.value })}
                           className="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-medium bg-white outline-none"
                         >
-                          <option value="Salarié CDI">Salarié en CDI (hors période d&apos;essai)</option>
-                          <option value="Fonctionnaire">Fonctionnaire titulaire</option>
-                          <option value="Profession Libérale">Profession Libérale / Indépendant</option>
-                          <option value="Retraité">Retraité</option>
+                          <option value="Employed Full-Time (Permanent)">Employed Full-Time (Permanent)</option>
+                          <option value="Self-Employed / Business Owner">Self-Employed / Business Owner</option>
+                          <option value="Public Sector / Government">Public Sector / Government</option>
+                          <option value="Retired">Retired</option>
                         </select>
                       </div>
 
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Statut du Logement</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Residential Status</label>
                         <select
                           value={formData.residenceStatus}
                           onChange={(e) => setFormData({ ...formData, residenceStatus: e.target.value })}
                           className="w-full p-2.5 rounded-xl border border-slate-200 text-xs font-medium bg-white outline-none"
                         >
-                          <option value="Locataire">Locataire</option>
-                          <option value="Propriétaire sans crédit">Propriétaire sans crédit</option>
-                          <option value="Propriétaire avec crédit">Propriétaire avec crédit immobilier</option>
-                          <option value="Hébergé">Hébergé à titre gratuit</option>
+                          <option value="Tenant / Renting">Tenant / Renting</option>
+                          <option value="Homeowner (No Mortgage)">Homeowner (No Mortgage)</option>
+                          <option value="Homeowner (Active Mortgage)">Homeowner (Active Mortgage)</option>
+                          <option value="Living with Family">Living with Family</option>
                         </select>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Revenu Net Mensuel (€) *</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Net Monthly Income ($ / €) *</label>
                         <input
                           type="number"
                           value={formData.monthlyIncome}
                           onChange={(e) => setFormData({ ...formData, monthlyIncome: e.target.value })}
+                          placeholder="5000"
                           className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-sterling-navy outline-none"
                           required
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Loyer ou Charges Mensuelles (€)</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Monthly Rent / Mortgage Expenses ($ / €)</label>
                         <input
                           type="number"
                           value={formData.monthlyExpenses}
                           onChange={(e) => setFormData({ ...formData, monthlyExpenses: e.target.value })}
+                          placeholder="1200"
                           className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium outline-none"
                         />
                       </div>
@@ -405,21 +412,21 @@ export default function ApplyPage() {
                 {/* STEP 4: Document Uploads */}
                 {step === 4 && (
                   <div className="space-y-4">
-                    <h3 className="text-base font-bold text-sterling-navy">Étape 4 : Téléchargement des Justificatifs (KYC)</h3>
-                    <p className="text-xs text-slate-500">Formats acceptés : PDF, JPG, PNG (Max 10 Mo par document, chiffré AES-256).</p>
+                    <h3 className="text-base font-bold text-sterling-navy">Step 4: Verification Document Upload (KYC)</h3>
+                    <p className="text-xs text-slate-500">Accepted formats: PDF, JPG, PNG (Max 10 MB per file, AES-256 encrypted).</p>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {[
-                        { id: "cni", label: "Pièce d'Identité (CNI / Passeport)" },
-                        { id: "payslips", label: "Dernier Bulletin de Salaire" },
-                        { id: "tax", label: "Dernier Avis d'Imposition" },
-                        { id: "rib", label: "Relevé d'Identité Bancaire (RIB)" },
+                        { id: "cni", label: "Government Photo ID (Passport / ID Card)" },
+                        { id: "payslips", label: "Recent Pay Stub or Income Proof" },
+                        { id: "tax", label: "Recent Tax Return / Annual Filing" },
+                        { id: "rib", label: "Bank Account Details (Wire / Routing)" },
                       ].map((doc) => (
                         <div key={doc.id} className="p-4 border-2 border-dashed border-slate-200 hover:border-sterling-gold rounded-2xl flex flex-col items-center justify-center text-center p-4 transition-colors">
                           <Upload className="w-6 h-6 text-sterling-gold mb-1" />
                           <div className="text-xs font-bold text-slate-700">{doc.label}</div>
                           <span className="text-[10px] text-slate-400 mt-0.5">
-                            {uploadedFiles[doc.id] || "Glisser-déposer ou sélectionner"}
+                            {uploadedFiles[doc.id] || "Drag & drop or choose file"}
                           </span>
                           <input
                             type="file"
@@ -431,7 +438,7 @@ export default function ApplyPage() {
                             htmlFor={`file-${doc.id}`}
                             className="mt-2 px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[10px] font-bold cursor-pointer transition-colors"
                           >
-                            Parcourir
+                            Browse Files
                           </label>
                         </div>
                       ))}
@@ -442,28 +449,28 @@ export default function ApplyPage() {
                 {/* STEP 5: Consents & Validation */}
                 {step === 5 && (
                   <div className="space-y-6">
-                    <h3 className="text-base font-bold text-sterling-navy">Étape 5 : Récapitulatif & Signature Électronique</h3>
+                    <h3 className="text-base font-bold text-sterling-navy">Step 5: Facility Summary & Authorization</h3>
 
                     <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs space-y-2">
                       <div className="flex justify-between">
-                        <span className="text-slate-500">Emprunteur :</span>
+                        <span className="text-slate-500">Applicant:</span>
                         <span className="font-bold text-slate-800">{formData.firstName} {formData.lastName}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-slate-500">Devise sélectionnée :</span>
-                        <span className="font-bold text-sterling-navy">{currency === "USD" ? "USD ($) Dollar US" : "EUR (€) Euro"}</span>
+                        <span className="text-slate-500">Selected Currency:</span>
+                        <span className="font-bold text-sterling-navy">{currency === "USD" ? "USD ($) US Dollar" : "EUR (€) Euro"}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-slate-500">Montant demandé :</span>
+                        <span className="text-slate-500">Requested Facility:</span>
                         <span className="font-bold text-sterling-navy font-mono text-sm">{formatMoney(amount, currency)}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-slate-500">Durée :</span>
-                        <span className="font-bold text-slate-800">{tenorMonths} mois ({Math.round((tenorMonths / 12) * 10) / 10} ans)</span>
+                        <span className="text-slate-500">Repayment Term:</span>
+                        <span className="font-bold text-slate-800">{tenorMonths} months ({Math.round((tenorMonths / 12) * 10) / 10} yrs)</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-slate-500">Mensualité estimée :</span>
-                        <span className="font-bold text-emerald-700 font-mono text-sm">{formatMoney(Math.round((amount / tenorMonths) * 1.05 * 100) / 100, currency)} / mois</span>
+                        <span className="text-slate-500">Estimated Monthly Installment:</span>
+                        <span className="font-bold text-emerald-700 font-mono text-sm">{formatMoney(Math.round((amount / tenorMonths) * 1.05 * 100) / 100, currency)} / mo</span>
                       </div>
                     </div>
 
@@ -477,7 +484,7 @@ export default function ApplyPage() {
                           required
                         />
                         <span className="text-slate-600">
-                          J&apos;atteste de l&apos;exactitude des informations fournies et j&apos;accepte le traitement de mes données conformément au RGPD.
+                          I certify that all details provided in this application are accurate and consent to secure data processing under banking confidentiality standards.
                         </span>
                       </label>
 
@@ -490,7 +497,7 @@ export default function ApplyPage() {
                           required
                         />
                         <span className="text-slate-600">
-                          J&apos;autorise Sterling Bank France à consulter le fichier FICP de la Banque de France pour la vérification de ma solvabilité.
+                          I authorize Sterling Bank of Asia to perform credit bureau inquiries and financial solvency checks for this facility request.
                         </span>
                       </label>
                     </div>
@@ -506,7 +513,7 @@ export default function ApplyPage() {
                       className="px-5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 flex items-center gap-1.5 transition-colors"
                     >
                       <ArrowLeft className="w-3.5 h-3.5" />
-                      Précédent
+                      Back
                     </button>
                   ) : <div />}
 
@@ -515,7 +522,7 @@ export default function ApplyPage() {
                       type="submit"
                       className="px-6 py-2.5 rounded-xl bg-sterling-navy hover:bg-sterling-navy-light text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-md"
                     >
-                      Étape Suivante
+                      Next Step
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   ) : (
@@ -524,7 +531,7 @@ export default function ApplyPage() {
                       className="px-7 py-3 rounded-xl bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold text-sterling-navy-deep font-black text-xs sm:text-sm shadow-lg hover:scale-[1.01] transition-all flex items-center gap-2"
                     >
                       <Lock className="w-4 h-4" />
-                      Transmettre Ma Demande Sécurisée
+                      Submit Application Securely
                     </button>
                   )}
                 </div>
@@ -540,22 +547,22 @@ export default function ApplyPage() {
               
               <div className="space-y-2">
                 <h2 className="text-2xl font-black text-sterling-navy font-display">
-                  Demande Déposée avec Succès !
+                  Application Successfully Submitted!
                 </h2>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Merci, <span className="font-bold text-slate-800">{formData.firstName} {formData.lastName}</span>. Votre dossier a été transmis au comité de crédit Sterling Bank France.
+                  Thank you, <span className="font-bold text-slate-800">{formData.firstName} {formData.lastName}</span>. Your facility application has been routed to our credit underwriting committee.
                 </p>
               </div>
 
               <div className="bg-slate-50 border-2 border-dashed border-sterling-gold/60 rounded-2xl p-4 text-center space-y-1">
                 <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                  Numéro de Dossier de Crédit
+                  Application Reference Number
                 </div>
                 <div className="text-xl font-mono font-black text-sterling-navy tracking-wider">
                   {refNumber}
                 </div>
                 <div className="text-[11px] text-emerald-700 font-semibold pt-1">
-                  ✓ Confirmation envoyée par email à {formData.email}
+                  ✓ Confirmation email dispatched to {formData.email}
                 </div>
               </div>
 
@@ -564,7 +571,7 @@ export default function ApplyPage() {
                   href="/dashboard"
                   className="w-full py-3.5 rounded-xl bg-sterling-navy hover:bg-sterling-navy-light text-white font-extrabold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2"
                 >
-                  <span>Accéder à mon Espace Client (Dashboard)</span>
+                  <span>Access Client Portal (Dashboard)</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
 
@@ -572,7 +579,7 @@ export default function ApplyPage() {
                   href="/"
                   className="w-full py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold text-xs hover:bg-slate-50 transition-colors block text-center"
                 >
-                  Retour à l&apos;accueil
+                  Return to Home Page
                 </Link>
               </div>
             </div>

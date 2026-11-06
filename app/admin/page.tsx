@@ -100,7 +100,7 @@ export default function AdminDashboard() {
       selectedApp.id, 
       selectedApp.status, 
       selectedApp.statusLabelFr, 
-      `Note Analyste (${new Date().toLocaleDateString("fr-FR")} ${new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}) : ${newNote}`
+      `Underwriter Memo (${new Date().toLocaleDateString("en-US")} ${new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}) : ${newNote}`
     );
     setNewNote("");
   };
@@ -113,7 +113,7 @@ export default function AdminDashboard() {
   };
 
   const handleExportCSV = () => {
-    const headers = "Reference,Nom,Email,Telephone,Produit,Montant,Duree,Mensualite,TAEG,Statut\n";
+    const headers = "Reference,Name,Email,Phone,Product,Amount,Term,MonthlyPayment,APR,Status\n";
     const rows = applications.map(a => 
       `"${a.referenceNumber}","${a.applicantName}","${a.email}","${a.phone}","${a.loanTypeLabel}",${a.amount},${a.termMonths},${a.monthlyPayment},${a.interestRate},"${a.status}"`
     ).join("\n");
@@ -122,7 +122,7 @@ export default function AdminDashboard() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", `sterling_dossiers_export_${new Date().toISOString().slice(0, 10)}.csv`);
+    link.setAttribute("download", `sterling_applications_export_${new Date().toISOString().slice(0, 10)}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -156,13 +156,13 @@ export default function AdminDashboard() {
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold border border-amber-400/30">
               <SlidersHorizontal className="w-3.5 h-3.5" />
-              Console Centrale d&apos;Administration des Crédits (Back-Office Paris)
+              Central Lending & Credit Administration Console
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight font-display">
-              Contrôle et Décisionnaire Crédit
+              Credit Underwriting & Facility Decisions
             </h1>
             <p className="text-xs sm:text-sm text-slate-300">
-              Supervisez les demandes de financement en temps réel, ajustez les taux directeurs TAEG et validez les décaissements.
+              Supervise financing applications in real time, configure base APR risk policies, and authorize fund disbursements.
             </p>
           </div>
 
@@ -172,14 +172,14 @@ export default function AdminDashboard() {
               className="bg-white/10 hover:bg-white/20 text-white font-medium text-xs sm:text-sm px-4 py-2.5 rounded-xl border border-white/20 transition-all flex items-center gap-2"
             >
               <Download className="w-4 h-4 text-sterling-gold" />
-              Exporter en CSV
+              Export to CSV
             </button>
             <Link
               href="/dashboard"
               className="bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold text-sterling-navy-deep font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-md hover:scale-[1.02] transition-all flex items-center gap-2"
             >
               <Users className="w-4 h-4" />
-              Voir Espace Client
+              View Client Portal
             </Link>
           </div>
         </div>
@@ -188,53 +188,53 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-1">
             <div className="flex items-center justify-between text-xs text-slate-500">
-              <span>Volume Total Demandé</span>
+              <span>Total Requested Volume</span>
               <Banknote className="w-4 h-4 text-sterling-navy" />
             </div>
             <div className="text-2xl font-black text-sterling-navy">
-              {totalVolume.toLocaleString("fr-FR")} €
+              ${totalVolume.toLocaleString("en-US")}
             </div>
             <div className="text-[11px] text-slate-500">
-              Sur {applications.length} dossiers instruits
+              Across {applications.length} filed applications
             </div>
           </div>
 
           <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-1">
             <div className="flex items-center justify-between text-xs text-slate-500">
-              <span>Fonds Débloqués (Disbursed)</span>
+              <span>Disbursed Facilities</span>
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
             </div>
             <div className="text-2xl font-black text-emerald-600">
-              {disbursedVolume.toLocaleString("fr-FR")} €
+              ${disbursedVolume.toLocaleString("en-US")}
             </div>
             <div className="text-[11px] text-emerald-700 font-semibold">
-              Virements SEPA exécutés
+              Bank wire transfers executed
             </div>
           </div>
 
           <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-1">
             <div className="flex items-center justify-between text-xs text-slate-500">
-              <span>Taux d&apos;Acceptation</span>
+              <span>Approval Rate</span>
               <TrendingUp className="w-4 h-4 text-sterling-gold" />
             </div>
             <div className="text-2xl font-black text-sterling-navy">
               {approvalRate} %
             </div>
             <div className="text-[11px] text-slate-500">
-              Conformité avec les critères Banque de France
+              Underwriting risk benchmark
             </div>
           </div>
 
           <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-1">
             <div className="flex items-center justify-between text-xs text-slate-500">
-              <span>Dossiers en Attente d&apos;Avis</span>
+              <span>Applications Pending Decision</span>
               <Clock className="w-4 h-4 text-amber-500" />
             </div>
             <div className="text-2xl font-black text-amber-600">
               {applications.filter(a => a.status === "pending" || a.status === "under_review").length}
             </div>
             <div className="text-[11px] text-slate-500">
-              Délai moyen de réponse : 18 min
+              Average decision response: 18 min
             </div>
           </div>
         </div>
@@ -250,7 +250,7 @@ export default function AdminDashboard() {
             }`}
           >
             <Users className="w-4 h-4 text-sterling-gold" />
-            Gestion des Demandes ({filteredApps.length})
+            Applications Underwriting ({filteredApps.length})
           </button>
 
           <button
@@ -262,7 +262,7 @@ export default function AdminDashboard() {
             }`}
           >
             <Percent className="w-4 h-4 text-sterling-gold" />
-            Paramétrage des Taux & Risque (Full Control)
+            Risk Policy & Base APR Settings
           </button>
         </div>
 
@@ -281,7 +281,7 @@ export default function AdminDashboard() {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Rechercher par nom, email ou n° dossier..."
+                    placeholder="Search by applicant name, email, or ref #..."
                     className="w-full pl-9 pr-3 py-2 text-xs border border-slate-200 rounded-xl outline-none focus:border-sterling-navy"
                   />
                 </div>
@@ -291,12 +291,12 @@ export default function AdminDashboard() {
                   onChange={(e) => setStatusFilter(e.target.value)}
                   className="text-xs px-3 py-2 border border-slate-200 rounded-xl outline-none bg-slate-50 text-slate-700 font-medium"
                 >
-                  <option value="all">Tous les Statuts</option>
-                  <option value="pending">En attente (Dossier Reçu)</option>
-                  <option value="under_review">En analyse comité</option>
-                  <option value="approved">Approuvé (Accord de principe)</option>
-                  <option value="disbursed">Fonds débloqués (Virement fait)</option>
-                  <option value="rejected">Refusé</option>
+                  <option value="all">All Statuses</option>
+                  <option value="pending">Pending Review (Application Received)</option>
+                  <option value="under_review">Underwriting Review Active</option>
+                  <option value="approved">Approved (Facility Offer Issued)</option>
+                  <option value="disbursed">Disbursed (Funds Transferred)</option>
+                  <option value="rejected">Declined</option>
                 </select>
               </div>
 
@@ -304,7 +304,7 @@ export default function AdminDashboard() {
               <div className="bg-white rounded-2xl shadow-sm border border-slate-200 divide-y divide-slate-100 overflow-hidden">
                 {filteredApps.length === 0 ? (
                   <div className="p-8 text-center text-xs text-slate-400">
-                    Aucun dossier ne correspond à vos critères de recherche.
+                    No applications match your search criteria.
                   </div>
                 ) : (
                   filteredApps.map((app) => (
@@ -321,10 +321,10 @@ export default function AdminDashboard() {
                           <span className="text-[10px] font-mono text-slate-400">{app.referenceNumber}</span>
                         </div>
                         <div className="text-xs text-slate-600">
-                          {app.loanTypeLabel} • <strong>{formatMoney(app.amount, app.currency || "USD")}</strong> sur {app.termMonths} mois
+                          {app.loanTypeLabel} • <strong>{formatMoney(app.amount, app.currency || "USD")}</strong> over {app.termMonths} mos
                         </div>
                         <div className="text-[10px] text-slate-400">
-                          Revenus : {formatMoney(app.monthlyIncome, app.currency || "USD")}/m • Score solvabilité : {app.creditScore}/900
+                          Income: {formatMoney(app.monthlyIncome, app.currency || "USD")}/mo • Solvency Score: {app.creditScore}/900
                         </div>
                       </div>
 
@@ -341,7 +341,7 @@ export default function AdminDashboard() {
                           {app.status.toUpperCase()}
                         </span>
                         <span className="text-[10px] text-slate-400">
-                          {new Date(app.createdAt).toLocaleDateString("fr-FR")}
+                          {new Date(app.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                         </span>
                       </div>
                     </div>
@@ -363,7 +363,7 @@ export default function AdminDashboard() {
                         {selectedApp.referenceNumber}
                       </span>
                       <span className="text-xs text-slate-400">
-                        Créé le {new Date(selectedApp.createdAt).toLocaleDateString("fr-FR")}
+                        Submitted on {new Date(selectedApp.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                       </span>
                     </div>
                     <h3 className="text-xl font-extrabold text-sterling-navy">
@@ -377,35 +377,35 @@ export default function AdminDashboard() {
                   {/* Financial & Underwriting Details */}
                   <div className="grid grid-cols-2 gap-3 text-xs">
                     <div className="p-3 bg-slate-50 rounded-xl space-y-0.5">
-                      <div className="text-slate-400 text-[10px]">Montant sollicité ({selectedApp.currency || "USD"})</div>
+                      <div className="text-slate-400 text-[10px]">Requested Amount ({selectedApp.currency || "USD"})</div>
                       <div className="font-bold text-base text-sterling-navy">{formatMoney(selectedApp.amount, selectedApp.currency || "USD")}</div>
-                      <div className="text-slate-500">{selectedApp.termMonths} mois à {formatMoney(selectedApp.monthlyPayment, selectedApp.currency || "USD")}/m</div>
+                      <div className="text-slate-500">{selectedApp.termMonths} mos at {formatMoney(selectedApp.monthlyPayment, selectedApp.currency || "USD")}/mo</div>
                     </div>
 
                     <div className="p-3 bg-slate-50 rounded-xl space-y-0.5">
-                      <div className="text-slate-400 text-[10px]">Profil Financier</div>
-                      <div className="font-bold text-base text-emerald-700">{formatMoney(selectedApp.monthlyIncome, selectedApp.currency || "USD")}/m</div>
+                      <div className="text-slate-400 text-[10px]">Financial Profile</div>
+                      <div className="font-bold text-base text-emerald-700">{formatMoney(selectedApp.monthlyIncome, selectedApp.currency || "USD")}/mo</div>
                       <div className="text-slate-500">{selectedApp.employmentType}</div>
                     </div>
 
                     <div className="p-3 bg-slate-50 rounded-xl space-y-0.5">
-                      <div className="text-slate-400 text-[10px]">Taux TAEG Fixe</div>
+                      <div className="text-slate-400 text-[10px]">Fixed APR Rate</div>
                       <div className="font-bold text-base text-sterling-navy">{selectedApp.interestRate.toFixed(2)} %</div>
-                      <div className="text-slate-500">Taux contractuel</div>
+                      <div className="text-slate-500">Contractual rate</div>
                     </div>
 
                     <div className="p-3 bg-slate-50 rounded-xl space-y-0.5">
-                      <div className="text-slate-400 text-[10px]">Score de Solvabilité</div>
+                      <div className="text-slate-400 text-[10px]">Solvency Score</div>
                       <div className="font-bold text-base text-indigo-700">{selectedApp.creditScore} / 900</div>
-                      <div className="text-slate-500">Risque faible (Cat. A)</div>
+                      <div className="text-slate-500">Low risk rating (Tier 1)</div>
                     </div>
                   </div>
 
                   {/* KYC Documents */}
                   <div className="space-y-2">
                     <div className="text-xs font-bold text-slate-700 flex items-center justify-between">
-                      <span>Pièces Justificatives Transmises ({selectedApp.documents.length})</span>
-                      <span className="text-[10px] text-emerald-600 font-semibold">Chiffré AES-256</span>
+                      <span>Submitted Verification Documents ({selectedApp.documents.length})</span>
+                      <span className="text-[10px] text-emerald-600 font-semibold">AES-256 Encrypted</span>
                     </div>
 
                     <div className="space-y-1.5">
@@ -426,7 +426,7 @@ export default function AdminDashboard() {
                   {/* ACTION BUTTONS (Full Control) */}
                   <div className="space-y-3 pt-2 border-t border-slate-100">
                     <div className="text-xs font-bold text-sterling-navy uppercase tracking-wider">
-                      Décision & Contrôle du Dossier
+                      Underwriting Decisions & Controls
                     </div>
 
                     <div className="grid grid-cols-2 gap-2">
@@ -434,52 +434,52 @@ export default function AdminDashboard() {
                         onClick={() => handleUpdateStatus(
                           selectedApp.id, 
                           "approved", 
-                          "Accord de principe émis - Prêt validé", 
-                          "Décision favorable émise par le comité de crédit. Offre préalable transmise à l'emprunteur."
+                          "Facility Approved - Offer Issued", 
+                          "Favorable decision issued by credit committee. Facility documentation dispatched to applicant."
                         )}
                         className="py-2.5 px-3 rounded-xl font-bold text-xs bg-emerald-600 hover:bg-emerald-700 text-white transition-colors flex items-center justify-center gap-1.5 shadow-sm"
                       >
                         <Check className="w-4 h-4 stroke-[3]" />
-                        Approuver le Prêt
+                        Approve Facility
                       </button>
 
                       <button
                         onClick={() => handleUpdateStatus(
                           selectedApp.id, 
                           "disbursed", 
-                          "Fonds débloqués par virement bancaire SEPA", 
-                          "Ordre de virement SEPA instantané exécuté. Montant crédité sur le compte du bénéficiaire."
+                          "Facility Disbursed via Bank Transfer", 
+                          "Instant wire disbursement executed. Funds credited to borrower's nominated account."
                         )}
                         className="py-2.5 px-3 rounded-xl font-bold text-xs bg-sterling-navy hover:bg-sterling-navy-light text-white transition-colors flex items-center justify-center gap-1.5 shadow-sm"
                       >
                         <Banknote className="w-4 h-4 text-sterling-gold" />
-                        Débloquer les Fonds
+                        Disburse Funds
                       </button>
 
                       <button
                         onClick={() => handleUpdateStatus(
                           selectedApp.id, 
                           "under_review", 
-                          "Pièces complémentaires requises", 
-                          "Demande de justificatif complémentaire envoyée au demandeur (dernier avis fiscal ou quittance de loyer)."
+                          "Additional Documentation Requested", 
+                          "Request for supplementary KYC documents dispatched to applicant."
                         )}
                         className="py-2.5 px-3 rounded-xl font-medium text-xs bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 transition-colors flex items-center justify-center gap-1.5"
                       >
                         <Clock className="w-4 h-4" />
-                        Demander Pièces
+                        Request Documents
                       </button>
 
                       <button
                         onClick={() => handleUpdateStatus(
                           selectedApp.id, 
                           "rejected", 
-                          "Demande non retenue", 
-                          "Dossier refusé pour non-conformité aux critères d'endettement réglementaires."
+                          "Application Declined", 
+                          "Facility declined due to non-conformance with standard debt-to-income underwriting thresholds."
                         )}
                         className="py-2.5 px-3 rounded-xl font-medium text-xs bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 transition-colors flex items-center justify-center gap-1.5"
                       >
                         <XCircle className="w-4 h-4" />
-                        Refuser le Dossier
+                        Decline Application
                       </button>
                     </div>
                   </div>
@@ -487,7 +487,7 @@ export default function AdminDashboard() {
                   {/* Officer Audit Notes */}
                   <div className="space-y-3 pt-2 border-t border-slate-100">
                     <div className="text-xs font-bold text-slate-700">
-                      Journal d&apos;Audit & Notes Internes
+                      Audit Trail & Internal Underwriter Memos
                     </div>
 
                     <div className="space-y-2 max-h-36 overflow-y-auto">
@@ -503,7 +503,7 @@ export default function AdminDashboard() {
                         type="text"
                         value={newNote}
                         onChange={(e) => setNewNote(e.target.value)}
-                        placeholder="Ajouter une instruction ou remarque..."
+                        placeholder="Add an internal underwriter memo..."
                         className="flex-1 text-xs px-3 py-2 border border-slate-200 rounded-lg outline-none focus:border-sterling-navy"
                       />
                       <button
@@ -511,7 +511,7 @@ export default function AdminDashboard() {
                         className="px-3 py-2 bg-slate-800 hover:bg-sterling-navy text-white text-xs font-bold rounded-lg transition-colors flex items-center gap-1"
                       >
                         <Send className="w-3.5 h-3.5" />
-                        Ajouter
+                        Add Memo
                       </button>
                     </form>
                   </div>
@@ -519,7 +519,7 @@ export default function AdminDashboard() {
                 </div>
               ) : (
                 <div className="bg-white rounded-2xl p-8 text-center text-slate-400 text-xs">
-                  Sélectionnez un dossier à gauche pour afficher les contrôles.
+                  Select an application on the left to view underwriting controls.
                 </div>
               )}
             </div>
@@ -533,10 +533,10 @@ export default function AdminDashboard() {
             <div className="border-b border-slate-100 pb-4">
               <h2 className="text-xl font-bold text-sterling-navy flex items-center gap-2">
                 <SlidersHorizontal className="w-5 h-5 text-sterling-gold" />
-                Politique de Risque & Barème TAEG des Prêts
+                Risk Management & Contractual APR Settings
               </h2>
               <p className="text-xs text-slate-500 mt-1">
-                Ajustez en temps réel les taux d&apos;intérêt appliqués par le simulateur et le moteur de scoring.
+                Adjust interest rate benchmarks in real time for online calculators and scoring models.
               </p>
             </div>
 
@@ -545,7 +545,7 @@ export default function AdminDashboard() {
                 
                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
                   <label className="text-xs font-bold text-sterling-navy">
-                    TAEG Fixe • Prêt Personnel Persona (%)
+                    Fixed APR • Persona Personal Loan (%)
                   </label>
                   <input
                     type="number"
@@ -554,12 +554,12 @@ export default function AdminDashboard() {
                     onChange={(e) => setRates({ ...rates, persona: parseFloat(e.target.value) || 0 })}
                     className="w-full p-2.5 text-base font-bold text-sterling-navy border border-slate-200 rounded-lg bg-white"
                   />
-                  <div className="text-[10px] text-slate-400">Taux standard sans justificatif de dépenses</div>
+                  <div className="text-[10px] text-slate-400">Standard rate for multi-purpose personal credit</div>
                 </div>
 
                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
                   <label className="text-xs font-bold text-sterling-navy">
-                    TAEG Fixe • Prêt Auto & Éco-Mobilité (%)
+                    Fixed APR • Auto & Vehicle Loan (%)
                   </label>
                   <input
                     type="number"
@@ -568,12 +568,12 @@ export default function AdminDashboard() {
                     onChange={(e) => setRates({ ...rates, auto: parseFloat(e.target.value) || 0 })}
                     className="w-full p-2.5 text-base font-bold text-sterling-navy border border-slate-200 rounded-lg bg-white"
                   />
-                  <div className="text-[10px] text-slate-400">Véhicules neufs, occasion & bornes recharge</div>
+                  <div className="text-[10px] text-slate-400">Brand new and certified pre-owned vehicles</div>
                 </div>
 
                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
                   <label className="text-xs font-bold text-sterling-navy">
-                    TAEG Fixe • Prêt Éco-Transition EcoSolutions (%)
+                    Fixed APR • EcoSolutions Clean Energy (%)
                   </label>
                   <input
                     type="number"
@@ -582,12 +582,12 @@ export default function AdminDashboard() {
                     onChange={(e) => setRates({ ...rates, ecosolutions: parseFloat(e.target.value) || 0 })}
                     className="w-full p-2.5 text-base font-bold text-emerald-700 border border-slate-200 rounded-lg bg-white"
                   />
-                  <div className="text-[10px] text-slate-400">Taux vert bonifié énergies renouvelables</div>
+                  <div className="text-[10px] text-slate-400">Green incentive rate for renewable energy projects</div>
                 </div>
 
                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
                   <label className="text-xs font-bold text-sterling-navy">
-                    TAEG Fixe • Prêt Travaux & Rénovation (%)
+                    Fixed APR • Home & Renovation Loan (%)
                   </label>
                   <input
                     type="number"
@@ -596,12 +596,12 @@ export default function AdminDashboard() {
                     onChange={(e) => setRates({ ...rates, home: parseFloat(e.target.value) || 0 })}
                     className="w-full p-2.5 text-base font-bold text-sterling-navy border border-slate-200 rounded-lg bg-white"
                   />
-                  <div className="text-[10px] text-slate-400">Amélioration de l&apos;habitat & extensions</div>
+                  <div className="text-[10px] text-slate-400">Residential upgrades and property improvements</div>
                 </div>
 
                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
                   <label className="text-xs font-bold text-sterling-navy">
-                    Plafond Maximum d&apos;Emprunt (€)
+                    Maximum Personal Loan Facility ($ / €)
                   </label>
                   <input
                     type="number"
@@ -610,12 +610,12 @@ export default function AdminDashboard() {
                     onChange={(e) => setRates({ ...rates, maxAmount: parseInt(e.target.value) || 75000 })}
                     className="w-full p-2.5 text-base font-bold text-sterling-navy border border-slate-200 rounded-lg bg-white"
                   />
-                  <div className="text-[10px] text-slate-400">Plafond légal crédit consommation (Art. L312-1)</div>
+                  <div className="text-[10px] text-slate-400">Standard retail personal loan ceiling</div>
                 </div>
 
                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
                   <label className="text-xs font-bold text-sterling-navy">
-                    Taux d&apos;Endettement Max Admis (DTI %)
+                    Maximum Debt-to-Income Ratio (DTI %)
                   </label>
                   <input
                     type="number"
@@ -623,7 +623,7 @@ export default function AdminDashboard() {
                     onChange={(e) => setRates({ ...rates, maxDTI: parseInt(e.target.value) || 35 })}
                     className="w-full p-2.5 text-base font-bold text-sterling-navy border border-slate-200 rounded-lg bg-white"
                   />
-                  <div className="text-[10px] text-slate-400">Recommandation HCSF (Haut Conseil de Stabilité Financière) : 35%</div>
+                  <div className="text-[10px] text-slate-400">Prudential regulatory guideline: max 35%</div>
                 </div>
 
               </div>
@@ -631,7 +631,7 @@ export default function AdminDashboard() {
               {policySaved && (
                 <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs font-bold flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  Barème de crédit sauvegardé avec succès et appliqué au simulateur !
+                  Credit risk policy successfully updated and applied across calculators!
                 </div>
               )}
 
@@ -641,7 +641,7 @@ export default function AdminDashboard() {
                   className="bg-sterling-navy hover:bg-sterling-navy-light text-white font-bold text-xs sm:text-sm px-6 py-3 rounded-xl transition-colors shadow-md flex items-center gap-2"
                 >
                   <Check className="w-4 h-4 text-sterling-gold" />
-                  Enregistrer les Nouveaux Paramètres
+                  Save Policy Settings
                 </button>
 
                 <button
@@ -654,7 +654,7 @@ export default function AdminDashboard() {
                   className="px-4 py-3 border border-slate-200 rounded-xl text-xs text-slate-600 hover:bg-slate-50 flex items-center gap-2"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  Valeurs par Défaut
+                  Reset to Defaults
                 </button>
               </div>
             </form>

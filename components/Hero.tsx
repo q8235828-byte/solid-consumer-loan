@@ -103,7 +103,7 @@ export default function Hero({ onOpenApply }: HeroProps) {
                 </div>
               </div>
 
-              {/* Due Diligence & Regulatory Assurance */}
+              {/* Due Diligence & Regulatory Compliance */}
               <p className="text-[11px] text-slate-300 leading-relaxed italic border-t border-white/10 pt-3">
                 &ldquo;Our financing facilities are structured with a focus on security, transparency, and proper documentation. All applications are subject to the required verification, due diligence, approval, and applicable legal and regulatory requirements. We are available to assist qualified individuals and companies seeking legitimate financing.&rdquo;
               </p>

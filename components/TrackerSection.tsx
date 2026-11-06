@@ -6,66 +6,83 @@ import {
   Search, 
   CheckCircle2, 
   Clock, 
+  FileCheck, 
   ShieldCheck, 
-  ArrowRight,
-  UserCheck
+  Building2, 
+  AlertCircle,
+  ExternalLink,
+  Lock,
+  ArrowRight
 } from "lucide-react";
 import { getApplications } from "@/lib/loanStore";
 
 export default function TrackerSection() {
-  const [refNumber, setRefNumber] = useState("");
-  const [phoneDigits, setPhoneDigits] = useState("");
-  const [statusResult, setStatusResult] = useState<any>(null);
+  const [refInput, setRefInput] = useState("");
+  const [last4Input, setLast4Input] = useState("");
   const [searched, setSearched] = useState(false);
+  const [result, setResult] = useState<any>(null);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setSearched(true);
 
-    const apps = getApplications();
-    const query = refNumber.trim().toLowerCase();
-    const found = apps.find(a => 
-      a.referenceNumber.toLowerCase().includes(query) || 
-      (phoneDigits && a.phone.endsWith(phoneDigits))
+    const cleanRef = refInput.trim().toUpperCase();
+    const cleanLast4 = last4Input.trim();
+    const applications = getApplications();
+
+    // Check store applications first
+    const found = applications.find(
+      (app) => 
+        (cleanRef && (app.referenceNumber.toUpperCase() === cleanRef || app.referenceNumber.toUpperCase().endsWith(cleanRef))) ||
+        (cleanLast4 && app.phone.endsWith(cleanLast4))
     );
 
     if (found) {
       const isApproved = found.status === "approved" || found.status === "disbursed";
       const isDisbursed = found.status === "disbursed";
-      setStatusResult({
+
+      setResult({
         ref: found.referenceNumber,
         applicant: found.applicantName,
-        loanType: found.loanTypeLabel,
-        amount: `${found.amount.toLocaleString("fr-FR")} €`,
-        submissionDate: new Date(found.createdAt).toLocaleDateString("fr-FR"),
-        statusLabel: found.statusLabelFr,
-        stages: [
-          { name: "Dossier Enregistré en Ligne", date: "Complet", status: "completed" },
-          { name: "Vérification des Justificatifs", date: "Vérifié", status: "completed" },
-          { name: "Étude de Solvabilité & Comité", date: isApproved ? "Avis Favorable" : "En cours", status: isApproved ? "completed" : "active" },
-          { name: "Offre Préalable & Signature", date: isApproved ? "Contrat émis" : "En attente", status: isApproved ? (isDisbursed ? "completed" : "active") : "pending" },
-          { name: "Virement des Fonds sur votre RIB", date: isDisbursed ? "Virement Exécuté" : "En attente", status: isDisbursed ? "completed" : "pending" },
+        amount: found.amount,
+        currency: found.currency || "USD",
+        loanType: found.loanTypeLabel || "Personal Loan Facility",
+        submissionDate: new Date(found.createdAt).toLocaleDateString("en-US", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }),
+        status: found.status,
+        steps: [
+          { name: "Online Application Received", date: "Completed", status: "completed" },
+          { name: "Document & Identity Verification", date: "Verified", status: "completed" },
+          { name: "Underwriting & Credit Committee Review", date: isApproved ? "Approved" : "In Progress", status: isApproved ? "completed" : "current" },
+          { name: "Digital Contract Execution", date: isApproved ? "Ready for Signature" : "Pending", status: isApproved ? "current" : "pending" },
+          { name: "Fund Disbursement to Account", date: isDisbursed ? "Disbursed" : "Pending", status: isDisbursed ? "completed" : "pending" },
         ],
-        remarks: found.officerNotes[0] || "Votre dossier est géré par notre pôle crédit à Paris.",
+        remarks: found.officerNotes[0] || "Your application is currently being handled by our international lending division.",
+      });
+    } else if (cleanRef === "SBA-2026-9842" || cleanRef === "9842" || cleanRef.includes("SBA")) {
+      // Demo verified file
+      setResult({
+        ref: "SBA-2026-9842",
+        applicant: "Marcus Vance",
+        amount: 25000,
+        currency: "USD",
+        loanType: "Persona Personal Loan",
+        submissionDate: "Nov 03, 2026",
+        status: "approved",
+        steps: [
+          { name: "Online Application Received", date: "Nov 03, 2026 • 10:15", status: "completed" },
+          { name: "Document & Identity Verification", date: "Nov 03, 2026 • 14:30", status: "completed" },
+          { name: "Underwriting & Credit Committee Review", date: "Approved with Fixed 2.85%", status: "completed" },
+          { name: "Digital Contract Execution", date: "Awaiting e-Signature", status: "current" },
+          { name: "Fund Disbursement to Account", date: "Within 24-48h of signing", status: "pending" },
+        ],
+        remarks: "Debt ratio verified at 28.5%. Your formal credit agreement is ready to review in your client portal.",
       });
     } else {
-      // Mock tracking fallback
-      setStatusResult({
-        ref: refNumber || "SBA-FR-2026-89412",
-        applicant: "Jean-Pierre Lambert",
-        loanType: "Prêt Personnel Express",
-        amount: "15 000 €",
-        submissionDate: "03 Novembre 2026",
-        statusLabel: "Approuvé - En attente de signature",
-        stages: [
-          { name: "Dossier Enregistré en Ligne", date: "03 Nov 2026 • 10:15", status: "completed" },
-          { name: "Vérification des Justificatifs & CNI", date: "03 Nov 2026 • 14:30", status: "completed" },
-          { name: "Étude de Solvabilité & Comité de Crédit", date: "Avis Favorable Émis", status: "completed" },
-          { name: "Offre Préalable & Signature Électronique", date: "En attente de signature eIDAS", status: "active" },
-          { name: "Virement des Fonds sur votre RIB", date: "Sous 48h après signature", status: "pending" },
-        ],
-        remarks: "Ratio d'endettement validé à 28.5%. Votre offre de crédit est disponible sur votre Espace Client.",
-      });
+      setResult(null);
     }
   };
 
@@ -77,148 +94,173 @@ export default function TrackerSection() {
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
           <div className="inline-flex items-center gap-1.5 text-xs font-bold text-sterling-gold uppercase tracking-wider bg-amber-50 border border-amber-200 px-3.5 py-1 rounded-full">
             <Search className="w-3.5 h-3.5" />
-            Espace Suivi de Dossier
+            Application Status Tracker
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-sterling-navy font-display tracking-tight">
-            Où en est Votre Demande de Prêt ?
+            Track Your Loan Application
           </h2>
-          <p className="text-sm text-slate-600">
-            Saisissez votre numéro de référence dossier (reçu par email/SMS) et les 4 derniers chiffres de votre mobile pour suivre l&apos;avancement en temps réel.
+          <p className="text-slate-600 text-sm sm:text-base">
+            Enter your application reference number (received via email or SMS) to check the real-time review, committee decision, and disbursement status.
           </p>
         </div>
 
-        {/* Search Card */}
-        <div className="max-w-2xl mx-auto bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200 mb-10">
-          <form onSubmit={handleSearch} className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
-            <div className="sm:col-span-7">
-              <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                Numéro de Référence Dossier
-              </label>
-              <input
-                type="text"
-                placeholder="ex : SBF-CR-202611-98421"
-                value={refNumber}
-                onChange={(e) => setRefNumber(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs font-mono font-medium focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none"
-              />
+        {/* Search Input Box */}
+        <div className="max-w-2xl mx-auto bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200/80">
+          <form onSubmit={handleSearch} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+                  Application Reference Number
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. SBA-2026-9842"
+                    value={refInput}
+                    onChange={(e) => setRefInput(e.target.value)}
+                    className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 focus:border-sterling-gold focus:ring-2 focus:ring-sterling-gold/20 text-xs font-mono uppercase font-bold text-slate-800 outline-none transition-all"
+                  />
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1.5 uppercase tracking-wider">
+                  Applicant Phone (Last 4 Digits)
+                </label>
+                <input
+                  type="text"
+                  maxLength={4}
+                  placeholder="e.g. 5678"
+                  value={last4Input}
+                  onChange={(e) => setLast4Input(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-sterling-gold focus:ring-2 focus:ring-sterling-gold/20 text-xs font-mono font-bold text-slate-800 outline-none transition-all"
+                />
+              </div>
             </div>
 
-            <div className="sm:col-span-3">
-              <label className="block text-xs font-bold text-slate-700 mb-1.5">
-                Mobile (4 derniers chiffres)
-              </label>
-              <input
-                type="text"
-                maxLength={4}
-                placeholder="4567"
-                value={phoneDigits}
-                onChange={(e) => setPhoneDigits(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs font-mono font-medium text-center focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none"
-              />
-            </div>
-
-            <div className="sm:col-span-2">
-              <button
-                type="submit"
-                className="w-full bg-sterling-navy hover:bg-sterling-navy-light text-white font-bold py-3 px-4 rounded-xl text-xs transition-all flex items-center justify-center gap-1.5 shadow-md"
-              >
-                Suivre
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-sterling-navy-deep to-sterling-navy hover:from-sterling-navy hover:to-sterling-navy-deep text-white font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
+            >
+              <Search className="w-4 h-4 text-sterling-gold" />
+              <span>Search Application Status</span>
+            </button>
           </form>
+
+          {/* Quick Demo Hint */}
+          <div className="mt-3 text-center">
+            <button
+              type="button"
+              onClick={() => {
+                setRefInput("SBA-2026-9842");
+                setLast4Input("5678");
+              }}
+              className="text-[11px] text-sterling-gold hover:underline font-semibold"
+            >
+              Demo query: load verified file (SBA-2026-9842)
+            </button>
+          </div>
         </div>
 
-        {/* Tracking Timeline Output */}
-        {searched && statusResult && (
-          <div className="max-w-3xl mx-auto bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-sterling-gold/40 animate-in fade-in duration-300 space-y-8">
-            
-            {/* Header info */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-100 gap-4">
-              <div>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Référence Dossier</span>
-                <div className="text-xl font-mono font-black text-sterling-navy">{statusResult.ref}</div>
-                <div className="text-xs text-slate-600 mt-0.5">
-                  Emprunteur : <span className="font-semibold">{statusResult.applicant}</span> • {statusResult.loanType} ({statusResult.amount})
-                </div>
-              </div>
-              <div className="sm:text-right">
-                <span className="inline-flex items-center gap-1.5 bg-amber-50 text-amber-800 border border-amber-200 px-3 py-1 rounded-full text-xs font-bold">
-                  <Clock className="w-3.5 h-3.5 text-amber-600 animate-spin" />
-                  Étude de Solvabilité
-                </span>
-                <div className="text-[11px] text-slate-400 mt-1">Déposé le {statusResult.submissionDate}</div>
-              </div>
-            </div>
-
-            {/* Stages Pipeline */}
-            <div className="space-y-4">
-              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                Avancement des Étapes
-              </h4>
-
-              <div className="space-y-4">
-                {statusResult.stages.map((stage: any, idx: number) => (
-                  <div key={idx} className="flex items-start gap-4">
-                    <div className="flex flex-col items-center">
-                      <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-                          stage.status === "completed"
-                            ? "bg-emerald-600 text-white"
-                            : stage.status === "active"
-                            ? "bg-sterling-gold text-sterling-navy-deep ring-4 ring-sterling-gold/20"
-                            : "bg-slate-200 text-slate-400"
-                        }`}
-                      >
-                        {stage.status === "completed" ? (
-                          <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
-                        ) : (
-                          idx + 1
-                        )}
-                      </div>
-                      {idx < statusResult.stages.length - 1 && (
-                        <div
-                          className={`w-0.5 h-8 my-1 ${
-                            stage.status === "completed" ? "bg-emerald-600" : "bg-slate-200"
-                          }`}
-                        />
-                      )}
-                    </div>
-
-                    <div className="pt-1">
-                      <div className="text-sm font-bold text-sterling-navy">
-                        {stage.name}
-                      </div>
-                      <div className="text-xs text-slate-500 mt-0.5">
-                        {stage.date}
-                      </div>
-                    </div>
+        {/* Results Card */}
+        {searched && (
+          <div className="max-w-3xl mx-auto mt-8">
+            {result ? (
+              <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200 space-y-6 animate-in fade-in slide-in-from-top-4 duration-300">
+                {/* Result header */}
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-slate-100">
+                  <div>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Application Reference</span>
+                    <h3 className="text-xl font-black font-mono text-sterling-navy">{result.ref}</h3>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      Applicant: <strong>{result.applicant}</strong> • {result.loanType}
+                    </p>
                   </div>
-                ))}
-              </div>
-            </div>
 
-            {/* Officer Remarks & Dashboard CTA */}
-            <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-xs text-slate-700 space-y-3">
-              <div className="space-y-1">
-                <div className="font-bold text-sterling-navy flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-sterling-gold" />
-                  Note de votre Conseiller Crédit
+                  <div className="text-left sm:text-right">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Requested Capital</span>
+                    <div className="text-xl font-black text-sterling-gold font-mono">
+                      {result.currency === "EUR" ? "€" : "$"}{result.amount.toLocaleString()}
+                    </div>
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                      <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Decision in Principle Approved
+                    </span>
+                  </div>
                 </div>
-                <p className="leading-relaxed text-slate-600">{statusResult.remarks}</p>
-              </div>
 
-              <div className="pt-2 border-t border-slate-200/60 flex flex-col sm:flex-row gap-2">
-                <Link
-                  href="/dashboard"
-                  className="bg-sterling-navy hover:bg-sterling-navy-light text-white font-bold py-2 px-4 rounded-xl text-xs transition-colors inline-flex items-center justify-center gap-1.5"
-                >
-                  <UserCheck className="w-3.5 h-3.5 text-sterling-gold" />
-                  Ouvrir mon Espace Client Dédié
-                </Link>
-              </div>
-            </div>
+                {/* Progress Steps Timeline */}
+                <div className="space-y-4">
+                  <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider">Application Progress</h4>
+                  <div className="space-y-3">
+                    {result.steps.map((st: any, i: number) => (
+                      <div key={i} className="flex items-center justify-between text-xs p-3 rounded-xl bg-slate-50 border border-slate-100">
+                        <div className="flex items-center gap-3">
+                          <div className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
+                            st.status === "completed"
+                              ? "bg-emerald-100 text-emerald-600"
+                              : st.status === "current"
+                              ? "bg-sterling-gold/20 text-sterling-gold animate-pulse"
+                              : "bg-slate-200 text-slate-400"
+                          }`}>
+                            {st.status === "completed" ? (
+                              <CheckCircle2 className="w-4 h-4" />
+                            ) : (
+                              <Clock className="w-4 h-4" />
+                            )}
+                          </div>
+                          <div>
+                            <div className="font-bold text-slate-800">{st.name}</div>
+                            <div className="text-[10px] text-slate-400">{st.date}</div>
+                          </div>
+                        </div>
 
+                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                          st.status === "completed"
+                            ? "bg-emerald-50 text-emerald-700"
+                            : st.status === "current"
+                            ? "bg-amber-100 text-amber-800"
+                            : "bg-slate-100 text-slate-500"
+                        }`}>
+                          {st.status === "completed" ? "Completed" : st.status === "current" ? "Action Required" : "Pending"}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Loan Officer Remark */}
+                <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 space-y-1">
+                  <div className="text-[11px] font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-sterling-gold" />
+                    Financing Officer Notes
+                  </div>
+                  <p className="text-xs text-slate-700 leading-relaxed italic">
+                    &ldquo;{result.remarks}&rdquo;
+                  </p>
+                </div>
+
+                {/* Portal link button */}
+                <div className="pt-2">
+                  <Link
+                    href="/dashboard"
+                    className="w-full py-3 px-4 rounded-xl bg-sterling-navy hover:bg-sterling-navy-deep text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow"
+                  >
+                    <span>Open Dedicated Client Portal</span>
+                    <ArrowRight className="w-4 h-4 text-sterling-gold" />
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white rounded-3xl p-8 text-center border border-slate-200 shadow-sm space-y-3">
+                <AlertCircle className="w-10 h-10 text-rose-500 mx-auto" />
+                <h3 className="font-bold text-slate-800">No application found with this reference</h3>
+                <p className="text-xs text-slate-500 max-w-md mx-auto">
+                  Please verify your reference number (found in your confirmation email or SMS) or contact your lending officer via WhatsApp.
+                </p>
+              </div>
+            )}
           </div>
         )}
 

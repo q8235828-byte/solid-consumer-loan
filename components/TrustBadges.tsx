@@ -1,33 +1,33 @@
 "use client";
 
 import React from "react";
-import { ShieldCheck, Lock, Award, Building } from "lucide-react";
+import { ShieldCheck, Lock, Award, Building2, CheckCircle2 } from "lucide-react";
 
 export default function TrustBadges() {
   const badges = [
     {
-      title: "ACPR • Banque de France",
-      subtitle: "Établissement de Crédit Agréé",
-      description: "Sterling Bank est agréée et contrôlée par l'Autorité de Contrôle Prudentiel et de Résolution (Code Banque 10248).",
-      icon: Building,
+      icon: Building2,
+      title: "Regulated Banking Authority",
+      subtitle: "Licensed Financial Institution",
+      description: "Sterling Bank of Asia operates under formal regulatory prudential banking oversight and international banking standards.",
     },
     {
-      title: "Garantie FGDR",
-      subtitle: "Protection des Avoirs",
-      description: "Adhérent au Fonds de Garantie des Dépôts et de Résolution, vos comptes sont couverts jusqu'à 100 000 € par déposant.",
-      icon: Award,
-    },
-    {
-      title: "Conformité RGPD",
-      subtitle: "Protection des Données Personnelles",
-      description: "Vos informations sont traitées dans le strict respect de la réglementation européenne et de la CNIL.",
       icon: ShieldCheck,
+      title: "Deposit & Capital Protection",
+      subtitle: "Insured Banking Facility",
+      description: "Eligible customer deposits and financing structures are protected under applicable statutory insurance frameworks.",
     },
     {
-      title: "Sécurité & E-Signature eIDAS",
-      subtitle: "Chiffrement Bancaire 256-bit",
-      description: "Protocole TLS 1.3 certifié et signature électronique qualifiée conforme aux normes bancaires de l'Union Européenne.",
+      icon: Award,
+      title: "Data Privacy & Compliance",
+      subtitle: "Strict Confidentiality",
+      description: "Your financial information is processed in strict compliance with international banking privacy and confidentiality laws.",
+    },
+    {
       icon: Lock,
+      title: "256-Bit SSL & Digital Trust",
+      subtitle: "Encrypted Transactions",
+      description: "End-to-end cryptographic encryption for all digital applications, identity verification, and document workflows.",
     },
   ];
 
@@ -43,16 +43,16 @@ export default function TrustBadges() {
                 className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm flex items-start gap-4 hover:border-sterling-gold/50 transition-colors"
               >
                 <div className="w-11 h-11 rounded-xl bg-sterling-navy/5 flex items-center justify-center text-sterling-gold shrink-0 mt-0.5">
-                  <Icon className="w-5 h-5 stroke-[2.2]" />
+                  <Icon className="w-5 h-5" />
                 </div>
-                <div>
-                  <h4 className="text-sm font-bold text-sterling-navy leading-tight">
-                    {badge.title}
-                  </h4>
-                  <div className="text-[11px] font-semibold text-sterling-gold-dark mt-0.5 mb-1.5">
+                <div className="space-y-1">
+                  <div className="text-[10px] font-bold text-sterling-gold uppercase tracking-wider">
                     {badge.subtitle}
                   </div>
-                  <p className="text-[11px] text-slate-500 leading-relaxed">
+                  <h4 className="font-bold text-sterling-navy text-sm">
+                    {badge.title}
+                  </h4>
+                  <p className="text-xs text-slate-500 leading-relaxed">
                     {badge.description}
                   </p>
                 </div>

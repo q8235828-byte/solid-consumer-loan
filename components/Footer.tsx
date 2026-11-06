@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Building2, Phone, Mail, MapPin, ExternalLink, ShieldCheck, UserCheck, SlidersHorizontal } from "lucide-react";
+import { Building2, Phone, Mail, MapPin, ExternalLink, ShieldCheck, UserCheck, SlidersHorizontal, Lock } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -26,100 +26,103 @@ export default function Footer() {
             </div>
 
             <p className="text-xs text-slate-300 leading-relaxed max-w-sm">
-              Sterling Bank France est un établissement de crédit agréé et contrôlé par l&apos;ACPR (Banque de France). Nous accompagnons les particuliers dans tous leurs projets de financement avec transparence, réactivité et sans frais cachés.
+              Sterling Bank of Asia is a licensed banking institution providing consumer loans, mortgage financing, corporate facilities, and digital private lending with full transparency and security.
             </p>
 
             <div className="pt-2 text-xs text-slate-300 space-y-2">
               <div className="flex items-center gap-2">
                 <MapPin className="w-3.5 h-3.5 text-sterling-gold shrink-0" />
-                <span>14 Rue de Rivoli, 75004 Paris, France</span>
+                <span>Sterling Bank Corporate Center, Global Financial District</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-sterling-gold shrink-0" />
-                <span>Service Client & Conseils : 01 89 54 22 10 (Appel non surtaxé)</span>
+                <span>Customer Care & Loan Advisory: Available 24/7</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-emerald-400 font-bold text-xs">WhatsApp :</span>
-                <a href="https://wa.me/?text=Hello%20I%20am%20interested%20in%20your%20Loan%20Offer" target="_blank" rel="noreferrer" className="text-emerald-400 hover:underline">
-                  Assistance Directe WhatsApp
+                <span className="text-emerald-400 font-bold text-xs">WhatsApp:</span>
+                <a 
+                  href="https://wa.me/?text=Hello%20I%20am%20interested%20in%20your%20Loan%20Offer" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="text-emerald-400 hover:underline"
+                >
+                  Direct WhatsApp Support
                 </a>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-sterling-gold shrink-0" />
-                <span>contact@sterlingbank.fr</span>
+                <span>contact@sterlingbankasia.com</span>
               </div>
             </div>
           </div>
 
-          {/* Solutions de Financement */}
+          {/* Financing Solutions */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-sterling-gold uppercase tracking-wider">
-              Crédits aux Particuliers
+              Financing Solutions
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
-              <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors font-medium text-sterling-gold">Prêt Personnel Dédié (Persona)</Link></li>
-              <li><Link href="/auto-loans" className="hover:text-sterling-gold transition-colors">Prêt Auto & Éco-Mobilité (Ultima)</Link></li>
-              <li><Link href="/home-loans" className="hover:text-sterling-gold transition-colors">Prêt Travaux & Habitat (Discovery)</Link></li>
-              <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Dossier de Demande en Ligne</Link></li>
-              <li><Link href="/tracker" className="hover:text-sterling-gold transition-colors">Portail Suivi de Dossier</Link></li>
-              <li><Link href="/personal-loans#calculator-section" className="hover:text-sterling-gold transition-colors">Tableau d&apos;Amortissement Détaillé</Link></li>
+              <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors font-medium text-sterling-gold">Persona Personal Loan</Link></li>
+              <li><Link href="/auto-loans" className="hover:text-sterling-gold transition-colors">Auto Loan & Fleet Facility</Link></li>
+              <li><Link href="/home-loans" className="hover:text-sterling-gold transition-colors">Home Loan & Construction</Link></li>
+              <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Private Investment Lending ($100k-$500M)</Link></li>
+              <li><Link href="/tracker" className="hover:text-sterling-gold transition-colors">Application Status Tracker</Link></li>
+              <li><Link href="/loan-calculator" className="hover:text-sterling-gold transition-colors">Interactive Loan Simulator</Link></li>
             </ul>
           </div>
 
-          {/* Espace & Services en Ligne */}
+          {/* Online Banking & Services */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-sterling-gold uppercase tracking-wider">
-              Services en Ligne
+              Online Banking & Tools
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
-              <li><Link href="/login" className="hover:text-sterling-gold transition-colors flex items-center gap-1.5"><UserCheck className="w-3.5 h-3.5 text-sterling-gold" /> Espace Client (Connexion)</Link></li>
-              <li><Link href="/register" className="hover:text-sterling-gold transition-colors flex items-center gap-1.5"><UserCheck className="w-3.5 h-3.5 text-emerald-400" /> Ouvrir un Compte (Inscription)</Link></li>
-              <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Tableau de Bord Emprunteur</Link></li>
-              <li><Link href="/tracker" className="hover:text-sterling-gold transition-colors">Suivi de Demande en Direct</Link></li>
-              <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Pièces Justificatives Requises</Link></li>
-              <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Questions Fréquentes (FAQ)</Link></li>
+              <li><Link href="/login" className="hover:text-sterling-gold transition-colors flex items-center gap-1.5"><UserCheck className="w-3.5 h-3.5 text-sterling-gold" /> Secure Client Login</Link></li>
+              <li><Link href="/register" className="hover:text-sterling-gold transition-colors flex items-center gap-1.5"><UserCheck className="w-3.5 h-3.5 text-emerald-400" /> Enroll / Open Account</Link></li>
+              <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Borrower Portal Dashboard</Link></li>
+              <li><Link href="/tracker" className="hover:text-sterling-gold transition-colors">Real-Time Application Status</Link></li>
+              <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Required Documentation</Link></li>
+              <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Frequently Asked Questions (FAQ)</Link></li>
             </ul>
           </div>
 
-          {/* Réglementation & Protection */}
+          {/* Compliance & Regulatory Trust */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-sterling-gold uppercase tracking-wider">
-              Mentions Légales & Sécurité
+              Regulatory Compliance & Security
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Agrément ACPR & Banque de France</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Garantie FGDR (jusqu&apos;à 100 000 €)</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Protection des Données (RGPD / CNIL)</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Code de la Consommation (Art. L312-5)</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Médiateur de la Fédération Bancaire (FBF)</a></li>
+              <li><a href="#" className="hover:text-sterling-gold transition-colors">Licensed Prudential Banking Authority</a></li>
+              <li><a href="#" className="hover:text-sterling-gold transition-colors">Statutory Deposit Protection Framework</a></li>
+              <li><a href="#" className="hover:text-sterling-gold transition-colors">Data Privacy & Global Confidentiality</a></li>
+              <li><a href="#" className="hover:text-sterling-gold transition-colors">Consumer Lending Regulations & Disclosure</a></li>
+              <li><a href="#" className="hover:text-sterling-gold transition-colors">Financial Ombudsman Dispute Resolution</a></li>
             </ul>
           </div>
 
         </div>
 
-        {/* Legal warning box required by French law */}
-        <div className="mt-8 p-4 bg-amber-500/10 border border-amber-400/30 rounded-xl text-center">
-          <p className="text-xs md:text-sm font-semibold text-amber-300 tracking-wide">
-            « Un crédit vous engage et doit être remboursé. Vérifiez vos capacités de remboursement avant de vous engager. »
+        {/* Responsible Lending Advisory Box */}
+        <div className="mt-8 p-4 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-300 space-y-2">
+          <div className="flex items-center gap-2 font-bold text-sterling-gold">
+            <ShieldCheck className="w-4 h-4 text-sterling-gold" />
+            <span>Responsible Lending Notice & Capital Commitment</span>
+          </div>
+          <p className="leading-relaxed">
+            Borrowing involves a financial commitment that must be repaid. Please verify your monthly repayment capability before entering into any credit agreement. All loan approvals are subject to underwriting assessment, identity verification, and required regulatory compliance. Available in USD ($) and EUR (€).
           </p>
         </div>
 
-        {/* Regulatory Disclaimer Notice */}
-        <div className="pt-6 text-[11px] text-slate-400 space-y-2 leading-relaxed">
-          <p>
-            Sterling Bank France, Société Anonyme au capital de 85 000 000 €, immatriculée au RCS de Paris sous le n° 849 203 118. Siège social : 14 Rue de Rivoli, 75004 Paris. Établissement de crédit agréé sous le code banque CIB 17829 par l&apos;Autorité de Contrôle Prudentiel et de Résolution (ACPR, 4 Place de Budapest, CS 92459, 75436 Paris Cedex 09) et soumis au contrôle de la Banque de France. Intermédiaire d&apos;assurance immatriculé à l&apos;ORIAS sous le n° 19004821.
-          </p>
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-4 border-t border-white/5 text-[10px] text-slate-400">
-            <div>
-              © {new Date().getFullYear()} Sterling Bank France. Tous droits réservés. Financement responsable et transparent.
-            </div>
-            <div className="flex items-center gap-4 mt-2 sm:mt-0">
-              <span className="flex items-center gap-1"><ShieldCheck className="w-3.5 h-3.5 text-sterling-gold" /> Chiffrement AES-256</span>
-              <span>•</span>
-              <span>Certifié ISO/IEC 27001</span>
-              <span>•</span>
-              <span>Garantie FGDR 100 000 €</span>
-            </div>
+        {/* Bottom Credits & Copyright */}
+        <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400">
+          <div>
+            &copy; {new Date().getFullYear()} Sterling Bank of Asia. All rights reserved.
+          </div>
+          <div className="flex items-center gap-6">
+            <Link href="/" className="hover:text-sterling-gold transition-colors">Privacy Policy</Link>
+            <Link href="/" className="hover:text-sterling-gold transition-colors">Terms of Service</Link>
+            <Link href="/" className="hover:text-sterling-gold transition-colors">Security Disclosures</Link>
+            <Link href="/admin" className="text-slate-500 hover:text-slate-400">Admin Portal</Link>
           </div>
         </div>
 

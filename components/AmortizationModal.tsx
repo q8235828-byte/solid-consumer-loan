@@ -1,133 +1,167 @@
 "use client";
 
 import React from "react";
-import { X, Calendar, Printer } from "lucide-react";
-import { formatEUR } from "@/lib/utils";
-
-interface AmortizationRow {
-  month: number;
-  beginningBalance: number;
-  payment: number;
-  principal: number;
-  interest: number;
-  endingBalance: number;
-}
+import { X, Calendar, Download, ShieldCheck, Printer } from "lucide-react";
 
 interface AmortizationModalProps {
   isOpen: boolean;
   onClose: () => void;
   principal: number;
-  monthlyPayment: number;
   tenorMonths: number;
-  annualRatePct: number;
-  totalInterest: number;
-  totalRepayment: number;
+  annualRate?: number;
+  annualRatePct?: number;
+  monthlyPayment: number;
+  totalRepayment?: number;
+  totalInterest?: number;
+  currency?: string;
 }
 
 export default function AmortizationModal({
   isOpen,
   onClose,
   principal,
-  monthlyPayment,
   tenorMonths,
+  annualRate,
   annualRatePct,
-  totalInterest,
-  totalRepayment,
+  monthlyPayment,
+  currency = "USD",
 }: AmortizationModalProps) {
   if (!isOpen) return null;
 
-  // Monthly interest computation
-  const monthlyRate = annualRatePct / 100 / 12;
-  const rows: AmortizationRow[] = [];
-  let balance = principal;
+  const effectiveRate = annualRate ?? annualRatePct ?? 2.85;
+  const monthlyRate = effectiveRate / 100 / 12;
+  const schedule = [];
+  let remainingBalance = principal;
+  let totalInterest = 0;
 
-  for (let m = 1; m <= tenorMonths; m++) {
-    const interestPart = balance * monthlyRate;
-    const principalPart = monthlyPayment - interestPart;
-    const ending = Math.max(0, balance - principalPart);
+  for (let month = 1; month <= tenorMonths; month++) {
+    const interest = remainingBalance * monthlyRate;
+    const principalPaid = monthlyPayment - interest;
+    totalInterest += interest;
+    remainingBalance = Math.max(0, remainingBalance - principalPaid);
 
-    rows.push({
-      month: m,
-      beginningBalance: balance,
-      payment: monthlyPayment,
-      principal: principalPart,
-      interest: interestPart,
-      endingBalance: ending,
+    schedule.push({
+      month,
+      monthlyPayment,
+      principalPaid,
+      interest,
+      totalInterest,
+      remainingBalance,
     });
-
-    balance = ending;
   }
+
+  const symbol = currency === "EUR" ? "€" : "$";
+  const formatMoney = (val: number) => {
+    return `${symbol}${val.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+  };
 
   const handlePrint = () => {
     window.print();
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden border border-slate-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="relative w-full max-w-4xl max-h-[90vh] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200">
+        
         {/* Header */}
-        <div className="bg-sterling-navy text-white px-6 py-5 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-sterling-gold/20 rounded-lg text-sterling-gold">
-              <Calendar className="w-5 h-5" />
+        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 bg-slate-50/50">
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-50 text-sterling-gold border border-amber-200 mb-1">
+              <ShieldCheck className="w-3 h-3" />
+              Official Amortization Schedule
             </div>
-            <div>
-              <h3 className="text-lg font-bold">Tableau d&apos;Amortissement Indicatif</h3>
-              <p className="text-xs text-slate-300">
-                Montant : {formatEUR(principal)} | Durée : {tenorMonths} mois | TAEG fixe : {annualRatePct.toFixed(2)}%
-              </p>
-            </div>
+            <h3 className="text-lg font-black text-sterling-navy font-display">
+              Detailed Loan Repayment Schedule
+            </h3>
+            <p className="text-xs text-slate-500">
+              Amount: {formatMoney(principal)} | Tenor: {tenorMonths} Months | Fixed APR: {effectiveRate.toFixed(2)}%
+            </p>
           </div>
-          <button 
-            onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
 
-        {/* Summary Badges */}
-        <div className="bg-slate-50 px-6 py-4 grid grid-cols-2 sm:grid-cols-4 gap-4 border-b border-slate-200 text-xs">
-          <div>
-            <div className="text-slate-500 font-medium">Mensualité (hors ass.)</div>
-            <div className="text-sm font-bold text-sterling-navy">{formatEUR(monthlyPayment)} / mois</div>
-          </div>
-          <div>
-            <div className="text-slate-500 font-medium">Montant Emprunté</div>
-            <div className="text-sm font-bold text-slate-800">{formatEUR(principal)}</div>
-          </div>
-          <div>
-            <div className="text-slate-500 font-medium">Coût Total des Intérêts</div>
-            <div className="text-sm font-bold text-amber-600">{formatEUR(totalInterest)}</div>
-          </div>
-          <div>
-            <div className="text-slate-500 font-medium">Montant Total Dû</div>
-            <div className="text-sm font-bold text-sterling-navy">{formatEUR(totalRepayment)}</div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePrint}
+              type="button"
+              className="p-2 rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors"
+              title="Print Schedule"
+            >
+              <Printer className="w-5 h-5" />
+            </button>
+            <button
+              onClick={onClose}
+              type="button"
+              className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
         </div>
 
-        {/* Table Content */}
-        <div className="overflow-y-auto flex-1 p-6">
-          <table className="w-full text-left text-xs text-slate-600">
-            <thead className="bg-slate-100 text-slate-700 font-semibold sticky top-0 uppercase tracking-wider">
+        {/* Summary Metric Strip */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 mx-6 my-4 bg-slate-50 rounded-2xl border border-slate-200/80 text-xs">
+          <div>
+            <div className="text-slate-500 font-medium">Monthly Payment</div>
+            <div className="text-base font-black text-sterling-navy font-mono">
+              {formatMoney(monthlyPayment)}
+            </div>
+          </div>
+          <div>
+            <div className="text-slate-500 font-medium">Principal Borrowed</div>
+            <div className="text-base font-bold text-slate-800 font-mono">
+              {formatMoney(principal)}
+            </div>
+          </div>
+          <div>
+            <div className="text-slate-500 font-medium">Total Interest Paid</div>
+            <div className="text-base font-bold text-sterling-gold-dark font-mono">
+              {formatMoney(totalInterest)}
+            </div>
+          </div>
+          <div>
+            <div className="text-slate-500 font-medium">Total Cost of Facility</div>
+            <div className="text-base font-black text-emerald-700 font-mono">
+              {formatMoney(principal + totalInterest)}
+            </div>
+          </div>
+        </div>
+
+        {/* Scrollable Table */}
+        <div className="flex-1 overflow-y-auto px-6 pb-6">
+          <table className="w-full text-left text-xs">
+            <thead className="sticky top-0 bg-white border-b border-slate-200 text-slate-500 font-semibold uppercase text-[10px] tracking-wider">
               <tr>
-                <th className="py-2.5 px-3">Mois</th>
-                <th className="py-2.5 px-3">Capital restant dû</th>
-                <th className="py-2.5 px-3">Mensualité</th>
-                <th className="py-2.5 px-3">Capital amorti</th>
-                <th className="py-2.5 px-3">Intérêts</th>
-                <th className="py-2.5 px-3">Capital de fin</th>
+                <th className="py-2.5 px-3">Month</th>
+                <th className="py-2.5 px-3">Monthly Payment</th>
+                <th className="py-2.5 px-3">Principal</th>
+                <th className="py-2.5 px-3">Interest</th>
+                <th className="py-2.5 px-3">Total Interest</th>
+                <th className="py-2.5 px-3">Remaining Balance</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 font-mono">
-              {rows.map((row) => (
+              {schedule.map((row) => (
                 <tr key={row.month} className="hover:bg-slate-50/80 transition-colors">
-                  <td className="py-2 px-3 font-sans font-medium text-slate-900">{row.month}</td>
-                  <td className="py-2 px-3">{formatEUR(row.beginningBalance)}</td>
-                  <td className="py-2 px-3 font-semibold text-sterling-navy">{formatEUR(row.payment)}</td>
-                  <td className="py-2 px-3 text-emerald-700">{formatEUR(row.principal)}</td>
-                  <td className="py-2 px-3 text-amber-700">{formatEUR(row.interest)}</td>
-                  <td className="py-2 px-3">{formatEUR(row.endingBalance)}</td>
+                  <td className="py-2 px-3 text-slate-600 font-sans font-medium">
+                    #{row.month}
+                  </td>
+                  <td className="py-2 px-3 font-bold text-sterling-navy">
+                    {formatMoney(row.monthlyPayment)}
+                  </td>
+                  <td className="py-2 px-3 text-emerald-700">
+                    {formatMoney(row.principalPaid)}
+                  </td>
+                  <td className="py-2 px-3 text-amber-700">
+                    {formatMoney(row.interest)}
+                  </td>
+                  <td className="py-2 px-3 text-slate-500">
+                    {formatMoney(row.totalInterest)}
+                  </td>
+                  <td className="py-2 px-3 font-semibold text-slate-800">
+                    {formatMoney(row.remainingBalance)}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -135,24 +169,16 @@ export default function AmortizationModal({
         </div>
 
         {/* Footer */}
-        <div className="bg-slate-50 px-6 py-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
-          <div>* Exemple indicatif hors assurance facultative. Offre soumise à étude et acceptation définitive du dossier.</div>
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={handlePrint}
-              className="px-4 py-2 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 font-medium rounded-lg flex items-center gap-2 transition-colors shadow-sm"
-            >
-              <Printer className="w-4 h-4" />
-              Imprimer l&apos;échéancier
-            </button>
-            <button 
-              onClick={onClose}
-              className="px-5 py-2 bg-sterling-navy text-white hover:bg-sterling-navy-light font-medium rounded-lg transition-colors"
-            >
-              Fermer
-            </button>
-          </div>
+        <div className="flex items-center justify-between px-6 py-4 border-t border-slate-100 bg-slate-50 text-xs text-slate-500">
+          <span>Non-contractual simulation based on fixed rate parameters.</span>
+          <button
+            onClick={onClose}
+            className="px-5 py-2 rounded-xl bg-sterling-navy hover:bg-sterling-navy-deep text-white font-bold text-xs"
+          >
+            Close Schedule
+          </button>
         </div>
+
       </div>
     </div>
   );

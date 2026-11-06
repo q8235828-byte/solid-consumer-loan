@@ -11,15 +11,15 @@ declare global {
 }
 
 const LANGUAGES = [
+  { code: "en", label: "English", flag: "🇺🇸", short: "EN" },
   { code: "fr", label: "Français", flag: "🇫🇷", short: "FR" },
-  { code: "en", label: "English", flag: "🇬🇧", short: "EN" },
   { code: "de", label: "Deutsch", flag: "🇩🇪", short: "DE" },
   { code: "es", label: "Español", flag: "🇪🇸", short: "ES" },
   { code: "it", label: "Italiano", flag: "🇮🇹", short: "IT" },
 ];
 
 export default function GoogleTranslate() {
-  const [currentLang, setCurrentLang] = useState("fr");
+  const [currentLang, setCurrentLang] = useState("en");
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -38,8 +38,8 @@ export default function GoogleTranslate() {
       if (window.google?.translate?.TranslateElement) {
         new window.google.translate.TranslateElement(
           {
-            pageLanguage: "fr",
-            includedLanguages: "fr,en,de,es,it",
+            pageLanguage: "en",
+            includedLanguages: "en,fr,de,es,it",
             autoDisplay: false,
             layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
           },

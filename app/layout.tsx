@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Sterling Bank | Crédit à la Consommation & Prêt Personnel en Ligne",
-  description: "Simulez et souscrivez votre crédit en ligne en 5 minutes : Prêt Personnel, Prêt Auto et Crédit Immobilier à taux fixe compétitif. Réponse de principe immédiate.",
-  keywords: "crédit consommation, prêt personnel, crédit auto, prêt travaux, rachat de crédit, banque en ligne france",
+  title: "Sterling Bank of Asia | Consumer Loans & International Financing",
+  description: "Simulate and apply for your loan online in minutes: Persona Personal Loan, Auto Loan, and Home Improvement Financing with competitive fixed rates. Fast decision.",
+  keywords: "consumer loans, personal loans, auto loans, home renovation loans, private financing, sterling bank of asia",
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <link rel="icon" href="/favicon.ico" sizes="any" />

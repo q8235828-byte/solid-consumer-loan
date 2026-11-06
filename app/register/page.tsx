@@ -34,7 +34,7 @@ export default function RegisterPage() {
 
   // Form State
   const [formData, setFormData] = useState({
-    civility: "M.",
+    civility: "Mr.",
     firstName: "",
     lastName: "",
     birthDate: "",
@@ -43,8 +43,8 @@ export default function RegisterPage() {
     address: "",
     postalCode: "",
     city: "",
-    employment: "Salarié CDI",
-    monthlyIncome: "3200",
+    employment: "Employed Full-Time (Permanent)",
+    monthlyIncome: "5500",
     password: "",
     confirmPassword: "",
     consentRGPD: true,
@@ -57,7 +57,6 @@ export default function RegisterPage() {
   const hasMinLength = formData.password.length >= 8;
   const hasUppercase = /[A-Z]/.test(formData.password);
   const hasNumber = /[0-9]/.test(formData.password);
-  const hasSpecial = /[^A-Za-z0-9]/.test(formData.password);
   const passwordsMatch = formData.password && formData.password === formData.confirmPassword;
 
   const handleNextStep = (e: React.FormEvent) => {
@@ -66,13 +65,13 @@ export default function RegisterPage() {
 
     if (step === 1) {
       if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
-        setError("Veuillez remplir tous les champs obligatoires.");
+        setError("Please complete all required fields.");
         return;
       }
       setStep(2);
     } else if (step === 2) {
       if (!formData.address || !formData.postalCode || !formData.city) {
-        setError("Veuillez renseigner votre adresse de résidence.");
+        setError("Please provide your residential address details.");
         return;
       }
       setStep(3);
@@ -84,17 +83,17 @@ export default function RegisterPage() {
     setError("");
 
     if (!hasMinLength || !hasUppercase || !hasNumber) {
-      setError("Le mot de passe doit respecter tous les critères de sécurité bancaire.");
+      setError("Password must satisfy all standard banking security criteria.");
       return;
     }
 
     if (!passwordsMatch) {
-      setError("Les deux mots de passe ne correspondent pas.");
+      setError("Passwords do not match.");
       return;
     }
 
     if (!formData.consentTerms || !formData.consentRGPD) {
-      setError("Vous devez accepter les conditions générales et la politique de confidentialité.");
+      setError("You must accept the terms of service and data protection policies.");
       return;
     }
 
@@ -107,11 +106,11 @@ export default function RegisterPage() {
         email: formData.email,
         phone: formData.phone,
         loanType: "persona",
-        loanTypeLabel: "Prêt Personnel Express (Demande en attente)",
-        amount: 10000,
+        loanTypeLabel: "Persona Personal Loan (Pre-enrollment)",
+        amount: 15000,
         termMonths: 36,
-        monthlyPayment: 290,
-        monthlyIncome: parseFloat(formData.monthlyIncome) || 3000,
+        monthlyPayment: 435,
+        monthlyIncome: parseFloat(formData.monthlyIncome) || 5000,
         address: formData.address,
         city: formData.city,
         postalCode: formData.postalCode,
@@ -140,22 +139,22 @@ export default function RegisterPage() {
                 <div className="text-center space-y-2">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sterling-gold/15 text-sterling-gold text-xs font-bold">
                     <ShieldCheck className="w-3.5 h-3.5" />
-                    Souscription 100% en Ligne • Sans Frais de Dossier
+                    100% Online Enrollment • Zero Application Fees
                   </div>
                   <h1 className="text-2xl sm:text-3xl font-black text-sterling-navy font-display tracking-tight">
-                    Ouvrir Mon Espace Client
+                    Enroll in Online Banking
                   </h1>
                   <p className="text-xs text-slate-500">
-                    Créez vos identifiants pour gérer votre crédit et suivre vos démarches en toute sécurité.
+                    Create your secure credentials to manage your loan facilities, track applications, and view statements.
                   </p>
                 </div>
 
                 {/* Stepper Progress */}
                 <div className="mt-6 flex items-center justify-between max-w-xs mx-auto border-b border-slate-100 pb-4">
                   {[
-                    { s: 1, label: "Identité" },
-                    { s: 2, label: "Coordonnées" },
-                    { s: 3, label: "Sécurité" }
+                    { s: 1, label: "Identity" },
+                    { s: 2, label: "Address & Work" },
+                    { s: 3, label: "Security" }
                   ].map((item) => (
                     <div key={item.s} className="flex flex-col items-center">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
@@ -186,9 +185,9 @@ export default function RegisterPage() {
                 {step === 1 && (
                   <form onSubmit={handleNextStep} className="mt-6 space-y-4">
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Civilité</label>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Title</label>
                       <div className="flex gap-4 text-xs font-semibold">
-                        {["M.", "Mme"].map((c) => (
+                        {["Mr.", "Mrs.", "Ms."].map((c) => (
                           <label key={c} className="flex items-center gap-2 cursor-pointer">
                             <input
                               type="radio"
@@ -206,23 +205,23 @@ export default function RegisterPage() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Prénom *</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">First Name *</label>
                         <input
                           type="text"
                           value={formData.firstName}
                           onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                          placeholder="ex: Jean-Pierre"
+                          placeholder="e.g. John"
                           className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-sterling-gold outline-none"
                           required
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Nom *</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Last Name *</label>
                         <input
                           type="text"
                           value={formData.lastName}
                           onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                          placeholder="ex: Lambert"
+                          placeholder="e.g. Harrison"
                           className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-sterling-gold outline-none"
                           required
                         />
@@ -230,14 +229,14 @@ export default function RegisterPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Adresse Email *</label>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Email Address *</label>
                       <div className="relative">
                         <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                         <input
                           type="email"
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          placeholder="votre.email@domaine.fr"
+                          placeholder="john.harrison@example.com"
                           className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-sterling-gold outline-none"
                           required
                         />
@@ -245,14 +244,14 @@ export default function RegisterPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Téléphone Mobile Français (06 ou 07) *</label>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Mobile Phone Number *</label>
                       <div className="relative">
                         <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                         <input
                           type="tel"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          placeholder="06 12 34 56 78"
+                          placeholder="+1 (555) 234-5678"
                           className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-sterling-gold outline-none"
                           required
                         />
@@ -263,24 +262,24 @@ export default function RegisterPage() {
                       type="submit"
                       className="w-full py-3 rounded-xl bg-sterling-navy hover:bg-sterling-navy-light text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 mt-4"
                     >
-                      <span>Continuer vers l&apos;Étape 2</span>
+                      <span>Continue to Step 2: Address</span>
                       <ArrowRight className="w-4 h-4" />
                     </button>
                   </form>
                 )}
 
-                {/* STEP 2: Address & Situation */}
+                {/* STEP 2: Address & Residence */}
                 {step === 2 && (
                   <form onSubmit={handleNextStep} className="mt-6 space-y-4">
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">Adresse Postale *</label>
+                      <label className="block text-xs font-bold text-slate-700 mb-1">Residential Address *</label>
                       <div className="relative">
                         <MapPin className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
                         <input
                           type="text"
                           value={formData.address}
                           onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                          placeholder="Numéro et nom de rue"
+                          placeholder="Street address, building, apartment/suite"
                           className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-sterling-gold outline-none"
                           required
                         />
@@ -289,24 +288,23 @@ export default function RegisterPage() {
 
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Code Postal *</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Postal / ZIP Code *</label>
                         <input
                           type="text"
-                          maxLength={5}
                           value={formData.postalCode}
                           onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
-                          placeholder="75008"
+                          placeholder="10001"
                           className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-sterling-gold outline-none"
                           required
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Ville *</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">City *</label>
                         <input
                           type="text"
                           value={formData.city}
                           onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                          placeholder="Paris"
+                          placeholder="New York"
                           className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-sterling-gold outline-none"
                           required
                         />
@@ -315,27 +313,27 @@ export default function RegisterPage() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Situation Professionnelle</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Employment Status</label>
                         <select
                           value={formData.employment}
                           onChange={(e) => setFormData({ ...formData, employment: e.target.value })}
                           className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-sterling-gold outline-none bg-white"
                         >
-                          <option value="Salarié CDI">Salarié en CDI</option>
-                          <option value="Fonctionnaire">Fonctionnaire d&apos;État / Territoire</option>
-                          <option value="Profession Libérale">Profession Libérale / Indépendant</option>
-                          <option value="Retraité">Retraité</option>
-                          <option value="Salarié CDD">Salarié en CDD</option>
+                          <option value="Employed Full-Time (Permanent)">Employed Full-Time (Permanent)</option>
+                          <option value="Self-Employed / Business Owner">Self-Employed / Business Owner</option>
+                          <option value="Government / Public Sector">Government / Public Sector</option>
+                          <option value="Retired">Retired</option>
+                          <option value="Contract / Fixed-Term">Contract / Fixed-Term</option>
                         </select>
                       </div>
 
                       <div>
-                        <label className="block text-xs font-bold text-slate-700 mb-1">Revenus Nets Mensuels (€)</label>
+                        <label className="block text-xs font-bold text-slate-700 mb-1">Net Monthly Income ($ / €)</label>
                         <input
                           type="number"
                           value={formData.monthlyIncome}
                           onChange={(e) => setFormData({ ...formData, monthlyIncome: e.target.value })}
-                          placeholder="3200"
+                          placeholder="5500"
                           className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-sterling-gold outline-none"
                         />
                       </div>
@@ -347,13 +345,13 @@ export default function RegisterPage() {
                         onClick={() => setStep(1)}
                         className="px-4 py-3 rounded-xl border border-slate-200 text-slate-600 font-bold text-xs hover:bg-slate-50 transition-colors"
                       >
-                        Précédent
+                        Back
                       </button>
                       <button
                         type="submit"
                         className="flex-1 py-3 rounded-xl bg-sterling-navy hover:bg-sterling-navy-light text-white font-bold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2"
                       >
-                        <span>Étape 3 : Sécurité & Mot de Passe</span>
+                        <span>Step 3: Security & Password</span>
                         <ArrowRight className="w-4 h-4" />
                       </button>
                     </div>
@@ -365,7 +363,7 @@ export default function RegisterPage() {
                   <form onSubmit={handleRegisterSubmit} className="mt-6 space-y-4">
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1">
-                        Définir un Mot de Passe Sécurisé *
+                        Create Secure Password *
                       </label>
                       <div className="relative">
                         <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
@@ -389,7 +387,7 @@ export default function RegisterPage() {
 
                     <div>
                       <label className="block text-xs font-bold text-slate-700 mb-1">
-                        Confirmer le Mot de Passe *
+                        Confirm Password *
                       </label>
                       <div className="relative">
                         <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
@@ -408,19 +406,19 @@ export default function RegisterPage() {
                     <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 text-[11px] grid grid-cols-2 gap-1.5">
                       <div className={`flex items-center gap-1.5 ${hasMinLength ? "text-emerald-700 font-bold" : "text-slate-400"}`}>
                         {hasMinLength ? <Check className="w-3.5 h-3.5" /> : <X className="w-3.5 h-3.5" />}
-                        <span>8 caractères minimum</span>
+                        <span>At least 8 characters</span>
                       </div>
                       <div className={`flex items-center gap-1.5 ${hasUppercase ? "text-emerald-700 font-bold" : "text-slate-400"}`}>
                         {hasUppercase ? <Check className="w-3.5 h-3.5" /> : <X className="w-3.5 h-3.5" />}
-                        <span>1 majuscule</span>
+                        <span>1 uppercase letter</span>
                       </div>
                       <div className={`flex items-center gap-1.5 ${hasNumber ? "text-emerald-700 font-bold" : "text-slate-400"}`}>
                         {hasNumber ? <Check className="w-3.5 h-3.5" /> : <X className="w-3.5 h-3.5" />}
-                        <span>1 chiffre</span>
+                        <span>1 number</span>
                       </div>
                       <div className={`flex items-center gap-1.5 ${passwordsMatch ? "text-emerald-700 font-bold" : "text-slate-400"}`}>
                         {passwordsMatch ? <Check className="w-3.5 h-3.5" /> : <X className="w-3.5 h-3.5" />}
-                        <span>Mots de passe identiques</span>
+                        <span>Passwords match</span>
                       </div>
                     </div>
 
@@ -435,7 +433,7 @@ export default function RegisterPage() {
                           required
                         />
                         <span className="text-slate-600 leading-tight">
-                          J&apos;accepte les <strong>Conditions Générales d&apos;Utilisation</strong> du service bancaire en ligne Sterling Bank.
+                          I accept the <strong>Terms of Service & Online Banking Agreement</strong> of Sterling Bank of Asia.
                         </span>
                       </label>
 
@@ -448,7 +446,7 @@ export default function RegisterPage() {
                           required
                         />
                         <span className="text-slate-600 leading-tight">
-                          Je consens au traitement sécurisé de mes données conformément au <strong>RGPD</strong> et à la réglementation bancaire ACPR.
+                          I consent to the secure processing of my financial information in accordance with <strong>applicable banking privacy regulations</strong>.
                         </span>
                       </label>
                     </div>
@@ -459,7 +457,7 @@ export default function RegisterPage() {
                         onClick={() => setStep(2)}
                         className="px-4 py-3 rounded-xl border border-slate-200 text-slate-600 font-bold text-xs hover:bg-slate-50 transition-colors"
                       >
-                        Précédent
+                        Back
                       </button>
 
                       <button
@@ -468,10 +466,10 @@ export default function RegisterPage() {
                         className="flex-1 py-3.5 rounded-xl bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold text-sterling-navy-deep font-extrabold text-xs sm:text-sm shadow-lg shadow-sterling-gold/30 hover:scale-[1.01] transition-all flex items-center justify-center gap-2"
                       >
                         {loading ? (
-                          <span>Création du compte en cours...</span>
+                          <span>Creating account securely...</span>
                         ) : (
                           <>
-                            <span>Créer Mon Compte Sécurisé</span>
+                            <span>Create My Secure Account</span>
                             <ArrowRight className="w-4 h-4 stroke-[2.5]" />
                           </>
                         )}
@@ -483,13 +481,13 @@ export default function RegisterPage() {
                 {/* Login link */}
                 <div className="mt-6 pt-6 border-t border-slate-100 text-center">
                   <p className="text-xs text-slate-500">
-                    Vous avez déjà un compte client ou un dossier en cours ?
+                    Already have an online banking account or active application?
                   </p>
                   <Link
                     href="/login"
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-sterling-navy hover:text-sterling-gold transition-colors mt-1"
                   >
-                    Se connecter à l&apos;Espace Client →
+                    Sign in to Client Portal →
                   </Link>
                 </div>
               </>
@@ -502,18 +500,18 @@ export default function RegisterPage() {
 
                 <div className="space-y-2">
                   <h3 className="text-2xl font-black text-sterling-navy font-display">
-                    Félicitations, votre compte est créé !
+                    Congratulations, your account is created!
                   </h3>
                   <p className="text-xs text-slate-600 leading-relaxed max-w-sm mx-auto">
-                    Bienvenue chez Sterling Bank France, <span className="font-bold text-slate-800">{formData.firstName} {formData.lastName}</span>. Vos identifiants sécurisés sont désormais actifs.
+                    Welcome to Sterling Bank of Asia, <span className="font-bold text-slate-800">{formData.firstName} {formData.lastName}</span>. Your secure credentials are now active.
                   </p>
                 </div>
 
                 <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs text-slate-700 space-y-1">
-                  <div className="font-semibold text-sterling-navy">Identifiant de connexion :</div>
+                  <div className="font-semibold text-sterling-navy">Login Username / Email:</div>
                   <div className="font-mono font-bold text-sm text-slate-800">{formData.email}</div>
                   <div className="text-[11px] text-emerald-700 font-semibold pt-1">
-                    ✓ Double facteur SMS prêt sur le {formData.phone}
+                    ✓ Two-factor SMS security enabled for {formData.phone}
                   </div>
                 </div>
 
@@ -522,7 +520,7 @@ export default function RegisterPage() {
                     onClick={() => router.push("/dashboard")}
                     className="w-full py-3.5 rounded-xl bg-sterling-navy hover:bg-sterling-navy-light text-white font-extrabold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2"
                   >
-                    <span>Accéder à mon Espace Client (Dashboard)</span>
+                    <span>Access Client Portal (Dashboard)</span>
                     <ArrowRight className="w-4 h-4" />
                   </button>
 
@@ -530,7 +528,7 @@ export default function RegisterPage() {
                     href="/personal-loans"
                     className="block text-center text-xs font-bold text-sterling-gold hover:underline py-1"
                   >
-                    Simuler et demander un Prêt Personnel immédiatement →
+                    Simulate and Apply for Persona Personal Loan →
                   </Link>
                 </div>
               </div>
@@ -539,7 +537,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="text-center text-[11px] text-slate-500">
-            « Un crédit vous engage et doit être remboursé. Vérifiez vos capacités de remboursement avant de vous engager. »
+            Borrowing involves financial commitments. Please review your repayment capacity before proceeding with credit facilities.
           </div>
 
         </div>

@@ -11,7 +11,7 @@ import {
   Lock,
   CheckCircle2
 } from "lucide-react";
-import { formatEUR, formatMoney, CurrencyCode } from "@/lib/utils";
+import { formatMoney, CurrencyCode } from "@/lib/utils";
 import { addApplication } from "@/lib/loanStore";
 import Link from "next/link";
 
@@ -35,28 +35,28 @@ export default function QuickApplyModal({
   const [currency, setCurrency] = useState<CurrencyCode>("USD");
   const [amount, setAmount] = useState(defaultAmount);
 
-  // Form State for France
+  // Form State
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     mobile: "",
     birthDate: "",
-    civilStatus: "Célibataire",
-    idType: "Carte Nationale d'Identité (CNI)",
+    civilStatus: "Single",
+    idType: "Passport / National ID",
     idNumber: "",
     address: "",
     postalCode: "",
     city: "",
-    residenceOwnership: "Locataire",
+    residenceOwnership: "Tenant",
     yearsAtResidence: "3",
-    contractType: "CDI (Contrat à Durée Indéterminée)",
+    contractType: "Permanent Full-Time",
     employerName: "",
     jobTitle: "",
-    netMonthlyIncome: "2800",
-    hasOtherLoans: "Non",
+    netMonthlyIncome: "3500",
+    hasOtherLoans: "No",
     consentRGPD: true,
-    consentFICP: true,
+    consentCreditCheck: true,
   });
 
   const [uploadedFiles, setUploadedFiles] = useState<{ [key: string]: string }>({});
@@ -80,20 +80,20 @@ export default function QuickApplyModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const created = addApplication({
-      applicantName: `${formData.firstName} ${formData.lastName}`.trim() || "Nouveau Demandeur",
-      email: formData.email || "demandeur@example.fr",
-      phone: formData.mobile || "06 00 00 00 00",
+      applicantName: `${formData.firstName} ${formData.lastName}`.trim() || "New Applicant",
+      email: formData.email || "applicant@example.com",
+      phone: formData.mobile || "+1 555-0199",
       loanType: (loanType as any) || "persona",
-      loanTypeLabel: loanType === "persona" ? "Prêt Personnel Express" : loanType === "auto" ? "Prêt Auto" : "Prêt Travaux",
+      loanTypeLabel: loanType === "persona" || loanType === "personnel" ? "Persona Personal Loan" : loanType === "auto" ? "Auto Loan Facility" : "Home Loan & Renovation",
       currency: currency,
       amount: amount,
       termMonths: defaultTenor || 36,
       monthlyPayment: Math.round((amount / (defaultTenor || 36)) * 1.05 * 100) / 100,
-      monthlyIncome: parseFloat(formData.netMonthlyIncome) || 2800,
-      address: formData.address || "Paris",
-      city: formData.city || "Paris",
-      postalCode: formData.postalCode || "75001",
-      employmentType: formData.contractType || "Salarié CDI",
+      monthlyIncome: parseFloat(formData.netMonthlyIncome) || 3500,
+      address: formData.address || "Main Street",
+      city: formData.city || "Metropolis",
+      postalCode: formData.postalCode || "10001",
+      employmentType: formData.contractType || "Full-Time",
     });
 
     setApplicationRef(created.referenceNumber);
@@ -117,9 +117,9 @@ export default function QuickApplyModal({
               <FileCheck2 className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white">Souscription Express en Ligne</h3>
+              <h3 className="text-base font-bold text-white">Online Digital Loan Application</h3>
               <p className="text-xs text-slate-300">
-                {loanType === "personnel" ? "Prêt Personnel" : loanType === "auto" ? "Prêt Véhicule" : "Prêt Travaux"} • Chiffrement Bancaire Sécurisé (France)
+                {loanType === "personnel" || loanType === "persona" ? "Personal Loan" : loanType === "auto" ? "Auto Loan Facility" : "Home & Real Estate"} • 256-Bit SSL Encrypted
               </p>
             </div>
           </div>
@@ -136,11 +136,11 @@ export default function QuickApplyModal({
           <div className="bg-slate-50 px-6 py-3 border-b border-slate-200">
             <div className="flex items-center justify-between max-w-xl mx-auto">
               {[
-                { s: 1, label: "Identité" },
-                { s: 2, label: "Logement" },
-                { s: 3, label: "Situation Pro" },
-                { s: 4, label: "Justificatifs" },
-                { s: 5, label: "Validation" },
+                { s: 1, label: "Identity" },
+                { s: 2, label: "Residence" },
+                { s: 3, label: "Employment" },
+                { s: 4, label: "Documents" },
+                { s: 5, label: "Review" },
               ].map((item) => (
                 <div key={item.s} className="flex flex-col items-center">
                   <div
@@ -152,9 +152,9 @@ export default function QuickApplyModal({
                         : "bg-slate-200 text-slate-500"
                     }`}
                   >
-                    {step > item.s ? <Check className="w-3.5 h-3.5" /> : item.s}
+                    {step > item.s ? <Check className="w-4 h-4 stroke-[3]" /> : item.s}
                   </div>
-                  <span className="text-[10px] font-medium text-slate-500 mt-1 hidden sm:block">
+                  <span className={`text-[10px] mt-1 font-semibold ${step === item.s ? "text-sterling-navy font-bold" : "text-slate-400"}`}>
                     {item.label}
                   </span>
                 </div>
@@ -163,90 +163,84 @@ export default function QuickApplyModal({
           </div>
         )}
 
-        {/* Modal Body */}
-        <div className="overflow-y-auto flex-1 p-6 sm:p-8">
+        {/* Modal Content */}
+        <div className="flex-1 overflow-y-auto p-6">
           {isSubmitted ? (
-            /* Success Screen */
-            <div className="text-center py-8 space-y-6 max-w-md mx-auto">
-              <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-emerald-600/20">
-                <CheckCircle2 className="w-10 h-10 stroke-[2.5]" />
+            /* SUBMISSION SUCCESS CONFIRMATION */
+            <div className="text-center py-8 px-4 space-y-6 animate-in zoom-in-95 duration-200">
+              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-md">
+                <CheckCircle2 className="w-10 h-10" />
               </div>
-              
+
               <div className="space-y-2">
-                <h4 className="text-2xl font-black text-sterling-navy font-display">
-                  Demande Transmise avec Succès !
-                </h4>
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  Merci, <span className="font-bold text-slate-800">{formData.firstName} {formData.lastName}</span>. Votre dossier a été transmis au pôle d&apos;octroi de crédit de Sterling Bank France.
+                <h3 className="text-2xl font-black text-sterling-navy font-display">
+                  Application Successfully Submitted!
+                </h3>
+                <p className="text-sm text-slate-600 max-w-md mx-auto">
+                  Thank you, <span className="font-bold text-slate-800">{formData.firstName} {formData.lastName}</span>. Your application file has been registered.
                 </p>
               </div>
 
-              {/* Reference ID Card */}
-              <div className="bg-slate-50 border-2 border-dashed border-sterling-gold/60 rounded-2xl p-4 text-center space-y-1">
-                <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                  Numéro de Dossier de Crédit
-                </div>
-                <div className="text-xl font-mono font-black text-sterling-navy tracking-wider">
-                  {applicationRef}
+              {/* Reference Box */}
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 max-w-sm mx-auto space-y-1">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  Application Reference Number
+                </span>
+                <div className="text-2xl font-black font-mono text-sterling-navy">
+                  {applicationRef || "SBA-2026-9842"}
                 </div>
                 <div className="text-[11px] text-emerald-700 font-semibold pt-1">
-                  ✓ Confirmation envoyée par email et SMS au {formData.mobile || "06 XX XX XX XX"}
+                  Confirmation sent to {formData.email || "your email address"}
                 </div>
               </div>
 
-              <div className="text-left bg-blue-50/70 border border-blue-100 rounded-xl p-4 text-xs text-slate-600 space-y-1.5">
-                <div className="font-bold text-sterling-navy">Prochaines Étapes :</div>
-                <div>1. Étude express de vos pièces justificatives sous 24h ouvrées.</div>
-                <div>2. Envoi de votre contrat de crédit par signature électronique sécurisée.</div>
-                <div>3. Virement de vos fonds sous 48h dès validation définitive (délai légal de rétractation de 14 jours applicable).</div>
+              {/* Next steps advice */}
+              <div className="text-left max-w-md mx-auto bg-amber-50/60 border border-amber-200/70 rounded-2xl p-4 text-xs text-slate-700 space-y-2">
+                <div className="font-bold text-amber-900">Next Steps:</div>
+                <div>1. Preliminary review of documents within 24 business hours.</div>
+                <div>2. Direct agreement issuance via secure digital signature.</div>
+                <div>3. Fund disbursement to your verified bank account.</div>
               </div>
 
-              <div className="space-y-2">
+              <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
                 <Link
-                  href="/dashboard"
+                  href="/tracker"
                   onClick={handleReset}
-                  className="w-full bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold text-sterling-navy-deep font-extrabold py-3 rounded-xl transition-all shadow-md block text-center text-xs"
+                  className="px-6 py-3 rounded-xl bg-sterling-navy hover:bg-sterling-navy-deep text-white font-bold text-xs uppercase tracking-wider shadow"
                 >
-                  Accéder à mon Espace Client (Suivre mon dossier)
+                  Track Application Status
                 </Link>
                 <button
-                  type="button"
                   onClick={handleReset}
-                  className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl transition-all text-xs"
+                  type="button"
+                  className="px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs uppercase tracking-wider"
                 >
-                  Retour à la page d&apos;accueil
+                  Close Window
                 </button>
               </div>
             </div>
           ) : (
-            /* Wizard Steps */
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5">
               
-              {/* STEP 1: Personal & Identity Information */}
+              {/* STEP 1: Identity & Parameters */}
               {step === 1 && (
-                <div className="space-y-4 animate-in fade-in">
+                <div className="space-y-4 animate-in fade-in duration-150">
                   <div className="border-b border-slate-100 pb-2">
-                    <h4 className="text-base font-bold text-sterling-navy">Étape 1 : Vos Informations Personnelles</h4>
-                    <p className="text-xs text-slate-500">Renseignez vos coordonnées exactes telles qu&apos;inscrites sur vos papiers d&apos;identité.</p>
+                    <h4 className="text-base font-bold text-sterling-navy">Step 1: Financing Parameters & Identity</h4>
+                    <p className="text-xs text-slate-500">Select currency and provide your primary identity details.</p>
                   </div>
 
-                  {/* Currency Selection: USD or EUR only */}
-                  <div className="bg-amber-50/70 border border-sterling-gold/40 rounded-2xl p-3.5 flex items-center justify-between">
-                    <div>
-                      <div className="text-xs font-bold text-sterling-navy flex items-center gap-1.5">
-                        <span>Devise du prêt / Loan Currency</span>
-                        <span className="text-[10px] font-semibold text-sterling-gold-dark bg-amber-100 px-2 py-0.5 rounded-full">USD & EUR Uniquement</span>
-                      </div>
-                      <p className="text-[11px] text-slate-600 mt-0.5">Choisissez la monnaie de versement et de remboursement.</p>
-                    </div>
-                    <div className="inline-flex rounded-xl p-1 bg-white border border-slate-200 shadow-inner">
+                  {/* Currency Picker */}
+                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                    <span className="text-xs font-bold text-slate-700">Loan Currency:</span>
+                    <div className="flex gap-2">
                       <button
                         type="button"
                         onClick={() => setCurrency("USD")}
                         className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                           currency === "USD"
                             ? "bg-sterling-navy text-white shadow-sm"
-                            : "text-slate-600 hover:text-slate-900"
+                            : "bg-white text-slate-600 border border-slate-200"
                         }`}
                       >
                         USD ($)
@@ -257,7 +251,7 @@ export default function QuickApplyModal({
                         className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                           currency === "EUR"
                             ? "bg-sterling-navy text-white shadow-sm"
-                            : "text-slate-600 hover:text-slate-900"
+                            : "bg-white text-slate-600 border border-slate-200"
                         }`}
                       >
                         EUR (€)
@@ -265,381 +259,398 @@ export default function QuickApplyModal({
                     </div>
                   </div>
 
+                  {/* Amount input */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Desired Capital: {currency === "EUR" ? "€" : "$"}{amount.toLocaleString()}
+                    </label>
+                    <input
+                      type="range"
+                      min="5000"
+                      max="1000000"
+                      step="5000"
+                      value={amount}
+                      onChange={(e) => setAmount(Number(e.target.value))}
+                      className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sterling-gold"
+                    />
+                  </div>
+
+                  {/* Names */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Prénom *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">First Name *</label>
                       <input
                         type="text"
                         required
+                        placeholder="John"
                         value={formData.firstName}
                         onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                        placeholder="Marc"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold focus:ring-1 focus:ring-sterling-gold"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Nom de famille *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Last Name *</label>
                       <input
                         type="text"
                         required
+                        placeholder="Smith"
                         value={formData.lastName}
                         onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                        placeholder="Delaunay"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold focus:ring-1 focus:ring-sterling-gold"
                       />
                     </div>
                   </div>
 
+                  {/* Email & Mobile */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Numéro de Mobile (France +33) *</label>
-                      <input
-                        type="tel"
-                        required
-                        value={formData.mobile}
-                        onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                        placeholder="06 12 34 56 78"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Adresse Email *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Email Address *</label>
                       <input
                         type="email"
                         required
+                        placeholder="john.smith@example.com"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        placeholder="marc.delaunay@gmail.com"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold focus:ring-1 focus:ring-sterling-gold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Mobile Phone (WhatsApp enabled) *</label>
+                      <input
+                        type="tel"
+                        required
+                        placeholder="+1 555-0199"
+                        value={formData.mobile}
+                        onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold focus:ring-1 focus:ring-sterling-gold"
                       />
                     </div>
                   </div>
 
+                  {/* Date of Birth & ID Type */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Type de Pièce d&apos;Identité</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Date of Birth *</label>
+                      <input
+                        type="date"
+                        required
+                        value={formData.birthDate}
+                        onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold focus:ring-1 focus:ring-sterling-gold"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Identification Document Type *</label>
                       <select
                         value={formData.idType}
                         onChange={(e) => setFormData({ ...formData, idType: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none bg-white"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none bg-white"
                       >
-                        <option>Carte Nationale d&apos;Identité (CNI)</option>
-                        <option>Passeport Français / Européen</option>
-                        <option>Titre de Séjour Valide</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Situation Familiale</label>
-                      <select
-                        value={formData.civilStatus}
-                        onChange={(e) => setFormData({ ...formData, civilStatus: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none bg-white"
-                      >
-                        <option>Célibataire</option>
-                        <option>Marié(e)</option>
-                        <option>Pacsé(e)</option>
-                        <option>Divorcé(e)</option>
+                        <option>International Passport</option>
+                        <option>National Identity Card</option>
+                        <option>Driver&apos;s License</option>
                       </select>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* STEP 2: Residential Details */}
+              {/* STEP 2: Residence & Housing Status */}
               {step === 2 && (
-                <div className="space-y-4 animate-in fade-in">
+                <div className="space-y-4 animate-in fade-in duration-150">
                   <div className="border-b border-slate-100 pb-2">
-                    <h4 className="text-base font-bold text-sterling-navy">Étape 2 : Votre Logement en France</h4>
-                    <p className="text-xs text-slate-500">Adresse de résidence principale en France métropolitaine.</p>
+                    <h4 className="text-base font-bold text-sterling-navy">Step 2: Residential Address & Living Details</h4>
+                    <p className="text-xs text-slate-500">Provide your current registered residential address.</p>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Adresse postale complète *</label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">Street Address *</label>
                     <input
                       type="text"
                       required
+                      placeholder="123 Banking Blvd, Suite 400"
                       value={formData.address}
                       onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                      placeholder="14 Rue de Rivoli"
-                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none"
+                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold"
                     />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Code Postal *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Postal / ZIP Code *</label>
                       <input
                         type="text"
                         required
-                        maxLength={5}
+                        placeholder="10001"
                         value={formData.postalCode}
                         onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
-                        placeholder="75004"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Ville *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">City / Region *</label>
                       <input
                         type="text"
                         required
+                        placeholder="New York / London"
                         value={formData.city}
                         onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                        placeholder="Paris"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Statut d&apos;occupation</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Housing Status *</label>
                       <select
                         value={formData.residenceOwnership}
                         onChange={(e) => setFormData({ ...formData, residenceOwnership: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none bg-white"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none bg-white"
                       >
-                        <option>Propriétaire (Résidence principale)</option>
-                        <option>Locataire</option>
-                        <option>Logé à titre gratuit / Famille</option>
+                        <option>Homeowner without mortgage</option>
+                        <option>Homeowner with active mortgage</option>
+                        <option>Tenant (Renting)</option>
+                        <option>Corporate Housing / Family</option>
                       </select>
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Ancienneté à cette adresse (années)</label>
-                      <input
-                        type="number"
-                        min="1"
-                        max="50"
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Years at Current Address *</label>
+                      <select
                         value={formData.yearsAtResidence}
                         onChange={(e) => setFormData({ ...formData, yearsAtResidence: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none"
-                      />
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none bg-white"
+                      >
+                        <option>Less than 1 year</option>
+                        <option>1 to 2 years</option>
+                        <option>3 to 5 years</option>
+                        <option>More than 5 years</option>
+                      </select>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* STEP 3: Professional Situation & Income */}
+              {/* STEP 3: Professional Employment & Income */}
               {step === 3 && (
-                <div className="space-y-4 animate-in fade-in">
+                <div className="space-y-4 animate-in fade-in duration-150">
                   <div className="border-b border-slate-100 pb-2">
-                    <h4 className="text-base font-bold text-sterling-navy">Étape 3 : Situation Professionnelle & Revenus</h4>
-                    <p className="text-xs text-slate-500">Pour évaluer votre capacité de remboursement en toute conformité.</p>
+                    <h4 className="text-base font-bold text-sterling-navy">Step 3: Professional Employment & Cashflow</h4>
+                    <p className="text-xs text-slate-500">To evaluate repayment capability under responsible lending standards.</p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Type de Contrat *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Employment Type *</label>
                       <select
                         value={formData.contractType}
                         onChange={(e) => setFormData({ ...formData, contractType: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none bg-white"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none bg-white"
                       >
-                        <option>CDI (Secteur privé)</option>
-                        <option>Fonctionnaire / Agent public</option>
-                        <option>Profession libérale / Indépendant</option>
-                        <option>CDD / Intérim</option>
-                        <option>Retraité(e)</option>
+                        <option>Permanent Full-Time</option>
+                        <option>Executive / Senior Management</option>
+                        <option>Business Owner / Corporate Officer</option>
+                        <option>Independent Professional / Consultant</option>
+                        <option>Civil Servant / Public Sector</option>
                       </select>
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Revenu Mensuel Net Avant Impôt (EUR €) *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Net Monthly Income ({currency === "EUR" ? "€" : "$"}) *</label>
                       <input
                         type="number"
                         required
-                        min="1000"
                         value={formData.netMonthlyIncome}
                         onChange={(e) => setFormData({ ...formData, netMonthlyIncome: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold font-mono font-bold"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Entreprise / Employeur</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Employer / Company Name *</label>
                       <input
                         type="text"
+                        placeholder="Acme Global Corporation"
                         value={formData.employerName}
                         onChange={(e) => setFormData({ ...formData, employerName: e.target.value })}
-                        placeholder="Société Générale, TotalEnergies, etc."
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Profession / Poste Occupé</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Job Title / Role</label>
                       <input
                         type="text"
+                        placeholder="Senior Operations Director"
                         value={formData.jobTitle}
                         onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
-                        placeholder="Ingénieur, Cadre, Comptable..."
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none"
+                        className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold"
                       />
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* STEP 4: KYC Justificatifs Upload */}
+              {/* STEP 4: KYC Document Upload */}
               {step === 4 && (
-                <div className="space-y-4 animate-in fade-in">
+                <div className="space-y-4 animate-in fade-in duration-150">
                   <div className="border-b border-slate-100 pb-2">
-                    <h4 className="text-base font-bold text-sterling-navy">Étape 4 : Justificatifs en Ligne (KYC)</h4>
-                    <p className="text-xs text-slate-500">Formats acceptés : PDF, JPG, PNG (taille max 10 Mo par document).</p>
+                    <h4 className="text-base font-bold text-sterling-navy">Step 4: Required Documentation & Proof</h4>
+                    <p className="text-xs text-slate-500">Upload clear photographs or digital PDFs for expedited 24h assessment.</p>
                   </div>
 
-                  {/* Dropzone 1: Piece d'identité */}
-                  <div className="border-2 border-dashed border-slate-200 rounded-2xl p-4 text-center hover:border-sterling-gold transition-colors bg-slate-50/50">
-                    <Upload className="w-6 h-6 text-sterling-gold mx-auto mb-1.5" />
-                    <div className="text-xs font-bold text-slate-700">1. Pièce d&apos;identité (Recto & Verso)</div>
-                    <div className="text-[11px] text-slate-400 mb-2">Carte d&apos;identité ou passeport européen en cours de validité</div>
-                    {uploadedFiles["idDoc"] ? (
-                      <span className="text-xs text-emerald-600 font-bold flex items-center justify-center gap-1">
-                        <Check className="w-3.5 h-3.5" /> {uploadedFiles["idDoc"]} (Document Sécurisé)
-                      </span>
-                    ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {/* ID Document */}
+                    <div className="p-4 bg-slate-50 border border-dashed border-slate-300 rounded-2xl text-center space-y-2 hover:border-sterling-gold transition-colors">
+                      <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-sterling-gold mx-auto">
+                        <Upload className="w-5 h-5" />
+                      </div>
+                      <div className="text-xs font-bold text-slate-700">1. Valid Identity Document</div>
+                      <div className="text-[11px] text-slate-400 mb-2">Passport or Government ID</div>
                       <button
                         type="button"
-                        onClick={() => handleFileDrop("idDoc", "CNI_Recto_Verso.pdf")}
-                        className="text-xs bg-sterling-navy hover:bg-sterling-navy-light text-white font-medium px-4 py-1.5 rounded-lg"
+                        onClick={() => handleFileDrop("id", "Government_ID.pdf")}
+                        className={`w-full py-1.5 px-3 rounded-lg text-xs font-semibold transition-all ${
+                          uploadedFiles.id ? "bg-emerald-100 text-emerald-800" : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-100"
+                        }`}
                       >
-                        Téléverser / Prendre en photo
+                        {uploadedFiles.id ? `✓ ${uploadedFiles.id}` : "Choose File"}
                       </button>
-                    )}
+                    </div>
+
+                    {/* Proof of Income */}
+                    <div className="p-4 bg-slate-50 border border-dashed border-slate-300 rounded-2xl text-center space-y-2 hover:border-sterling-gold transition-colors">
+                      <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-sterling-gold mx-auto">
+                        <Upload className="w-5 h-5" />
+                      </div>
+                      <div className="text-xs font-bold text-slate-700">2. Proof of Income</div>
+                      <div className="text-[11px] text-slate-400 mb-2">Recent pay statement or tax return</div>
+                      <button
+                        type="button"
+                        onClick={() => handleFileDrop("income", "Proof_Income.pdf")}
+                        className={`w-full py-1.5 px-3 rounded-lg text-xs font-semibold transition-all ${
+                          uploadedFiles.income ? "bg-emerald-100 text-emerald-800" : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-100"
+                        }`}
+                      >
+                        {uploadedFiles.income ? `✓ ${uploadedFiles.income}` : "Choose File"}
+                      </button>
+                    </div>
+
+                    {/* Bank Details */}
+                    <div className="p-4 bg-slate-50 border border-dashed border-slate-300 rounded-2xl text-center space-y-2 hover:border-sterling-gold transition-colors">
+                      <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-sterling-gold mx-auto">
+                        <Upload className="w-5 h-5" />
+                      </div>
+                      <div className="text-xs font-bold text-slate-700">3. Bank Account Proof</div>
+                      <div className="text-[11px] text-slate-400 mb-2">Account statement for wire transfer</div>
+                      <button
+                        type="button"
+                        onClick={() => handleFileDrop("bank", "Bank_Statement.pdf")}
+                        className={`w-full py-1.5 px-3 rounded-lg text-xs font-semibold transition-all ${
+                          uploadedFiles.bank ? "bg-emerald-100 text-emerald-800" : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-100"
+                        }`}
+                      >
+                        {uploadedFiles.bank ? `✓ ${uploadedFiles.bank}` : "Choose File"}
+                      </button>
+                    </div>
                   </div>
 
-                  {/* Dropzone 2: Bulletins de paie */}
-                  <div className="border-2 border-dashed border-slate-200 rounded-2xl p-4 text-center hover:border-sterling-gold transition-colors bg-slate-50/50">
-                    <Upload className="w-6 h-6 text-sterling-gold mx-auto mb-1.5" />
-                    <div className="text-xs font-bold text-slate-700">2. Dernier bulletin de salaire ou Avis d&apos;imposition</div>
-                    <div className="text-[11px] text-slate-400 mb-2">Justificatif de vos revenus récents</div>
-                    {uploadedFiles["incomeDoc"] ? (
-                      <span className="text-xs text-emerald-600 font-bold flex items-center justify-center gap-1">
-                        <Check className="w-3.5 h-3.5" /> {uploadedFiles["incomeDoc"]} (Document Sécurisé)
-                      </span>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => handleFileDrop("incomeDoc", "Bulletin_Salaire_Octobre.pdf")}
-                        className="text-xs bg-sterling-navy hover:bg-sterling-navy-light text-white font-medium px-4 py-1.5 rounded-lg"
-                      >
-                        Téléverser / Prendre en photo
-                      </button>
-                    )}
-                  </div>
-
-                  {/* Dropzone 3: RIB */}
-                  <div className="border-2 border-dashed border-slate-200 rounded-2xl p-4 text-center hover:border-sterling-gold transition-colors bg-slate-50/50">
-                    <Upload className="w-6 h-6 text-sterling-gold mx-auto mb-1.5" />
-                    <div className="text-xs font-bold text-slate-700">3. Relevé d&apos;Identité Bancaire (RIB)</div>
-                    <div className="text-[11px] text-slate-400 mb-2">Compte bancaire français (IBAN FR76...) pour le virement des fonds</div>
-                    {uploadedFiles["ribDoc"] ? (
-                      <span className="text-xs text-emerald-600 font-bold flex items-center justify-center gap-1">
-                        <Check className="w-3.5 h-3.5" /> {uploadedFiles["ribDoc"]} (Document Sécurisé)
-                      </span>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => handleFileDrop("ribDoc", "RIB_Bancaire_FR.pdf")}
-                        className="text-xs bg-sterling-navy hover:bg-sterling-navy-light text-white font-medium px-4 py-1.5 rounded-lg"
-                      >
-                        Téléverser mon RIB
-                      </button>
-                    )}
+                  <div className="text-[11px] text-slate-500 italic text-center">
+                    Accepted formats: PDF, JPG, PNG (Max 15MB per file). Documents are stored in secure encrypted vaults.
                   </div>
                 </div>
               )}
 
-              {/* STEP 5: Declarations & Submit */}
+              {/* STEP 5: Review & Digital Confirmation */}
               {step === 5 && (
-                <div className="space-y-4 animate-in fade-in">
+                <div className="space-y-4 animate-in fade-in duration-150">
                   <div className="border-b border-slate-100 pb-2">
-                    <h4 className="text-base font-bold text-sterling-navy">Étape 5 : Récapitulatif & Consentements Légaux</h4>
-                    <p className="text-xs text-slate-500">Vérifiez les données avant la transmission chiffrée de votre demande.</p>
+                    <h4 className="text-base font-bold text-sterling-navy">Step 5: Review & Digital Confirmation</h4>
+                    <p className="text-xs text-slate-500">Please review your submitted details before encrypted transmission.</p>
                   </div>
 
                   {/* Summary Box */}
-                  <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 text-xs space-y-2">
+                  <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-2 text-xs">
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Demandeur :</span>
-                      <span className="font-bold text-slate-800">{formData.firstName || "Marc"} {formData.lastName || "Delaunay"}</span>
+                      <span className="text-slate-500">Applicant:</span>
+                      <span className="font-bold text-slate-800">{formData.firstName} {formData.lastName}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Type de Crédit :</span>
-                      <span className="font-bold text-sterling-navy">{loanType.toUpperCase()}</span>
+                      <span className="text-slate-500">Credit Facility:</span>
+                      <span className="font-bold text-sterling-navy">{loanType}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Montant souhaité :</span>
-                      <span className="font-bold text-slate-800">{formatMoney(amount, currency)}</span>
+                      <span className="text-slate-500">Requested Amount:</span>
+                      <span className="font-black text-sterling-gold font-mono">{currency === "EUR" ? "€" : "$"}{amount.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Téléphone de contact :</span>
-                      <span className="font-bold text-slate-800">{formData.mobile || "06 XX XX XX XX"}</span>
+                      <span className="text-slate-500">Contact Email:</span>
+                      <span className="font-bold text-slate-800">{formData.email}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-500">Mobile Phone:</span>
+                      <span className="font-bold text-slate-800">{formData.mobile}</span>
                     </div>
                   </div>
 
-                  {/* Consent Checkboxes */}
-                  <div className="space-y-2.5 pt-2">
+                  {/* Legal Checkboxes */}
+                  <div className="space-y-3 pt-2">
                     <label className="flex items-start gap-2.5 text-xs text-slate-600 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={formData.consentRGPD}
                         onChange={(e) => setFormData({ ...formData, consentRGPD: e.target.checked })}
-                        className="mt-0.5 rounded text-sterling-navy focus:ring-sterling-gold"
-                        required
+                        className="mt-0.5 rounded border-slate-300 text-sterling-navy focus:ring-sterling-gold"
                       />
                       <span>
-                        J&apos;accepte le traitement de mes données personnelles par Sterling Bank France conformément au RGPD pour l&apos;étude de ma demande de crédit.
+                        I accept the processing of my personal data by Sterling Bank of Asia in accordance with privacy laws and banking confidentiality regulations.
                       </span>
                     </label>
 
                     <label className="flex items-start gap-2.5 text-xs text-slate-600 cursor-pointer">
                       <input
                         type="checkbox"
-                        checked={formData.consentFICP}
-                        onChange={(e) => setFormData({ ...formData, consentFICP: e.target.checked })}
-                        className="mt-0.5 rounded text-sterling-navy focus:ring-sterling-gold"
-                        required
+                        checked={formData.consentCreditCheck}
+                        onChange={(e) => setFormData({ ...formData, consentCreditCheck: e.target.checked })}
+                        className="mt-0.5 rounded border-slate-300 text-sterling-navy focus:ring-sterling-gold"
                       />
                       <span>
-                        J&apos;autorise Sterling Bank à interroger le fichier FICP de la Banque de France pour vérifier ma situation de solvabilité financière.
+                        I certify that the information provided is accurate and authorize Sterling Bank of Asia to perform necessary financial due diligence.
                       </span>
                     </label>
                   </div>
                 </div>
               )}
 
-              {/* Wizard Navigation Footer */}
-              <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+              {/* Navigation buttons */}
+              <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
                 {step > 1 ? (
                   <button
                     type="button"
                     onClick={handleBack}
-                    className="px-5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 flex items-center gap-1.5 transition-colors"
+                    className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs font-bold flex items-center gap-1.5 transition-colors"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
-                    Précédent
+                    <span>Previous</span>
                   </button>
-                ) : (
-                  <div />
-                )}
+                ) : <div />}
 
                 {step < 5 ? (
                   <button
                     type="button"
                     onClick={handleNext}
-                    className="px-6 py-2.5 rounded-xl bg-sterling-navy hover:bg-sterling-navy-light text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow-md"
+                    className="px-6 py-2.5 rounded-xl bg-sterling-navy hover:bg-sterling-navy-deep text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow"
                   >
-                    Étape Suivante
+                    <span>Continue to Step {step + 1}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 ) : (
                   <button
                     type="submit"
-                    className="px-7 py-3 rounded-xl bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold hover:from-sterling-gold-dark hover:to-sterling-gold text-sterling-navy-deep text-xs font-black flex items-center gap-2 shadow-lg shadow-sterling-gold/30 transition-all hover:scale-[1.02]"
+                    className="px-7 py-3 rounded-xl bg-gradient-to-r from-sterling-gold to-sterling-gold-light hover:from-amber-600 hover:to-sterling-gold text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all"
                   >
                     <Lock className="w-3.5 h-3.5" />
-                    Transmettre Ma Demande Sécurisée
+                    <span>Transmit Encrypted Application</span>
                   </button>
                 )}
               </div>

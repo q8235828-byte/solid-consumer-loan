@@ -30,7 +30,6 @@ import {
   CheckCircle2,
   ExternalLink
 } from "lucide-react";
-import GoogleTranslate from "./GoogleTranslate";
 
 interface NavbarProps {
   onOpenApply?: (loanType?: string) => void;
@@ -77,7 +76,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
     { title: "Home Loans & Renovation", url: "/home-loans", category: "Loans", desc: "Home improvement and construction financing up to 25 years." },
     { title: "Private Investment & Corporate Lending", url: "/apply", category: "Corporate", desc: "USD $100k to $500M financing with 1 to 25 year terms." },
     { title: "Loan Monthly Payment Calculator", url: "/#calculator", category: "Tools", desc: "Simulate monthly installments in USD ($) and EUR (€)." },
-    { title: "Loan Application Tracker", url: "/tracker", category: "Services", desc: "Track your submitted loan dossier in real-time." },
+    { title: "Loan Application Tracker", url: "/tracker", category: "Services", desc: "Track your submitted loan application in real-time." },
     { title: "Client Online Banking Area", url: "/dashboard", category: "Portal", desc: "Access your statements, payment schedule and advisor chat." },
   ].filter(item => 
     !searchQuery.trim() || 
@@ -118,7 +117,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               Branches and ATMs
             </Link>
             <span className="text-slate-500">|</span>
-            <a href="mailto:contact@sterlingbank.fr" className="hover:text-sterling-gold transition-colors">
+            <a href="mailto:customer.experience@sterlingbankasia.com" className="hover:text-sterling-gold transition-colors">
               Contact Us
             </a>
             <span className="text-slate-500">|</span>
@@ -154,13 +153,8 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
 
             {/* Currency Badge: USD & EUR Only */}
             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-sterling-gold/20 text-sterling-gold font-bold text-[10px] border border-sterling-gold/30">
-              USD ($) & EUR (€)
+              USD ($) & EUR (€) Only
             </span>
-
-            <span className="text-slate-600 hidden sm:inline">|</span>
-
-            {/* Language Switcher */}
-            <GoogleTranslate />
           </div>
 
         </div>
@@ -280,10 +274,10 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                   <div className="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-slate-200 z-50 p-4 space-y-3 animate-in fade-in zoom-in-95">
                     <div className="border-b border-slate-100 pb-2">
                       <div className="text-xs font-black text-[#002855] uppercase tracking-wider">
-                        Portail Bancaire Sécurisé
+                        Secure Banking Portal
                       </div>
                       <div className="text-[11px] text-slate-500">
-                        Chiffrement SSL 256-Bit • eIDAS Compliant
+                        256-Bit SSL Encryption • eIDAS Compliant
                       </div>
                     </div>
 
@@ -291,7 +285,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                       <div className="p-3 bg-slate-50 rounded-xl hover:bg-amber-50/50 border border-slate-100 transition-colors">
                         <div className="flex items-center justify-between mb-1">
                           <span className="font-bold text-xs text-[#002855]">Personal Banking</span>
-                          <span className="text-[10px] text-emerald-600 font-bold bg-emerald-100 px-2 py-0.5 rounded-full">Particuliers</span>
+                          <span className="text-[10px] text-emerald-600 font-bold bg-emerald-100 px-2 py-0.5 rounded-full">Personal</span>
                         </div>
                         <div className="flex flex-col gap-1 text-[11px]">
                           <Link 
@@ -299,7 +293,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                             onClick={() => setOnlineBankingOpen(false)}
                             className="text-sterling-navy hover:text-sterling-gold font-semibold flex items-center justify-between"
                           >
-                            <span>Connexion Espace Client</span>
+                            <span>Client Portal Login</span>
                             <ArrowRight className="w-3 h-3" />
                           </Link>
                           <Link 
@@ -307,7 +301,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                             onClick={() => setOnlineBankingOpen(false)}
                             className="text-slate-500 hover:text-slate-800"
                           >
-                            Pas encore inscrit ? Ouvrir un compte
+                            New client? Enroll online
                           </Link>
                         </div>
                       </div>
@@ -315,14 +309,14 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                       <div className="p-3 bg-slate-50 rounded-xl hover:bg-slate-100/70 border border-slate-100 transition-colors">
                         <div className="flex items-center justify-between mb-1">
                           <span className="font-bold text-xs text-[#002855]">Corporate & Business</span>
-                          <span className="text-[10px] text-indigo-600 font-bold bg-indigo-100 px-2 py-0.5 rounded-full">Entreprises</span>
+                          <span className="text-[10px] text-indigo-600 font-bold bg-indigo-100 px-2 py-0.5 rounded-full">Corporate</span>
                         </div>
                         <Link 
                           href="/login" 
                           onClick={() => setOnlineBankingOpen(false)}
                           className="text-xs text-slate-700 hover:text-sterling-navy font-semibold flex items-center justify-between mt-1"
                         >
-                          <span>Accès Optima Online</span>
+                          <span>Optima Online Access</span>
                           <ArrowRight className="w-3 h-3" />
                         </Link>
                       </div>
@@ -333,7 +327,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                           onClick={() => setOnlineBankingOpen(false)}
                           className="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg block text-center transition-colors"
                         >
-                          Suivre ma Demande de Crédit en Direct
+                          Track Loan Application Live
                         </Link>
                       </div>
                     </div>
@@ -436,7 +430,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                         <span>Personal Loan (Persona)</span>
                         <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
-                      <div className="text-[11px] text-slate-500">Unsecured credit up to 75,000 $ / € • Fixed 2.85% TAEG</div>
+                      <div className="text-[11px] text-slate-500">Unsecured credit up to 75,000 $ / € • Fixed 2.85% APR</div>
                     </Link>
                   </li>
                   <li>
@@ -511,12 +505,12 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                 </div>
                 <div className="space-y-2 text-xs text-slate-600">
                   <p className="text-xs leading-relaxed text-slate-500">
-                    Protégez et transmettez votre patrimoine sereinement grâce à nos services fiduciaires et d&apos;ingénierie patrimoniale.
+                    Protect and grow your wealth with our bespoke institutional trust and private wealth management solutions.
                   </p>
                   <ul className="space-y-2 pt-2">
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                      <span>Living Trust & Gestion de Fortune</span>
+                      <span>Living Trust & Wealth Management</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
@@ -533,7 +527,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                       onClick={() => setActiveMegaMenu(null)}
                       className="inline-flex items-center gap-1.5 text-xs font-bold text-sterling-navy hover:text-sterling-gold transition-colors"
                     >
-                      Prendre rendez-vous avec un conseiller <ArrowRight className="w-3.5 h-3.5" />
+                      Schedule consultation with wealth advisor <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
                 </div>
@@ -949,7 +943,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                   • Mobile App Features
                 </Link>
                 <Link href="/tracker" onClick={() => setMobileMenuOpen(false)} className="block py-1 font-bold text-sterling-navy">
-                  • Dossier Tracking Portal
+                  • Application Tracking Portal
                 </Link>
               </div>
             )}
@@ -958,13 +952,13 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
           {/* Direct Secondary Links */}
           <div className="pt-2 border-t border-slate-100 space-y-1 text-xs">
             <a href="/#calculator" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-slate-600 hover:text-sterling-navy">
-              Simulateur de Mensualités (Calculator)
+              Loan Calculator & Simulator
             </a>
             <Link href="/tracker" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-slate-600 hover:text-sterling-navy">
-              Suivi de Demande en Direct (Tracker)
+              Live Application Tracker
             </Link>
             <a href="https://wa.me/?text=Hello%20I%20am%20interested%20in%20your%20Loan%20Offer" target="_blank" rel="noreferrer" className="block py-1.5 text-emerald-600 font-bold">
-              Assistance Directe WhatsApp
+              Direct WhatsApp Support
             </a>
           </div>
 

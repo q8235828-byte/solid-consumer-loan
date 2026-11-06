@@ -38,10 +38,10 @@ export default function LoginPage() {
     setRole(demoRole);
     setError("");
     if (demoRole === "client") {
-      setIdentifier("jp.lambert@example.fr");
+      setIdentifier("j.harrison@client.sterlingbankasia.com");
       setPassword("SterlingClient2026!");
     } else {
-      setIdentifier("admin.credit@sterlingbank.fr");
+      setIdentifier("officer.lending@sterlingbankasia.com");
       setPassword("SterlingAdmin2026!");
     }
   };
@@ -51,11 +51,11 @@ export default function LoginPage() {
     setError("");
 
     if (!identifier || !password) {
-      setError("Veuillez renseigner votre identifiant et votre mot de passe.");
+      setError("Please enter your client ID or email address and password.");
       return;
     }
 
-    if (identifier.toLowerCase().includes("admin")) {
+    if (identifier.toLowerCase().includes("admin") || identifier.toLowerCase().includes("officer")) {
       setRole("admin");
     } else {
       setRole("client");
@@ -116,10 +116,10 @@ export default function LoginPage() {
                 <Lock className="w-7 h-7 stroke-[2.2]" />
               </div>
               <h1 className="text-2xl font-black text-sterling-navy font-display tracking-tight">
-                Espace Sécurisé
+                Secure Banking Portal
               </h1>
               <p className="text-xs text-slate-500">
-                Accédez à la gestion de vos crédits et de vos dossiers
+                Access and manage your loan facilities, applications, and account statements
               </p>
             </div>
 
@@ -127,9 +127,9 @@ export default function LoginPage() {
             {!requires2FA && (
               <div className="mt-6 p-3 bg-amber-50/70 border border-amber-200/80 rounded-xl space-y-2">
                 <div className="text-[11px] font-bold text-amber-900 flex items-center justify-between">
-                  <span>Identifiants Démo Client en 1 Clic :</span>
+                  <span>1-Click Demo Client Credentials:</span>
                   <span className="text-[9px] uppercase tracking-wider text-amber-700 bg-amber-200/60 px-1.5 py-0.5 rounded font-black">
-                    Test Facile
+                    Quick Test
                   </span>
                 </div>
                 <button
@@ -137,7 +137,7 @@ export default function LoginPage() {
                   onClick={() => handleQuickDemo("client")}
                   className="w-full p-2 rounded-lg bg-white border border-amber-300 text-slate-700 hover:border-sterling-gold hover:text-sterling-navy font-semibold transition-colors text-left text-xs flex items-center justify-between"
                 >
-                  <span>👤 Remplir Identifiants Client Démo (Jean-Pierre)</span>
+                  <span>👤 Auto-fill Demo Client (John Harrison)</span>
                   <span className="text-[10px] text-sterling-gold font-bold">Auto-Fill →</span>
                 </button>
               </div>
@@ -156,7 +156,7 @@ export default function LoginPage() {
               <form onSubmit={handleLoginSubmit} className="mt-6 space-y-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">
-                    {role === "client" ? "Adresse Email ou Identifiant Client" : "Email Professionnel Banque"}
+                    {role === "client" ? "Email Address or Client ID" : "Bank Staff / Officer Email"}
                   </label>
                   <div className="relative">
                     <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
@@ -164,7 +164,7 @@ export default function LoginPage() {
                       type="email"
                       value={identifier}
                       onChange={(e) => setIdentifier(e.target.value)}
-                      placeholder={role === "client" ? "ex: jp.lambert@example.fr" : "admin.credit@sterlingbank.fr"}
+                      placeholder={role === "client" ? "e.g. j.harrison@client.sterlingbankasia.com" : "officer.lending@sterlingbankasia.com"}
                       className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none transition-all"
                       required
                     />
@@ -174,17 +174,17 @@ export default function LoginPage() {
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <label className="block text-xs font-bold text-slate-700">
-                      Mot de Passe
+                      Password
                     </label>
                     <a
                       href="#"
                       onClick={(e) => {
                         e.preventDefault();
-                        alert("Un lien de réinitialisation sécurisé a été transmis par SMS/Email.");
+                        alert("A secure password reset link has been dispatched via SMS/Email.");
                       }}
                       className="text-[11px] font-semibold text-sterling-navy hover:text-sterling-gold transition-colors"
                     >
-                      Oublié ?
+                      Forgot?
                     </a>
                   </div>
                   <div className="relative">
@@ -215,11 +215,11 @@ export default function LoginPage() {
                       onChange={(e) => setRememberMe(e.target.checked)}
                       className="w-4 h-4 rounded text-sterling-navy border-slate-300 focus:ring-sterling-gold"
                     />
-                    <span className="text-slate-600 font-medium">Mémoriser cet appareil</span>
+                    <span className="text-slate-600 font-medium">Remember this device</span>
                   </label>
                   <span className="text-[11px] text-slate-400 flex items-center gap-1">
                     <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                    SSL 256-bit
+                    256-Bit SSL
                   </span>
                 </div>
 
@@ -229,10 +229,10 @@ export default function LoginPage() {
                   className="w-full py-3.5 rounded-xl bg-gradient-to-r from-sterling-navy-deep via-sterling-navy to-slate-900 hover:from-sterling-navy hover:to-sterling-navy-deep text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-sterling-navy/20 hover:scale-[1.01] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {loading ? (
-                    <span>Vérification sécurisée en cours...</span>
+                    <span>Verifying security credentials...</span>
                   ) : (
                     <>
-                      <span>Se Connecter à l&apos;Espace Sécurisé</span>
+                      <span>Sign In to Secure Portal</span>
                       <ArrowRight className="w-4 h-4 stroke-[2.5]" />
                     </>
                   )}
@@ -246,11 +246,11 @@ export default function LoginPage() {
                     <Smartphone className="w-6 h-6" />
                   </div>
                   <h3 className="text-base font-bold text-sterling-navy">
-                    Double Authentification (2FA)
+                    Two-Factor Authentication (2FA)
                   </h3>
                   <p className="text-xs text-slate-500 leading-relaxed">
-                    Un code de sécurité à 6 chiffres a été envoyé par SMS au <br />
-                    <span className="font-bold text-slate-700">06 •• •• 89 30</span>.
+                    A 6-digit security verification code was dispatched via SMS to <br />
+                    <span className="font-bold text-slate-700">+1 (555) •••-8930</span>.
                   </p>
                 </div>
 
@@ -275,10 +275,10 @@ export default function LoginPage() {
                     className="w-full py-3 rounded-xl bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold text-sterling-navy-deep font-extrabold text-xs sm:text-sm shadow-md hover:scale-[1.01] transition-all flex items-center justify-center gap-2"
                   >
                     {loading ? (
-                      <span>Connexion en cours...</span>
+                      <span>Authenticating session...</span>
                     ) : (
                       <>
-                        <span>Confirmer & Accéder à {role === "admin" ? "l'Admin" : "mon Compte"}</span>
+                        <span>Confirm & Access {role === "admin" ? "Officer Portal" : "My Account"}</span>
                         <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
                       </>
                     )}
@@ -289,7 +289,7 @@ export default function LoginPage() {
                     onClick={() => setRequires2FA(false)}
                     className="w-full text-center text-xs text-slate-500 hover:text-slate-800 py-1"
                   >
-                    Retour à l&apos;écran de connexion
+                    Back to Login Screen
                   </button>
                 </div>
               </form>
@@ -299,13 +299,13 @@ export default function LoginPage() {
             {!requires2FA && (
               <div className="mt-8 pt-6 border-t border-slate-100 text-center space-y-2">
                 <p className="text-xs text-slate-500">
-                  Pas encore client chez Sterling Bank ?
+                  Not yet enrolled with Sterling Bank?
                 </p>
                 <Link
                   href="/register"
                   className="inline-flex items-center gap-1.5 text-xs font-bold text-sterling-navy hover:text-sterling-gold transition-colors"
                 >
-                  Ouvrir un compte & Faire une demande de prêt →
+                  Enroll in Online Banking & Apply for a Loan →
                 </Link>
               </div>
             )}
@@ -316,10 +316,10 @@ export default function LoginPage() {
           <div className="text-center text-[11px] text-slate-500 space-y-1">
             <div className="flex items-center justify-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              <span>Agréé ACPR Banque de France • Protection des dépôts FGDR 100 000 €</span>
+              <span>Regulated Banking Institution • Deposit Protection • 256-Bit SSL</span>
             </div>
             <p>
-              Pour votre sécurité, ne communiquez jamais vos identifiants bancaires par téléphone ou e-mail.
+              For your security, never share your login credentials or one-time codes via phone or unencrypted email.
             </p>
           </div>
 

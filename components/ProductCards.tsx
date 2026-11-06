@@ -37,63 +37,71 @@ export default function ProductCards({ onOpenApply }: ProductCardsProps) {
       ],
       cta: "Apply for Capital Facility",
       popular: true,
+      link: "/apply",
+      linkText: "Explore Corporate & Private Lending →",
     },
     {
       id: "personnel",
-      name: "Prêt Personnel Tous Projets",
+      name: "Persona Personal Loan",
       badge: "Fast Approval",
-      category: "Crédit Sans Justificatif",
+      category: "Unsecured Multi-Purpose Credit",
       icon: UserCheck,
       image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
-      amount: "1 000 $ / € à 75 000 $ / €",
-      terms: "12 à 84 Mois",
-      rate: "TAEG fixe dès 3,90%",
+      amount: "$1,000 to $75,000 (USD / EUR)",
+      terms: "12 to 84 Months",
+      rate: "Fixed APR from 2.85%",
       features: [
-        "Sans justificatif d'utilisation des fonds",
-        "Disponible en Euro (€) et USD ($)",
-        "Aucun frais de dossier caché",
-        "Remboursement par prélèvement bancaire automatique",
+        "Zero collateral required with no usage restrictions",
+        "Available in dual currency: USD ($) & Euro (€)",
+        "Zero hidden management fees or unexpected charges",
+        "Flexible monthly automatic repayment schedules",
       ],
-      cta: "Simuler mon Prêt Personnel",
+      cta: "Calculate Personal Loan",
       popular: false,
+      link: "/personal-loans",
+      linkText: "Explore Dedicated Personal Loans →",
     },
     {
       id: "auto",
-      name: "Prêt Auto & Mobilité Propre",
-      badge: "Bonus Éco Inclus",
-      category: "Financement Véhicule",
+      name: "Auto Loan Facility",
+      badge: "Eco-Bonus Included",
+      category: "Vehicle & Fleet Financing",
       icon: Car,
       image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80",
-      amount: "Jusqu'à 60 000 $ / €",
-      terms: "12 à 84 Mois",
-      rate: "TAEG fixe dès 3,20%",
+      amount: "Up to $150,000 (USD / EUR)",
+      terms: "12 to 84 Months",
+      rate: "Fixed APR from 3.10%",
       features: [
-        "Véhicules neufs ou occasions (particulier ou concessionnaire)",
-        "Taux préférentiel pour voitures électriques & hybrides",
-        "Possibilité de financer 100% sans apport",
-        "Report de la première mensualité jusqu'à 3 mois",
+        "New or certified pre-owned vehicles (dealership or private)",
+        "Preferential rate discount for electric & hybrid vehicles",
+        "Up to 100% financing available with zero down payment",
+        "First repayment deferred up to 90 days upon request",
       ],
-      cta: "Simuler mon Prêt Auto",
+      cta: "Calculate Auto Loan",
       popular: false,
+      link: "/auto-loans",
+      linkText: "Explore Dedicated Auto Loan →",
     },
     {
       id: "immo",
-      name: "Prêt Travaux & Éco-Rénovation",
-      badge: "Jusqu'à 25 Ans",
-      category: "Rénovation & Habitat",
+      name: "Home Loan & Renovation Facility",
+      badge: "Up to 25 Years",
+      category: "Mortgage & Property Improvements",
       icon: Home,
       image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80",
-      amount: "Jusqu'à 150 000 $ / €",
-      terms: "24 à 300 Mois (25 ans)",
-      rate: "TAEG fixe dès 2,85%",
+      amount: "Up to $500,000+ (USD / EUR)",
+      terms: "24 to 300 Months (Up to 25 Yrs)",
+      rate: "Fixed APR from 2.85%",
       features: [
-        "Travaux d'isolation, panneaux solaires, cuisine ou agrandissement",
-        "Financement flexible en USD ($) ou EUR (€)",
-        "Déblocage des fonds en une ou plusieurs fois selon factures",
-        "Assurance emprunteur facultative et personnalisée",
+        "Home acquisition, renovation, extension, or solar power",
+        "Flexible dual currency financing in USD ($) or EUR (€)",
+        "Progressive tranche fund release based on contractor milestones",
+        "Customizable optional borrower protection insurance",
       ],
-      cta: "Simuler mon Prêt Travaux",
+      cta: "Calculate Home Loan",
       popular: false,
+      link: "/home-loans",
+      linkText: "Explore Dedicated Home Loan →",
     },
   ];
 
@@ -104,132 +112,133 @@ export default function ProductCards({ onOpenApply }: ProductCardsProps) {
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-sterling-gold-dark px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
             <ShieldCheck className="w-3.5 h-3.5 text-sterling-gold" />
-            Gamme Crédits Sterling Bank France
+            Sterling Bank Financing Suite
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-sterling-navy tracking-tight font-display">
-            Des Solutions de Financement Conçues pour Vous
+            Financing Solutions Structured for Your Goals
           </h2>
           <p className="text-slate-600 text-base sm:text-lg">
-            Choisissez l&apos;offre adaptée à votre situation en toute clarté. Profitez d&apos;un taux fixe garanti sur toute la durée de votre prêt.
+            Choose the lending facility tailored to your profile. Benefit from transparent, fixed interest rates guaranteed for the full duration of your facility.
           </p>
         </div>
 
-        {/* Product Cards Grid with Real People Photography */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className={`rounded-3xl overflow-hidden flex flex-col justify-between transition-all duration-300 relative ${
-                product.popular
-                  ? "bg-white border-2 border-sterling-gold shadow-2xl scale-105 z-10"
-                  : "bg-white border border-slate-200 shadow-lg hover:shadow-xl hover:-translate-y-1"
-              }`}
-            >
-              {/* Card Image Banner - Authentic Human Photography */}
-              <div className="relative h-48 w-full overflow-hidden bg-slate-100">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-transparent to-transparent" />
-                
-                {/* Popular Pill */}
-                {product.badge && (
-                  <div className="absolute top-4 right-4 bg-gradient-to-r from-sterling-gold to-sterling-gold-light text-sterling-navy-deep font-extrabold text-[11px] px-3.5 py-1 rounded-full shadow-md uppercase tracking-wider flex items-center gap-1">
-                    <Sparkles className="w-3 h-3 text-sterling-navy-deep" />
-                    {product.badge}
+        {/* Product Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
+          {products.map((product) => {
+            const Icon = product.icon;
+            return (
+              <div
+                key={product.id}
+                className={`group relative bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between border ${
+                  product.popular
+                    ? "border-sterling-gold/60 ring-2 ring-sterling-gold/30"
+                    : "border-slate-200 hover:border-sterling-gold/40"
+                }`}
+              >
+                {/* Popular Ribbon */}
+                {product.popular && (
+                  <div className="absolute top-4 right-4 z-20">
+                    <span className="inline-flex items-center gap-1 bg-gradient-to-r from-sterling-gold to-sterling-gold-light text-white text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-md">
+                      <Sparkles className="w-3 h-3" />
+                      {product.badge}
+                    </span>
                   </div>
                 )}
 
-                <div className="absolute bottom-3 left-4 text-white">
-                  <span className="text-[11px] font-semibold text-sterling-gold uppercase tracking-wider block">
-                    {product.category}
-                  </span>
-                  <span className="text-lg font-bold font-display leading-tight">
-                    {product.name}
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+                {/* Card Top: Photo & Category */}
                 <div>
-                  {/* Highlights Box */}
-                  <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 mb-6 space-y-2">
-                    <div className="flex justify-between items-baseline text-xs">
-                      <span className="text-slate-500 font-medium">Montant empruntable :</span>
-                      <span className="font-bold text-sterling-navy text-sm">{product.amount}</span>
-                    </div>
-                    <div className="flex justify-between items-baseline text-xs">
-                      <span className="text-slate-500 font-medium">Durée de prêt :</span>
-                      <span className="font-bold text-slate-800">{product.terms}</span>
-                    </div>
-                    <div className="flex justify-between items-baseline text-xs">
-                      <span className="text-slate-500 font-medium">Taux garanti :</span>
-                      <span className="font-bold text-emerald-700">{product.rate}</span>
+                  <div className="relative h-44 overflow-hidden">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/30 to-transparent" />
+                    
+                    <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
+                      <span className="text-xs font-semibold uppercase tracking-wider text-sterling-gold bg-sterling-navy-deep/80 px-2.5 py-1 rounded-md backdrop-blur-sm">
+                        {product.category}
+                      </span>
                     </div>
                   </div>
 
-                  {/* Features List */}
-                  <div className="space-y-3 mb-8">
-                    <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                      Avantages Clés :
-                    </div>
-                    {product.features.map((feat, idx) => (
-                      <div key={idx} className="flex items-start gap-2.5 text-xs text-slate-600 leading-relaxed">
-                        <div className="p-0.5 rounded-full bg-emerald-50 text-emerald-600 mt-0.5 shrink-0">
-                          <Check className="w-3 h-3 stroke-[3]" />
+                  {/* Card Body */}
+                  <div className="p-6 space-y-4">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-lg bg-sterling-navy/5 flex items-center justify-center text-sterling-navy group-hover:bg-sterling-gold/20 group-hover:text-sterling-gold transition-colors">
+                          <Icon className="w-4 h-4" />
                         </div>
-                        <span>{feat}</span>
+                        <h3 className="font-bold text-sterling-navy text-lg leading-snug">
+                          {product.name}
+                        </h3>
                       </div>
-                    ))}
+                    </div>
+
+                    {/* Financial Terms Strip */}
+                    <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100 space-y-2">
+                      <div className="flex justify-between items-baseline">
+                        <span className="text-xs text-slate-500 font-medium">Financing Range</span>
+                        <span className="text-sm font-black text-sterling-navy font-mono">
+                          {product.amount}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-baseline">
+                        <span className="text-xs text-slate-500 font-medium">Repayment Tenor</span>
+                        <span className="text-xs font-bold text-slate-700">
+                          {product.terms}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-baseline pt-1 border-t border-slate-200">
+                        <span className="text-xs text-slate-500 font-medium">Interest Rate</span>
+                        <span className="text-xs font-black text-emerald-700 font-mono bg-emerald-50 px-2 py-0.5 rounded">
+                          {product.rate}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Features Checklist */}
+                    <ul className="space-y-2.5 text-xs text-slate-600 pt-1">
+                      {product.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-start gap-2.5">
+                          <div className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
+                            <Check className="w-2.5 h-2.5 stroke-[3]" />
+                          </div>
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
 
-                {/* CTA */}
-                <div className="space-y-2">
+                {/* Card Footer Actions */}
+                <div className="p-6 pt-0 space-y-2.5">
                   <button
+                    type="button"
                     onClick={() => onOpenApply?.(product.id)}
-                    className={`w-full py-3.5 px-5 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 ${
+                    className={`w-full py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-sm ${
                       product.popular
-                        ? "bg-sterling-gold hover:bg-sterling-gold-dark text-sterling-navy-deep shadow-md hover:shadow-lg"
-                        : "bg-sterling-navy hover:bg-sterling-navy-light text-white shadow-sm"
+                        ? "bg-gradient-to-r from-sterling-gold to-sterling-gold-light hover:from-amber-600 hover:to-sterling-gold text-white shadow-md hover:shadow-lg"
+                        : "bg-sterling-navy hover:bg-sterling-navy-deep text-white"
                     }`}
                   >
-                    {product.cta}
-                    <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+                    <span>{product.cta}</span>
+                    <ArrowRight className="w-4 h-4" />
                   </button>
 
-                  {product.id === "personnel" && (
+                  {/* Dedicated Page Link */}
+                  {product.link && (
                     <Link
-                      href="/personal-loans"
-                      className="w-full py-2 px-3 text-xs font-semibold text-sterling-navy hover:text-sterling-gold text-center block transition-colors border border-slate-200 rounded-lg bg-slate-50 hover:bg-slate-100"
+                      href={product.link}
+                      className="w-full text-center text-xs font-semibold text-sterling-navy hover:text-sterling-gold py-1 block transition-colors"
                     >
-                      Découvrir la page dédiée Prêt Personnel (Persona) →
-                    </Link>
-                  )}
-
-                  {product.id === "auto" && (
-                    <Link
-                      href="/auto-loans"
-                      className="w-full py-2 px-3 text-xs font-semibold text-sterling-navy hover:text-sterling-gold text-center block transition-colors border border-slate-200 rounded-lg bg-slate-50 hover:bg-slate-100"
-                    >
-                      Découvrir la page dédiée Prêt Auto (Ultima) →
-                    </Link>
-                  )}
-
-                  {product.id === "immo" && (
-                    <Link
-                      href="/home-loans"
-                      className="w-full py-2 px-3 text-xs font-semibold text-sterling-navy hover:text-sterling-gold text-center block transition-colors border border-slate-200 rounded-lg bg-slate-50 hover:bg-slate-100"
-                    >
-                      Découvrir la page dédiée Prêt Habitat (Discovery) →
+                      {product.linkText}
                     </Link>
                   )}
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

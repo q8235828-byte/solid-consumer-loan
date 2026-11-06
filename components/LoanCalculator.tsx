@@ -312,11 +312,12 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         principal={loanAmount}
-        annualRatePct={config.annualRate}
+        annualRate={config.annualRate}
         tenorMonths={tenorMonths}
         monthlyPayment={monthlyAmortization}
         totalRepayment={totalRepayment}
         totalInterest={totalInterest}
+        currency={currency}
       />
     </div>
   );

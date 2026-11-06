@@ -41,8 +41,8 @@ export default function UserDashboard() {
   const [chatMessages, setChatMessages] = useState<{ sender: "user" | "advisor"; text: string; time: string }[]>([
     {
       sender: "advisor",
-      text: "Bonjour Jean-Pierre ! Je suis Émilie Bernard, votre conseillère dédiée. Votre dossier SBA-FR-2026-89412 a été pré-validé avec succès. N'hésitez pas si vous avez des questions sur votre contrat.",
-      time: "10:15"
+      text: "Hello! I am Emily Vance, your dedicated lending specialist at Sterling Bank of Asia. Your facility application SBA-2026-89412 has been pre-approved with favorable terms. Please reach out if you have any questions regarding your facility agreement.",
+      time: "10:15 AM"
     }
   ]);
   const [inputMessage, setInputMessage] = useState("");
@@ -75,7 +75,7 @@ export default function UserDashboard() {
     const newMsg = {
       sender: "user" as const,
       text: inputMessage,
-      time: new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
+      time: new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })
     };
 
     setChatMessages(prev => [...prev, newMsg]);
@@ -87,8 +87,8 @@ export default function UserDashboard() {
         ...prev,
         {
           sender: "advisor",
-          text: "Bien reçu ! Votre demande est prise en compte par le service crédit. Vos fonds seront virés selon vos instructions sous 24h.",
-          time: new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })
+          text: "Message received! Your inquiry is being reviewed by our underwriting desk. We will confirm your requested disbursement details within 24 business hours.",
+          time: new Date().toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })
         }
       ]);
     }, 1200);
@@ -125,13 +125,13 @@ export default function UserDashboard() {
           <div className="space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sterling-gold/20 text-sterling-gold text-xs font-bold">
               <ShieldCheck className="w-3.5 h-3.5" />
-              Espace Client Certifié • Sécurité eIDAS & RGPD
+              Certified Client Portal • 256-Bit SSL Security
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight font-display">
-              Bienvenue, {activeApp ? activeApp.applicantName : "Jean-Pierre Lambert"}
+              Welcome back, {activeApp ? activeApp.applicantName : "David Harrison"}
             </h1>
             <p className="text-xs sm:text-sm text-slate-300">
-              Gérez vos crédits en cours, transmettez vos justificatifs et suivez vos échéances en temps réel.
+              Manage your active facilities, upload verification documents, and monitor scheduled payments in real time.
             </p>
           </div>
 
@@ -141,7 +141,7 @@ export default function UserDashboard() {
               className="bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold text-sterling-navy-deep font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-md hover:scale-[1.02] transition-all flex items-center gap-2"
             >
               <Plus className="w-4 h-4 stroke-[3]" />
-              Nouvelle Demande
+              New Application
             </button>
           </div>
         </div>
@@ -150,53 +150,53 @@ export default function UserDashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-1">
             <div className="flex items-center justify-between text-xs text-slate-500">
-              <span>Capital Restant Dû</span>
+              <span>Remaining Principal Balance</span>
               <CreditCard className="w-4 h-4 text-sterling-gold" />
             </div>
             <div className="text-2xl font-black text-sterling-navy">
               {formatMoney(activeApp ? activeApp.amount * 0.76 : 11400, activeApp?.currency || "USD")}
             </div>
             <div className="text-[11px] text-slate-500 flex items-center gap-1">
-              <span>Montant initial : {formatMoney(activeApp?.amount || 15000, activeApp?.currency || "USD")}</span>
+              <span>Original Facility: {formatMoney(activeApp?.amount || 15000, activeApp?.currency || "USD")}</span>
             </div>
           </div>
 
           <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-1">
             <div className="flex items-center justify-between text-xs text-slate-500">
-              <span>Prochaine Échéance</span>
+              <span>Next Scheduled Payment</span>
               <Calendar className="w-4 h-4 text-sterling-navy" />
             </div>
             <div className="text-2xl font-black text-emerald-600">
               {formatMoney(activeApp?.monthlyPayment || 435, activeApp?.currency || "USD")}
             </div>
             <div className="text-[11px] text-slate-500 flex items-center gap-1">
-              <span>Prélèvement SEPA : <strong>05 Décembre 2026</strong></span>
+              <span>Scheduled Debit: <strong>Dec 05, 2026</strong></span>
             </div>
           </div>
 
           <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-1">
             <div className="flex items-center justify-between text-xs text-slate-500">
-              <span>Taux TAEG Fixe</span>
+              <span>Fixed APR Rate</span>
               <TrendingDown className="w-4 h-4 text-sterling-gold" />
             </div>
             <div className="text-2xl font-black text-sterling-navy">
               {activeApp?.interestRate.toFixed(2)} %
             </div>
             <div className="text-[11px] text-emerald-600 font-semibold flex items-center gap-1">
-              <Check className="w-3 h-3" /> Taux garanti sans variation
+              <Check className="w-3 h-3" /> Fixed contractual rate
             </div>
           </div>
 
           <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-1">
             <div className="flex items-center justify-between text-xs text-slate-500">
-              <span>Durée Restante</span>
+              <span>Remaining Term</span>
               <Clock className="w-4 h-4 text-indigo-500" />
             </div>
             <div className="text-2xl font-black text-sterling-navy">
-              {Math.max(1, (activeApp?.termMonths || 36) - 8)} mois
+              {Math.max(1, (activeApp?.termMonths || 36) - 8)} mos
             </div>
             <div className="text-[11px] text-slate-500">
-              Sur {activeApp?.termMonths || 36} mensualités contractuelles
+              Out of {activeApp?.termMonths || 36} contractual installments
             </div>
           </div>
         </div>
@@ -211,15 +211,15 @@ export default function UserDashboard() {
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
                 <div>
-                  <h2 className="text-lg font-bold text-sterling-navy">Mes Dossiers de Financement</h2>
-                  <p className="text-xs text-slate-500">Cliquez sur un dossier pour visualiser son statut et ses documents.</p>
+                  <h2 className="text-lg font-bold text-sterling-navy">My Financing Facilities</h2>
+                  <p className="text-xs text-slate-500">Click any facility below to review its live pipeline status and documents.</p>
                 </div>
                 <button
                   onClick={loadData}
                   className="inline-flex items-center gap-1.5 text-xs text-sterling-navy hover:text-sterling-gold font-semibold transition-colors"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
-                  Actualiser
+                  Refresh
                 </button>
               </div>
 
@@ -246,7 +246,7 @@ export default function UserDashboard() {
                           ? "bg-amber-100 text-amber-700"
                           : "bg-blue-100 text-blue-700"
                       }`}>
-                        {app.statusLabelFr.split(" - ")[0]}
+                        {app.status === "approved" ? "Approved" : app.status === "disbursed" ? "Disbursed" : app.status === "under_review" ? "Underwriting" : "Pending"}
                       </span>
                     </div>
 
@@ -254,7 +254,7 @@ export default function UserDashboard() {
                       {app.loanTypeLabel}
                     </div>
                     <div className="text-xs text-slate-500 mt-0.5">
-                      {formatMoney(app.amount, app.currency || "USD")} • {app.termMonths} mois à {formatMoney(app.monthlyPayment, app.currency || "USD")}/m
+                      {formatMoney(app.amount, app.currency || "USD")} • {app.termMonths} mos at {formatMoney(app.monthlyPayment, app.currency || "USD")}/mo
                     </div>
                   </button>
                 ))}
@@ -267,24 +267,24 @@ export default function UserDashboard() {
                     <div className="flex items-center justify-between">
                       <div>
                         <div className="text-xs font-bold uppercase tracking-wider text-sterling-gold">
-                          Dossier Sélectionné : {activeApp.referenceNumber}
+                          Selected Facility: {activeApp.referenceNumber}
                         </div>
                         <div className="text-base font-extrabold text-sterling-navy">
-                          {activeApp.statusLabelFr}
+                          {activeApp.status === "approved" ? "Facility Approved - Awaiting Signature" : activeApp.status === "disbursed" ? "Facility Disbursed - Active Repayment" : activeApp.status === "under_review" ? "Underwriting Risk Assessment Active" : "Application Received - Initial Review"}
                         </div>
                       </div>
                       <span className="text-xs text-slate-400">
-                        Mis à jour le {new Date(activeApp.lastUpdated).toLocaleDateString("fr-FR")}
+                        Updated on {new Date(activeApp.lastUpdated).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                       </span>
                     </div>
 
                     {/* Progress Steps */}
                     <div className="grid grid-cols-4 gap-2 pt-2">
                       {[
-                        { label: "1. Déposé", desc: "Dossier reçu" },
-                        { label: "2. Analyse", desc: "Vérification pièces" },
-                        { label: "3. Accord", desc: "Offre émise" },
-                        { label: "4. Déblocage", desc: "Fonds virés" },
+                        { label: "1. Submitted", desc: "File received" },
+                        { label: "2. Underwriting", desc: "Document check" },
+                        { label: "3. Approved", desc: "Facility offer" },
+                        { label: "4. Disbursed", desc: "Funds released" },
                       ].map((step, idx) => {
                         const currentStepNum = getStatusStep(activeApp.status);
                         const isDone = idx + 1 <= currentStepNum;
@@ -313,10 +313,10 @@ export default function UserDashboard() {
                       <div className="p-3 bg-white rounded-lg border border-slate-200 text-xs space-y-1">
                         <div className="font-bold text-slate-700 flex items-center gap-1.5">
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                          Note de votre analyste crédit :
+                          Note from your Credit Underwriter:
                         </div>
                         <div className="text-slate-600 italic">
-                          &laquo; {activeApp.officerNotes[0]} &raquo;
+                          &ldquo;{activeApp.officerNotes[0]}&rdquo;
                         </div>
                       </div>
                     )}
@@ -332,15 +332,15 @@ export default function UserDashboard() {
                 <div>
                   <h3 className="text-base font-bold text-sterling-navy flex items-center gap-2">
                     <FileText className="w-5 h-5 text-sterling-gold" />
-                    Coffre-Fort Numérique & Justificatifs
+                    Secure Digital Vault & KYC Documents
                   </h3>
                   <p className="text-xs text-slate-500">
-                    Documents chiffrés AES-256 stockés en conformité RGPD.
+                    AES-256 encrypted documents stored in compliance with international banking standards.
                   </p>
                 </div>
                 <label className="cursor-pointer bg-slate-800 hover:bg-sterling-navy text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-colors flex items-center gap-1.5 shadow-sm">
                   <UploadCloud className="w-4 h-4 text-sterling-gold" />
-                  <span>Ajouter une pièce</span>
+                  <span>Upload Document</span>
                   <input
                     type="file"
                     className="hidden"
@@ -360,7 +360,7 @@ export default function UserDashboard() {
                       </div>
                       <div>
                         <div className="font-semibold text-slate-800">{doc.name}</div>
-                        <div className="text-[10px] text-slate-400">{doc.type} • Déposé le {doc.uploadedAt}</div>
+                        <div className="text-[10px] text-slate-400">{doc.type} • Uploaded on {doc.uploadedAt}</div>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -369,7 +369,7 @@ export default function UserDashboard() {
                           ? "bg-emerald-100 text-emerald-700"
                           : "bg-amber-100 text-amber-700"
                       }`}>
-                        {doc.status === "verified" ? "Vérifié par la banque" : "En cours de lecture"}
+                        {doc.status === "verified" ? "Verified by Bank" : "Under Review"}
                       </span>
                       <button className="text-slate-400 hover:text-sterling-navy transition-colors">
                         <Download className="w-4 h-4" />
@@ -386,11 +386,11 @@ export default function UserDashboard() {
                       </div>
                       <div>
                         <div className="font-semibold text-emerald-900">{fname}</div>
-                        <div className="text-[10px] text-emerald-600">Téléchargé à l&apos;instant • Transmission sécurisée</div>
+                        <div className="text-[10px] text-emerald-600">Uploaded just now • Secure transmission</div>
                       </div>
                     </div>
                     <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-200 text-emerald-800">
-                      Reçu
+                      Received
                     </span>
                   </div>
                 ))}
@@ -399,30 +399,30 @@ export default function UserDashboard() {
 
             {/* Quick Actions & Repayment Simulator */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 space-y-4">
-              <h3 className="text-base font-bold text-sterling-navy">Actions Rapides sur votre Crédit</h3>
+              <h3 className="text-base font-bold text-sterling-navy">Quick Facility Actions</h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <button
                   onClick={() => setRepayModalOpen(true)}
                   className="p-3 text-left rounded-xl border border-slate-200 hover:border-sterling-gold hover:bg-slate-50 transition-all space-y-1"
                 >
-                  <div className="text-xs font-bold text-sterling-navy">Remboursement Anticipé</div>
-                  <div className="text-[11px] text-slate-500">Remboursez sans frais d&apos;indemnité (Art. L312-34)</div>
+                  <div className="text-xs font-bold text-sterling-navy">Early Repayment Simulator</div>
+                  <div className="text-[11px] text-slate-500">Calculate payoff savings with zero penalty fees</div>
                 </button>
 
                 <button
-                  onClick={() => alert("Votre tableau d'amortissement officiel certifié a été généré et envoyé à votre adresse email.")}
+                  onClick={() => alert("Your official certified amortization schedule has been generated and dispatched to your registered email.")}
                   className="p-3 text-left rounded-xl border border-slate-200 hover:border-sterling-gold hover:bg-slate-50 transition-all space-y-1"
                 >
-                  <div className="text-xs font-bold text-sterling-navy">Télécharger l&apos;Échéancier</div>
-                  <div className="text-[11px] text-slate-500">Tableau complet en format PDF fiscal certifié</div>
+                  <div className="text-xs font-bold text-sterling-navy">Download Schedule</div>
+                  <div className="text-[11px] text-slate-500">Full amortization breakdown in certified PDF format</div>
                 </button>
 
                 <button
-                  onClick={() => alert("Demande de modulation d'échéance transmise à votre conseiller Émilie Bernard.")}
+                  onClick={() => alert("Payment modulation request submitted to your lending specialist Emily Vance.")}
                   className="p-3 text-left rounded-xl border border-slate-200 hover:border-sterling-gold hover:bg-slate-50 transition-all space-y-1"
                 >
-                  <div className="text-xs font-bold text-sterling-navy">Reporter une Mensualité</div>
-                  <div className="text-[11px] text-slate-500">Suspension jusqu&apos;à 2 mois par an sans pénalité</div>
+                  <div className="text-xs font-bold text-sterling-navy">Request Payment Holiday</div>
+                  <div className="text-[11px] text-slate-500">Flexible grace period up to 2 months annually</div>
                 </button>
               </div>
             </div>
@@ -438,26 +438,26 @@ export default function UserDashboard() {
                 <div className="relative">
                   <img
                     src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80"
-                    alt="Émilie Bernard"
+                    alt="Emily Vance"
                     className="w-14 h-14 rounded-full object-cover border-2 border-sterling-gold"
                   />
                   <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full" />
                 </div>
                 <div>
-                  <div className="text-xs text-slate-400">Votre conseillère attitrée</div>
-                  <div className="text-sm font-bold text-sterling-navy">Émilie Bernard</div>
-                  <div className="text-[11px] text-emerald-600 font-semibold">Disponible en agence Paris</div>
+                  <div className="text-xs text-slate-400">Assigned Lending Specialist</div>
+                  <div className="text-sm font-bold text-sterling-navy">Emily Vance</div>
+                  <div className="text-[11px] text-emerald-600 font-semibold">Online • Head Office Lending Desk</div>
                 </div>
               </div>
 
               <div className="text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-1">
                 <div className="flex items-center gap-2">
                   <PhoneCall className="w-3.5 h-3.5 text-sterling-gold" />
-                  <span>Ligne directe : 01 89 54 22 10</span>
+                  <span>Direct Desk: +1 (800) 555-0199</span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-500">
                   <Clock className="w-3.5 h-3.5 text-slate-400" />
-                  <span>Lun - Ven : 8h30 - 19h00</span>
+                  <span>Mon - Fri: 8:30 AM - 6:00 PM EST</span>
                 </div>
               </div>
 
@@ -466,9 +466,9 @@ export default function UserDashboard() {
                 <div className="p-2.5 bg-sterling-navy text-white text-[11px] font-bold flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <MessageSquare className="w-3.5 h-3.5 text-sterling-gold" />
-                    Messagerie Sécurisée
+                    Secure Messenger
                   </span>
-                  <span className="text-[10px] text-emerald-400">En ligne</span>
+                  <span className="text-[10px] text-emerald-400">Connected</span>
                 </div>
 
                 <div className="flex-1 p-3 overflow-y-auto space-y-2 text-xs">
@@ -494,7 +494,7 @@ export default function UserDashboard() {
                     type="text"
                     value={inputMessage}
                     onChange={(e) => setInputMessage(e.target.value)}
-                    placeholder="Posez votre question..."
+                    placeholder="Ask a question or request documents..."
                     className="flex-1 text-xs px-3 py-1.5 border border-slate-200 rounded-lg outline-none focus:border-sterling-navy"
                   />
                   <button
@@ -510,7 +510,7 @@ export default function UserDashboard() {
             {/* Mandatory Regulatory Warning in Dashboard */}
             <div className="p-4 bg-amber-500/10 border border-amber-400/30 rounded-xl text-center">
               <p className="text-[11px] font-semibold text-amber-800 leading-snug">
-                « Un crédit vous engage et doit être remboursé. Vérifiez vos capacités de remboursement avant de vous engager. »
+                Borrowing involves financial commitments. Please verify your repayment schedule and borrowing capacity before proceeding with credit facilities.
               </p>
             </div>
 
@@ -526,14 +526,14 @@ export default function UserDashboard() {
       {repayModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
-            <h3 className="text-lg font-bold text-sterling-navy">Simuler un Remboursement Anticipé</h3>
+            <h3 className="text-lg font-bold text-sterling-navy">Early Repayment Simulator</h3>
             <p className="text-xs text-slate-500 leading-relaxed">
-              Conformément à l&apos;Article L312-34 du Code de la consommation, aucun frais ni indemnité ne s&apos;applique si le remboursement est inférieur à 10 000 €.
+              Sterling Bank of Asia permits early capital prepayments with zero penalty fees on standard personal consumer facilities.
             </p>
 
             <div className="space-y-3">
               <div>
-                <label className="text-xs font-semibold text-slate-700">Montant à rembourser (€)</label>
+                <label className="text-xs font-semibold text-slate-700">Prepayment Amount ({activeApp?.currency || "USD"})</label>
                 <input
                   type="number"
                   defaultValue="3000"
@@ -542,26 +542,26 @@ export default function UserDashboard() {
               </div>
 
               <div className="p-3 bg-emerald-50 rounded-xl text-xs text-emerald-800 space-y-1">
-                <div className="font-bold">Économie d&apos;intérêts estimée : 142,50 €</div>
-                <div className="text-[11px]">Votre nouvelle mensualité passera de {activeApp?.monthlyPayment.toFixed(2)} € à {(Number(activeApp?.monthlyPayment || 400) * 0.75).toFixed(2)} €.</div>
+                <div className="font-bold">Estimated Interest Savings: {formatMoney(240, activeApp?.currency || "USD")}</div>
+                <div className="text-[11px]">Your revised monthly installment will adjust downward from {formatMoney(activeApp?.monthlyPayment || 435, activeApp?.currency || "USD")} to {formatMoney(Number(activeApp?.monthlyPayment || 435) * 0.75, activeApp?.currency || "USD")}.</div>
               </div>
             </div>
 
             <div className="flex gap-2 pt-2">
               <button
                 onClick={() => {
-                  alert("Demande de remboursement anticipé transmise avec succès.");
+                  alert("Early prepayment request processed successfully.");
                   setRepayModalOpen(false);
                 }}
                 className="flex-1 bg-sterling-navy text-white font-bold py-2.5 rounded-xl text-xs hover:bg-sterling-navy-light transition-colors"
               >
-                Confirmer l&apos;Opération
+                Confirm Prepayment Request
               </button>
               <button
                 onClick={() => setRepayModalOpen(false)}
                 className="px-4 py-2.5 border border-slate-200 rounded-xl text-xs text-slate-600 hover:bg-slate-50"
               >
-                Annuler
+                Cancel
               </button>
             </div>
           </div>

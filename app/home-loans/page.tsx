@@ -5,38 +5,41 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import QuickApplyModal from "@/components/QuickApplyModal";
-import { formatEUR } from "@/lib/utils";
 import { 
   Home, 
-  CheckCircle2, 
+  Hammer, 
+  Sun, 
   ArrowRight, 
+  CheckCircle2, 
   ShieldCheck, 
-  Sparkles, 
-  FileText, 
-  Clock, 
   Calculator, 
+  Sparkles,
   ChevronRight,
-  Hammer,
-  Key
+  Clock,
+  Layers
 } from "lucide-react";
+import { formatMoney } from "@/lib/utils";
 
 export default function HomeLoansPage() {
-  const [applyModalOpen, setApplyModalOpen] = useState(false);
-  const [projectType, setProjectType] = useState<"acquisition" | "renovation" | "construction">("renovation");
-  const [projectAmount, setProjectAmount] = useState(65000);
-  const [downpaymentPct, setDownpaymentPct] = useState(15);
+  const [projectBudget, setProjectBudget] = useState(75000);
   const [tenorYears, setTenorYears] = useState(15);
+  const [projectType, setProjectType] = useState<"renovation" | "energy" | "acquisition">("renovation");
+  const [applyModalOpen, setApplyModalOpen] = useState(false);
 
-  const downpaymentAmount = (projectAmount * downpaymentPct) / 100;
-  const loanAmount = Math.max(5000, projectAmount - downpaymentAmount);
-  
-  // Rate based on project type
-  const annualRate = projectType === "renovation" ? 0.0285 : 0.0345;
+  const rates = {
+    renovation: 2.85,
+    energy: 2.70,
+    acquisition: 2.95,
+  };
+  const activeRate = rates[projectType];
+
   const tenorMonths = tenorYears * 12;
-  const monthlyRate = annualRate / 12;
-  const monthlyPayment = (loanAmount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -tenorMonths));
+  const monthlyRate = activeRate / 100 / 12;
+  const monthlyPayment =
+    (projectBudget * monthlyRate * Math.pow(1 + monthlyRate, tenorMonths)) /
+    (Math.pow(1 + monthlyRate, tenorMonths) - 1);
   const totalCost = monthlyPayment * tenorMonths;
-  const totalInterest = totalCost - loanAmount;
+  const totalInterest = totalCost - projectBudget;
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-800">
@@ -46,11 +49,11 @@ export default function HomeLoansPage() {
         {/* Breadcrumb Navigation */}
         <div className="bg-slate-100 border-b border-slate-200 py-2.5 px-4 sm:px-8">
           <div className="max-w-7xl mx-auto flex items-center gap-2 text-xs text-slate-500">
-            <Link href="/" className="hover:text-sterling-navy transition-colors">Accueil</Link>
+            <Link href="/" className="hover:text-sterling-navy transition-colors">Home</Link>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="text-slate-400">Crédits Particuliers</span>
+            <span className="text-slate-400">Consumer Loans</span>
             <ChevronRight className="w-3.5 h-3.5" />
-            <span className="font-semibold text-sterling-navy">Discovery Prêt Travaux & Immobilier</span>
+            <span className="font-semibold text-sterling-navy">Home Loan & Property Improvements</span>
           </div>
         </div>
 
@@ -62,34 +65,34 @@ export default function HomeLoansPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               
               <div className="lg:col-span-7 space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sterling-gold/20 border border-sterling-gold/40 text-sterling-gold text-xs font-bold tracking-wide">
-                  <Home className="w-4 h-4" />
-                  Discovery Habitat • TAEG Fixe dès 2,85%
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-bold tracking-wide">
+                  <Home className="w-4 h-4 text-amber-400" />
+                  Home Facility • Fixed APR from 2.85% • Up to 25 Years
                 </div>
 
                 <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight font-display text-white leading-tight">
-                  Construisez ou Rénovez <br />
+                  Bring Your Home & <br />
                   <span className="bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-amber-200 bg-clip-text text-transparent">
-                    La Maison de Vos Rêves
+                    Property Vision to Life
                   </span>
                 </h1>
 
                 <p className="text-base sm:text-lg text-slate-200 leading-relaxed max-w-2xl">
-                  Rénovation énergétique, extension, aménagement intérieur ou acquisition immobilière : bénéficiez d&apos;un prêt à taux fixe garanti sur une durée allant jusqu&apos;à 25 ans avec un accompagnement sur-mesure.
+                  Energy renovations, extensions, interior remodeling, or property acquisition: finance up to 100% of your project with flexible release in stages according to contractor invoices.
                 </p>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
-                    <div className="text-xl font-bold text-sterling-gold">Jusqu&apos;à 150 000 $ / €</div>
-                    <div className="text-xs text-slate-300">USD & EUR • Travaux & Habitat</div>
+                    <div className="text-xl font-bold text-sterling-gold">Up to $500,000+</div>
+                    <div className="text-xs text-slate-300">USD & EUR Financing</div>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
-                    <div className="text-xl font-bold text-sterling-gold">Jusqu&apos;à 25 Ans</div>
-                    <div className="text-xs text-slate-300">Mensualités allégées</div>
+                    <div className="text-xl font-bold text-sterling-gold">Up to 25 Years</div>
+                    <div className="text-xs text-slate-300">Lower monthly payments</div>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10 col-span-2 sm:col-span-1">
-                    <div className="text-xl font-bold text-sterling-gold">Dès 2,85%</div>
-                    <div className="text-xs text-slate-300">TAEG fixe sans surprise</div>
+                    <div className="text-xl font-bold text-sterling-gold">From 2.70%</div>
+                    <div className="text-xs text-slate-300">Eco-renovation incentive rate</div>
                   </div>
                 </div>
 
@@ -98,7 +101,7 @@ export default function HomeLoansPage() {
                     onClick={() => setApplyModalOpen(true)}
                     className="bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold text-sterling-navy-deep font-bold px-7 py-3.5 rounded-xl shadow-lg hover:shadow-sterling-gold/30 hover:scale-[1.02] transition-all flex items-center gap-2"
                   >
-                    Faire ma Demande Travaux
+                    Apply for Home Loan
                     <ArrowRight className="w-4 h-4 stroke-[2.5]" />
                   </button>
                   <a
@@ -106,26 +109,26 @@ export default function HomeLoansPage() {
                     className="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3.5 rounded-xl border border-white/20 transition-all flex items-center gap-2"
                   >
                     <Calculator className="w-4 h-4 text-sterling-gold" />
-                    Simuler le Financement
+                    Simulate Amortization
                   </a>
                 </div>
               </div>
 
-              {/* Real Home Renovation Photography */}
+              {/* Home Photography */}
               <div className="lg:col-span-5 relative">
                 <div className="relative mx-auto max-w-md rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 bg-slate-800">
                   <img
                     src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"
-                    alt="Rénovation appartement haussmannien à Paris"
+                    alt="Modern Home Renovation"
                     className="w-full h-80 sm:h-96 object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                      <span className="text-xs font-semibold uppercase tracking-wider text-sterling-gold">Éco-Rénovation & Habitat</span>
+                      <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse" />
+                      <span className="text-xs font-semibold uppercase tracking-wider text-sterling-gold">Property Improvements</span>
                     </div>
-                    <div className="text-lg font-bold">Améliorez votre DPE & Réduisez vos factures</div>
-                    <div className="text-xs text-slate-300">Isolation thermique, pompe à chaleur, double vitrage et cuisine équipée.</div>
+                    <div className="text-lg font-bold">Comprehensive Energy & Living Upgrades</div>
+                    <div className="text-xs text-slate-300">Solar panels, heat pumps, insulation, modern kitchens, and luxury additions.</div>
                   </div>
                 </div>
               </div>
@@ -134,29 +137,29 @@ export default function HomeLoansPage() {
           </div>
         </section>
 
-        {/* Specialized Mortgage / Renovation Calculator */}
+        {/* Home Loan Simulator Section */}
         <section id="home-calculator" className="py-20 bg-slate-100">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
               <span className="text-xs font-bold uppercase tracking-wider text-sterling-gold bg-sterling-navy/5 px-3 py-1 rounded-full">
-                Simulateur Discovery Habitat
+                Home Loan Simulator
               </span>
               <h2 className="text-3xl font-extrabold text-sterling-navy font-display">
-                Calculez le Budget de vos Travaux
+                Customize Your Home Project Financing
               </h2>
               <p className="text-xs text-slate-500">
-                Ajustez le montant estimé des travaux, votre apport et la durée de l&apos;emprunt.
+                Adjust project budget and repayment horizon from 5 to 25 years.
               </p>
             </div>
 
             <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200 space-y-8">
               
-              {/* Project Type */}
+              {/* Project Type Tabs */}
               <div className="grid grid-cols-3 gap-2 p-1.5 bg-slate-100 rounded-2xl text-xs font-bold">
                 {[
-                  { id: "renovation", label: "Travaux & Rénovation", rate: "2,85% TAEG", icon: Hammer },
-                  { id: "acquisition", label: "Achat & Aménagement", rate: "3,45% TAEG", icon: Key },
-                  { id: "construction", label: "Agrandissement / Véranda", rate: "3,20% TAEG", icon: Home },
+                  { id: "renovation", label: "Home Renovation", rate: "2.85% APR", icon: Hammer },
+                  { id: "energy", label: "Eco-Energy Transition", rate: "2.70% APR", icon: Sun },
+                  { id: "acquisition", label: "Property Acquisition", rate: "2.95% APR", icon: Home },
                 ].map((t) => (
                   <button
                     key={t.id}
@@ -179,49 +182,31 @@ export default function HomeLoansPage() {
               <div className="space-y-6">
                 <div>
                   <div className="flex justify-between items-center mb-2">
-                    <label className="text-xs font-bold text-slate-700">Montant Global du Projet (€)</label>
-                    <span className="text-xl font-black text-sterling-navy font-mono">{formatEUR(projectAmount)}</span>
+                    <label className="text-xs font-bold text-slate-700">Project Budget</label>
+                    <span className="text-xl font-black text-sterling-navy font-mono">${projectBudget.toLocaleString()}</span>
                   </div>
                   <input
                     type="range"
                     min={10000}
-                    max={150000}
-                    step={2500}
-                    value={projectAmount}
-                    onChange={(e) => setProjectAmount(Number(e.target.value))}
+                    max={500000}
+                    step={5000}
+                    value={projectBudget}
+                    onChange={(e) => setProjectBudget(Number(e.target.value))}
+                    className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sterling-gold"
                   />
                   <div className="flex justify-between text-[10px] text-slate-400 mt-1">
-                    <span>10 000 €</span>
-                    <span>150 000 €</span>
+                    <span>$10,000</span>
+                    <span>$500,000+</span>
                   </div>
                 </div>
 
                 <div>
                   <div className="flex justify-between items-center mb-2">
-                    <label className="text-xs font-bold text-slate-700">Apport Personnel ({downpaymentPct}%)</label>
-                    <span className="text-sm font-bold text-slate-600 font-mono">{formatEUR(downpaymentAmount)}</span>
-                  </div>
-                  <input
-                    type="range"
-                    min={0}
-                    max={40}
-                    step={5}
-                    value={downpaymentPct}
-                    onChange={(e) => setDownpaymentPct(Number(e.target.value))}
-                  />
-                  <div className="flex justify-between text-[10px] text-slate-400 mt-1">
-                    <span>0% (Sans apport)</span>
-                    <span>40%</span>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <label className="text-xs font-bold text-slate-700">Durée du Prêt</label>
-                    <span className="text-base font-bold text-sterling-navy font-mono">{tenorYears} Ans ({tenorMonths} Mois)</span>
+                    <label className="text-xs font-bold text-slate-700">Repayment Horizon</label>
+                    <span className="text-base font-bold text-sterling-navy font-mono">{tenorYears} Years ({tenorMonths} Months)</span>
                   </div>
                   <div className="grid grid-cols-5 gap-2">
-                    {[5, 7, 10, 15, 20].map((y) => (
+                    {[5, 10, 15, 20, 25].map((y) => (
                       <button
                         key={y}
                         type="button"
@@ -232,7 +217,7 @@ export default function HomeLoansPage() {
                             : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
                         }`}
                       >
-                        {y} ans
+                        {y} Yrs
                       </button>
                     ))}
                   </div>
@@ -243,80 +228,32 @@ export default function HomeLoansPage() {
               <div className="bg-gradient-to-br from-slate-50 to-amber-50/40 rounded-2xl p-6 border border-amber-100 flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div>
                   <div className="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-1">
-                    Mensualité Estimée
+                    Estimated Monthly Payment
                   </div>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-4xl font-black text-sterling-navy font-display">
-                      {formatEUR(monthlyPayment)}
+                    <span className="text-4xl font-extrabold text-sterling-navy font-mono">
+                      ${Math.round(monthlyPayment).toLocaleString()}
                     </span>
-                    <span className="text-xs font-medium text-slate-500">/ mois</span>
+                    <span className="text-xs text-slate-500">/ month</span>
                   </div>
                   <div className="text-xs text-slate-500 mt-1">
-                    Montant emprunté : <strong>{formatEUR(loanAmount)}</strong> • TAEG fixe : <strong>{(annualRate * 100).toFixed(2)}%</strong>
+                    Total Borrowed: <strong>${projectBudget.toLocaleString()}</strong> • Fixed Rate: <strong>{activeRate.toFixed(2)}% APR</strong>
                   </div>
                 </div>
 
                 <button
+                  type="button"
                   onClick={() => setApplyModalOpen(true)}
-                  className="w-full sm:w-auto bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold text-sterling-navy-deep font-black py-4 px-8 rounded-xl shadow-lg hover:shadow-sterling-gold/30 transition-all flex items-center justify-center gap-2 text-sm"
+                  className="w-full sm:w-auto bg-gradient-to-r from-sterling-gold to-sterling-gold-light hover:from-amber-600 hover:to-sterling-gold text-white font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2"
                 >
-                  Déposer mon Dossier
-                  <ArrowRight className="w-4 h-4 stroke-[3]" />
+                  Apply Online for Home Loan
+                  <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
 
             </div>
           </div>
         </section>
-
-        {/* Required Documents for Home/Travaux */}
-        <section className="py-16 bg-white border-t border-slate-200">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-            <div className="text-center space-y-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-sterling-gold bg-sterling-navy/5 px-3 py-1 rounded-full">
-                Pièces Requises
-              </span>
-              <h3 className="text-2xl font-bold text-sterling-navy">
-                Documents Requis pour votre Financement Travaux
-              </h3>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
-                <FileText className="w-6 h-6 text-sterling-gold" />
-                <h4 className="text-sm font-bold text-sterling-navy">Devis des Artisans / RGE</h4>
-                <p className="text-xs text-slate-600">
-                  Devis détaillés des travaux prévus émis par des professionnels certifiés RGE.
-                </p>
-              </div>
-
-              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
-                <FileText className="w-6 h-6 text-sterling-gold" />
-                <h4 className="text-sm font-bold text-sterling-navy">Titre de Propriété ou Bail</h4>
-                <p className="text-xs text-slate-600">
-                  Justificatif de propriété du bien immobilier à rénover (attestation notariée ou taxe foncière).
-                </p>
-              </div>
-
-              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-100 space-y-2">
-                <FileText className="w-6 h-6 text-sterling-gold" />
-                <h4 className="text-sm font-bold text-sterling-navy">Justificatifs de Revenus</h4>
-                <p className="text-xs text-slate-600">
-                  Vos 3 derniers bulletins de salaire et vos 2 derniers avis d&apos;imposition pour le calcul du taux d&apos;endettement.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Mandatory warning */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="p-4 bg-amber-500/10 border border-amber-400/30 rounded-xl text-center">
-            <p className="text-xs md:text-sm font-semibold text-amber-800 tracking-wide">
-              « Un crédit vous engage et doit être remboursé. Vérifiez vos capacités de remboursement avant de vous engager. »
-            </p>
-          </div>
-        </div>
 
       </main>
 
@@ -326,7 +263,7 @@ export default function HomeLoansPage() {
         isOpen={applyModalOpen}
         onClose={() => setApplyModalOpen(false)}
         defaultLoanType="home"
-        defaultAmount={loanAmount}
+        defaultAmount={projectBudget}
         defaultTenor={tenorMonths}
       />
     </div>
