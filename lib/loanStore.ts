@@ -50,7 +50,7 @@ export interface LoanApplication {
 const INITIAL_APPLICATIONS: LoanApplication[] = [
   {
     id: "app-101",
-    referenceNumber: "SBA-2026-89412",
+    referenceNumber: "LCG-2026-89412",
     applicantName: "David Harrison",
     civility: "Mr.",
     email: "d.harrison@example.com",
@@ -75,7 +75,7 @@ const INITIAL_APPLICATIONS: LoanApplication[] = [
     lastUpdated: "2026-11-05T09:30:00Z",
     creditScore: 785,
     assignedOfficer: "Emily Vance",
-    assignedOfficerEmail: "emily.vance@sterlingbankasia.com",
+    assignedOfficerEmail: "emily.vance@loancommercialgroup.com",
     assignedOfficerPhone: "+1 (800) 555-0199",
     assignedAmount: 15000,
     assignedInterestRate: 2.85,
@@ -98,7 +98,7 @@ const INITIAL_APPLICATIONS: LoanApplication[] = [
   },
   {
     id: "app-102",
-    referenceNumber: "SBA-2026-92147",
+    referenceNumber: "LCG-2026-92147",
     applicantName: "Sofia Morales",
     civility: "Ms.",
     email: "sofia.morales@example.com",
@@ -123,7 +123,7 @@ const INITIAL_APPLICATIONS: LoanApplication[] = [
     lastUpdated: "2026-11-05T11:45:00Z",
     creditScore: 740,
     assignedOfficer: "Michael Chang",
-    assignedOfficerEmail: "michael.chang@sterlingbankasia.com",
+    assignedOfficerEmail: "michael.chang@loancommercialgroup.com",
     assignedOfficerPhone: "+1 (800) 555-0198",
     assignedAmount: 28000,
     assignedInterestRate: 3.10,
@@ -144,7 +144,7 @@ const INITIAL_APPLICATIONS: LoanApplication[] = [
   },
   {
     id: "app-103",
-    referenceNumber: "SBA-2026-93820",
+    referenceNumber: "LCG-2026-93820",
     applicantName: "Marcus Vance",
     civility: "Mr.",
     email: "marcus.vance@example.com",
@@ -169,7 +169,7 @@ const INITIAL_APPLICATIONS: LoanApplication[] = [
     lastUpdated: "2026-11-02T15:00:00Z",
     creditScore: 810,
     assignedOfficer: "David Sterling",
-    assignedOfficerEmail: "david.sterling@sterlingbankasia.com",
+    assignedOfficerEmail: "david.sterling@loancommercialgroup.com",
     assignedOfficerPhone: "+1 (800) 555-0195",
     assignedAmount: 35000,
     assignedInterestRate: 2.50,
@@ -190,7 +190,7 @@ const INITIAL_APPLICATIONS: LoanApplication[] = [
   },
   {
     id: "app-104",
-    referenceNumber: "SBA-2026-94011",
+    referenceNumber: "LCG-2026-94011",
     applicantName: "Claire Bennett",
     civility: "Ms.",
     email: "claire.bennett@example.com",
@@ -224,7 +224,7 @@ const INITIAL_APPLICATIONS: LoanApplication[] = [
   }
 ];
 
-export const STORAGE_KEY = "sterling_bank_applications_v4";
+export const STORAGE_KEY = "lcg_bank_applications_v5";
 
 export function getApplications(): LoanApplication[] {
   if (typeof window === "undefined") return INITIAL_APPLICATIONS;
@@ -245,7 +245,7 @@ export function saveApplications(apps: LoanApplication[]): void {
   if (typeof window === "undefined") return;
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
-    window.dispatchEvent(new Event("sterling_applications_updated"));
+    window.dispatchEvent(new Event("lcg_applications_updated"));
   } catch (e) {
     console.error("Failed to write to localStorage:", e);
   }
@@ -254,14 +254,14 @@ export function saveApplications(apps: LoanApplication[]): void {
 export function addApplication(newApp: Partial<LoanApplication>): LoanApplication {
   const apps = getApplications();
   const id = `app-${Date.now().toString().slice(-5)}`;
-  const ref = `SBA-2026-${Math.floor(10000 + Math.random() * 90000)}`;
+  const ref = `LCG-2026-${Math.floor(10000 + Math.random() * 90000)}`;
   
   const created: LoanApplication = {
     id,
     referenceNumber: ref,
     applicantName: newApp.applicantName || "New Applicant",
     civility: newApp.civility || "Mr.",
-    email: newApp.email || "client@sterlingbankasia.com",
+    email: newApp.email || "client@loancommercialgroup.com",
     phone: newApp.phone || "+1 (555) 000-0000",
     loanType: newApp.loanType || "persona",
     loanTypeLabel: newApp.loanTypeLabel || "Persona Personal Loan",

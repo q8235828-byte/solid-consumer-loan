@@ -58,7 +58,7 @@ export default function Testimonials({ onOpenApply }: TestimonialsProps) {
             Verified Client Testimonials
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-sterling-navy font-display tracking-tight">
-            Client Success Stories with Sterling Bank
+            Client Success Stories with Loan Commercial Group
           </h2>
           <p className="text-slate-600 text-base sm:text-lg">
             Discover verified reviews from individuals and businesses worldwide who have funded their projects with our lending facilities.

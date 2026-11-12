@@ -41,7 +41,7 @@ export default function UserDashboard() {
   const [chatMessages, setChatMessages] = useState<{ sender: "user" | "advisor"; text: string; time: string }[]>([
     {
       sender: "advisor",
-      text: "Hello! I am Emily Vance, your dedicated lending specialist at Sterling Bank of Asia. Your facility application SBA-2026-89412 has been pre-approved with favorable terms. Please reach out if you have any questions regarding your facility agreement.",
+      text: "Hello! I am Emily Vance, your dedicated lending specialist at Loan Commercial Group. Your facility application LCG-2026-89412 has been pre-approved with favorable terms. Please reach out if you have any questions regarding your facility agreement.",
       time: "10:15 AM"
     }
   ]);
@@ -64,8 +64,8 @@ export default function UserDashboard() {
       loadData();
     };
 
-    window.addEventListener("sterling_applications_updated", handleUpdate);
-    return () => window.removeEventListener("sterling_applications_updated", handleUpdate);
+    window.addEventListener("lcg_applications_updated", handleUpdate);
+    return () => window.removeEventListener("lcg_applications_updated", handleUpdate);
   }, []);
 
   const handleSendMessage = (e: React.FormEvent) => {
@@ -533,7 +533,7 @@ export default function UserDashboard() {
           <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 space-y-4">
             <h3 className="text-lg font-bold text-sterling-navy">Early Repayment Simulator</h3>
             <p className="text-xs text-slate-500 leading-relaxed">
-              Sterling Bank of Asia permits early capital prepayments with zero penalty fees on standard personal consumer facilities.
+              Loan Commercial Group permits early capital prepayments with zero penalty fees on standard personal consumer facilities.
             </p>
 
             <div className="space-y-3">

@@ -62,10 +62,10 @@ export default function TrackerSection() {
         ],
         remarks: found.officerNotes[0] || "Your application is currently being handled by our international lending division.",
       });
-    } else if (cleanRef === "SBA-2026-9842" || cleanRef === "9842" || cleanRef.includes("SBA")) {
+    } else if (cleanRef === "LCG-2026-9842" || cleanRef === "9842" || cleanRef.includes("SBA")) {
       // Demo verified file
       setResult({
-        ref: "SBA-2026-9842",
+        ref: "LCG-2026-9842",
         applicant: "Marcus Vance",
         amount: 25000,
         currency: "USD",
@@ -116,7 +116,7 @@ export default function TrackerSection() {
                   <input
                     type="text"
                     required
-                    placeholder="e.g. SBA-2026-9842"
+                    placeholder="e.g. LCG-2026-9842"
                     value={refInput}
                     onChange={(e) => setRefInput(e.target.value)}
                     className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 focus:border-sterling-gold focus:ring-2 focus:ring-sterling-gold/20 text-xs font-mono uppercase font-bold text-slate-800 outline-none transition-all"
@@ -154,12 +154,12 @@ export default function TrackerSection() {
             <button
               type="button"
               onClick={() => {
-                setRefInput("SBA-2026-9842");
+                setRefInput("LCG-2026-9842");
                 setLast4Input("5678");
               }}
               className="text-[11px] text-sterling-gold hover:underline font-semibold"
             >
-              Demo query: load verified file (SBA-2026-9842)
+              Demo query: load verified file (LCG-2026-9842)
             </button>
           </div>
         </div>

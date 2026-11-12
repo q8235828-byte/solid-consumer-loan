@@ -34,7 +34,7 @@ export default function PersonalLoansPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 font-sans text-slate-800 antialiased">
-      {/* Official Sterling Bank Navbar */}
+      {/* Official Loan Commercial Group Navbar */}
       <Navbar onOpenApply={handleOpenApply} />
 
       <main className="flex-1">
@@ -59,7 +59,7 @@ export default function PersonalLoansPage() {
             <div className="max-w-3xl space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sterling-gold/20 border border-sterling-gold/40 text-sterling-gold text-xs font-bold tracking-wide">
                 <Sparkles className="w-3.5 h-3.5" />
-                Sterling Bank of Asia Consumer Financing
+                Loan Commercial Group Consumer Financing
               </div>
 
               <h1 className="text-3xl sm:text-5xl font-black tracking-tight font-display text-white leading-tight">
@@ -67,7 +67,7 @@ export default function PersonalLoansPage() {
               </h1>
 
               <p className="text-base sm:text-lg text-slate-200 leading-relaxed">
-                Fund your goals with a personal loan you can trust. Sterling Bank of Asia offers flexible loan terms ideal for emergencies, education, travel, home upgrades, and corporate capital structuring. Available in <strong>USD ($)</strong> and <strong>EUR (€)</strong>.
+                Fund your goals with a personal loan you can trust. Loan Commercial Group offers flexible loan terms ideal for emergencies, education, travel, home upgrades, and corporate capital structuring. Available in <strong>USD ($)</strong> and <strong>EUR (€)</strong>.
               </p>
 
               <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -357,7 +357,7 @@ export default function PersonalLoansPage() {
                   Bank on-the-go
                 </h3>
                 <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl">
-                  Make transactions on-the-go with Sterling Bank&apos;s mobile app, available on iOS and Android. Manage your personal loans, check amortizations, and transfer funds seamlessly.
+                  Make transactions on-the-go with Loan Commercial Group&apos;s mobile app, available on iOS and Android. Manage your personal loans, check amortizations, and transfer funds seamlessly.
                 </p>
 
                 <div className="space-y-3 text-xs sm:text-sm text-slate-200">
@@ -367,7 +367,7 @@ export default function PersonalLoansPage() {
                       alt="check" 
                       className="w-5 h-5 shrink-0 mt-0.5" 
                     />
-                    <p>With Sterling Bank Online, you can address your banking needs with ease, anytime, anywhere.</p>
+                    <p>With Loan Commercial Group Online, you can address your banking needs with ease, anytime, anywhere.</p>
                   </div>
                   <div className="flex items-start gap-3">
                     <img 
@@ -412,7 +412,7 @@ export default function PersonalLoansPage() {
               <div className="lg:col-span-5 flex justify-center lg:justify-end">
                 <img 
                   src="/images/personal-loans/sterling-bank-phone-images.png" 
-                  alt="Sterling Bank Mobile App" 
+                  alt="Loan Commercial Group Mobile App" 
                   className="max-h-[340px] w-auto object-contain drop-shadow-2xl" 
                 />
               </div>
@@ -433,13 +433,13 @@ export default function PersonalLoansPage() {
               <div className="space-y-1">
                 <h4 className="text-base font-bold text-slate-900">Security Advisory: Never Click That Link</h4>
                 <p className="text-xs text-slate-600 leading-relaxed max-w-2xl">
-                  Sterling Bank of Asia will never send links via SMS, email, or any messaging app asking for your passwords or OTPs. Always protect your account credentials and verify loan offers through our official portal.
+                  Loan Commercial Group will never send links via SMS, email, or any messaging app asking for your passwords or OTPs. Always protect your account credentials and verify loan offers through our official portal.
                 </p>
               </div>
             </div>
 
             <a
-              href="mailto:contact@sterlingbankasia.com"
+              href="mailto:contact@loancommercialgroup.com"
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-white border border-amber-300 text-slate-800 text-xs font-bold hover:bg-amber-100 transition-colors shadow-sm shrink-0"
             >
               Report Suspicious Activity
@@ -449,7 +449,7 @@ export default function PersonalLoansPage() {
 
       </main>
 
-      {/* Official Sterling Bank Footer */}
+      {/* Official Loan Commercial Group Footer */}
       <Footer />
 
       {/* Quick Application Modal */}

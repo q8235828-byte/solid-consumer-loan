@@ -62,7 +62,7 @@ export default function TrackerPage() {
     } else {
       // Mock tracking fallback
       setStatusResult({
-        ref: refNumber || "SBA-2026-89412",
+        ref: refNumber || "LCG-2026-89412",
         applicant: "David Harrison",
         loanType: "Persona Personal Loan",
         amount: "$25,000",
@@ -103,7 +103,7 @@ export default function TrackerPage() {
             Track Your Loan Application in Real-Time
           </h1>
           <p className="text-sm text-slate-600">
-            Enter your application reference number (e.g. <code>SBA-2026-89412</code>) or the last 4 digits of your phone number to check current processing progress.
+            Enter your application reference number (e.g. <code>LCG-2026-89412</code>) or the last 4 digits of your phone number to check current processing progress.
           </p>
         </div>
 
@@ -116,7 +116,7 @@ export default function TrackerPage() {
               </label>
               <input
                 type="text"
-                placeholder="e.g. SBA-2026-89412"
+                placeholder="e.g. LCG-2026-89412"
                 value={refNumber}
                 onChange={(e) => setRefNumber(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl border border-slate-200 text-xs font-mono font-medium focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none"

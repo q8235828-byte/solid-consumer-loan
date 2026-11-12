@@ -507,7 +507,7 @@ export default function ApplyPage() {
                           required
                         />
                         <span className="text-slate-600">
-                          I authorize Sterling Bank of Asia to perform credit bureau inquiries and financial solvency checks for this facility request.
+                          I authorize Loan Commercial Group to perform credit bureau inquiries and financial solvency checks for this facility request.
                         </span>
                       </label>
                     </div>

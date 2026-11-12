@@ -105,7 +105,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
             </a>
             <span className="text-slate-500">|</span>
             <a 
-              href="https://sterlingbankasia.com/careers" 
+              href="https://loancommercialgroup.com/careers" 
               target="_blank" 
               rel="noreferrer" 
               className="hover:text-sterling-gold transition-colors inline-flex items-center gap-1"
@@ -117,7 +117,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               Branches and ATMs
             </Link>
             <span className="text-slate-500">|</span>
-            <a href="mailto:customer.experience@sterlingbankasia.com" className="hover:text-sterling-gold transition-colors">
+            <a href="mailto:customer.experience@loancommercialgroup.com" className="hover:text-sterling-gold transition-colors">
               Contact Us
             </a>
             <span className="text-slate-500">|</span>
@@ -133,7 +133,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
 
           {/* Quick Notice on Mobile */}
           <div className="lg:hidden text-[11px] font-semibold text-sterling-gold-light truncate">
-            Sterling Bank • Private Investment & Consumer Lending
+            Loan Commercial Group • Private Investment & Consumer Lending
           </div>
 
           {/* Secondary Right: Currency, Search, Language, Auth */}
@@ -166,15 +166,15 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
-          {/* Official Sterling Bank of Asia Brand Logo */}
+          {/* Official Loan Commercial Group Brand Logo */}
           <div className="flex items-center gap-4">
             <Link href="/" rel="home" className="flex items-center group py-1">
               <Image 
                 src="/logo.png" 
-                alt="Sterling Bank of Asia - A Savings Bank" 
-                width={190} 
-                height={65} 
-                className="h-11 sm:h-12 w-auto object-contain transition-transform group-hover:scale-[1.02]"
+                alt="Loan Commercial Group - Private Lending & Capital Facilities" 
+                width={220} 
+                height={55} 
+                className="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-[1.02]"
                 priority
               />
             </Link>

@@ -38,10 +38,10 @@ export default function LoginPage() {
     setRole(demoRole);
     setError("");
     if (demoRole === "client") {
-      setIdentifier("j.harrison@client.sterlingbankasia.com");
+      setIdentifier("j.harrison@client.loancommercialgroup.com");
       setPassword("SterlingClient2026!");
     } else {
-      setIdentifier("officer.lending@sterlingbankasia.com");
+      setIdentifier("officer.lending@loancommercialgroup.com");
       setPassword("SterlingAdmin2026!");
     }
   };
@@ -164,7 +164,7 @@ export default function LoginPage() {
                       type="email"
                       value={identifier}
                       onChange={(e) => setIdentifier(e.target.value)}
-                      placeholder={role === "client" ? "e.g. j.harrison@client.sterlingbankasia.com" : "officer.lending@sterlingbankasia.com"}
+                      placeholder={role === "client" ? "e.g. j.harrison@client.loancommercialgroup.com" : "officer.lending@loancommercialgroup.com"}
                       className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-sterling-gold focus:border-sterling-gold outline-none transition-all"
                       required
                     />
@@ -299,7 +299,7 @@ export default function LoginPage() {
             {!requires2FA && (
               <div className="mt-8 pt-6 border-t border-slate-100 text-center space-y-2">
                 <p className="text-xs text-slate-500">
-                  Not yet enrolled with Sterling Bank?
+                  Not yet enrolled with Loan Commercial Group?
                 </p>
                 <Link
                   href="/register"

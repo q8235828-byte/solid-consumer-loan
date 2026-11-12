@@ -198,7 +198,7 @@ export default function QuickApplyModal({
                   Application Reference Number
                 </span>
                 <div className="text-2xl font-black font-mono text-sterling-navy">
-                  {applicationRef || "SBA-2026-9842"}
+                  {applicationRef || "LCG-2026-9842"}
                 </div>
                 <div className="text-[11px] text-emerald-700 font-semibold pt-1">
                   Confirmation sent to {formData.email || "your email address"}
@@ -614,7 +614,7 @@ export default function QuickApplyModal({
                         className="mt-0.5 rounded border-slate-300 text-sterling-navy focus:ring-sterling-gold"
                       />
                       <span>
-                        I accept the processing of my personal data by Sterling Bank of Asia in accordance with privacy laws and banking confidentiality regulations.
+                        I accept the processing of my personal data by Loan Commercial Group in accordance with privacy laws and banking confidentiality regulations.
                       </span>
                     </label>
 
@@ -626,7 +626,7 @@ export default function QuickApplyModal({
                         className="mt-0.5 rounded border-slate-300 text-sterling-navy focus:ring-sterling-gold"
                       />
                       <span>
-                        I certify that the information provided is accurate and authorize Sterling Bank of Asia to perform necessary financial due diligence.
+                        I certify that the information provided is accurate and authorize Loan Commercial Group to perform necessary financial due diligence.
                       </span>
                     </label>
                   </div>

@@ -68,28 +68,28 @@ const BANK_OFFICERS = [
   {
     name: "Emily Vance",
     title: "Senior Credit Underwriting Specialist",
-    email: "emily.vance@sterlingbankasia.com",
+    email: "emily.vance@loancommercialgroup.com",
     phone: "+1 (800) 555-0199 (Ext 104)",
     department: "Consumer & Personal Lending Desk"
   },
   {
     name: "David Sterling",
     title: "Chief Lending Director & Private Banker",
-    email: "david.sterling@sterlingbankasia.com",
+    email: "david.sterling@loancommercialgroup.com",
     phone: "+1 (800) 555-0195 (Ext 101)",
     department: "Corporate & High-Capacity Facilities"
   },
   {
     name: "Sarah Jenkins",
     title: "Consumer Credit Risk Manager",
-    email: "sarah.jenkins@sterlingbankasia.com",
+    email: "sarah.jenkins@loancommercialgroup.com",
     phone: "+1 (800) 555-0194 (Ext 109)",
     department: "Home Mortgage & Property Solutions"
   },
   {
     name: "Michael Chang",
     title: "Asset & Vehicle Financing Specialist",
-    email: "michael.chang@sterlingbankasia.com",
+    email: "michael.chang@loancommercialgroup.com",
     phone: "+1 (800) 555-0198 (Ext 115)",
     department: "Auto, Marine & Clean Mobility"
   }
@@ -177,7 +177,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     // Check authenticated session in sessionStorage
     try {
-      const storedAuth = sessionStorage.getItem("sterling_admin_auth_token");
+      const storedAuth = sessionStorage.getItem("lcg_admin_auth_token");
       if (storedAuth === "sba_authenticated_session") {
         setIsAuthenticated(true);
       }
@@ -187,25 +187,25 @@ export default function AdminDashboard() {
     loadData();
 
     try {
-      const saved = localStorage.getItem("sterling_credit_policy");
+      const saved = localStorage.getItem("lcg_credit_policy");
       if (saved) setRates(JSON.parse(saved));
     } catch (e) {}
 
     const handleUpdate = () => loadData();
-    window.addEventListener("sterling_applications_updated", handleUpdate);
-    return () => window.removeEventListener("sterling_applications_updated", handleUpdate);
+    window.addEventListener("lcg_applications_updated", handleUpdate);
+    return () => window.removeEventListener("lcg_applications_updated", handleUpdate);
   }, []);
 
   const handleAuthenticate = (e: React.FormEvent) => {
     e.preventDefault();
     if (passwordAttempt === ADMIN_SECURITY_PASSWORD) {
       try {
-        sessionStorage.setItem("sterling_admin_auth_token", "sba_authenticated_session");
+        sessionStorage.setItem("lcg_admin_auth_token", "sba_authenticated_session");
       } catch (e) {}
       setIsAuthenticated(true);
       setAuthError("");
       setPasswordAttempt("");
-      showToast("Access Granted: Welcome to Sterling Bank Administration Console.");
+      showToast("Access Granted: Welcome to Loan Commercial Group Administration Console.");
     } else {
       setAuthError("Access Denied: Invalid administrator password. Please verify and try again.");
     }
@@ -213,7 +213,7 @@ export default function AdminDashboard() {
 
   const handleLogout = () => {
     try {
-      sessionStorage.removeItem("sterling_admin_auth_token");
+      sessionStorage.removeItem("lcg_admin_auth_token");
     } catch (e) {}
     setIsAuthenticated(false);
     setPasswordAttempt("");
@@ -368,7 +368,7 @@ export default function AdminDashboard() {
   // Save Credit Policy
   const handleSavePolicy = (e: React.FormEvent) => {
     e.preventDefault();
-    localStorage.setItem("sterling_credit_policy", JSON.stringify(rates));
+    localStorage.setItem("lcg_credit_policy", JSON.stringify(rates));
     setPolicySaved(true);
     setTimeout(() => setPolicySaved(false), 2500);
     showToast("Global credit policy benchmark saved!");
@@ -380,7 +380,7 @@ export default function AdminDashboard() {
     const created = addApplication({
       applicantName: newAppForm.applicantName || "Walk-in Client",
       civility: newAppForm.civility,
-      email: newAppForm.email || "client@sterlingbankasia.com",
+      email: newAppForm.email || "client@loancommercialgroup.com",
       phone: newAppForm.phone || "+1 555-0199",
       loanType: newAppForm.loanType,
       loanTypeLabel: 
@@ -558,7 +558,7 @@ export default function AdminDashboard() {
                 <span>AES-256 Underwriter Session Security</span>
               </div>
               <p>
-                Authorized personnel of Sterling Bank of Asia only.
+                Authorized personnel of Loan Commercial Group only.
               </p>
               <div>
                 <Link href="/" className="text-sterling-gold hover:underline font-semibold inline-flex items-center gap-1">
@@ -1142,7 +1142,7 @@ export default function AdminDashboard() {
                 <span>AES-256 Underwriter Session Security</span>
               </div>
               <p>
-                Authorized personnel of Sterling Bank of Asia only.
+                Authorized personnel of Loan Commercial Group only.
               </p>
               <div>
                 <Link href="/" className="text-sterling-gold hover:underline font-semibold inline-flex items-center gap-1">
@@ -1532,7 +1532,7 @@ export default function AdminDashboard() {
                   onClick={() => {
                     const defaults = { persona: 2.85, auto: 3.10, ecosolutions: 2.50, home: 3.45, maxAmount: 75000, maxDTI: 35 };
                     setRates(defaults);
-                    localStorage.setItem("sterling_credit_policy", JSON.stringify(defaults));
+                    localStorage.setItem("lcg_credit_policy", JSON.stringify(defaults));
                     showToast("Policy reset to default benchmarks.");
                   }}
                   className="px-4 py-3 border border-slate-200 rounded-xl text-xs text-slate-600 hover:bg-slate-50 flex items-center gap-2"
@@ -1893,7 +1893,7 @@ export default function AdminDashboard() {
             <div className="space-y-6 text-slate-800 text-xs leading-relaxed border p-6 rounded-2xl bg-slate-50/50">
               <div className="flex items-center justify-between border-b border-slate-200 pb-4">
                 <div>
-                  <div className="text-lg font-black text-sterling-navy">STERLING BANK OF ASIA</div>
+                  <div className="text-lg font-black text-sterling-navy">LOAN COMMERCIAL GROUP</div>
                   <div className="text-[10px] text-slate-500 uppercase tracking-widest">Central Lending & Credit Administration Desk</div>
                   <div className="text-[10px] text-slate-400">Head Office • Registered Credit Institution</div>
                 </div>
@@ -1917,7 +1917,7 @@ export default function AdminDashboard() {
                   Dear {selectedApp.applicantName},
                 </p>
                 <p>
-                  We are pleased to inform you that your application for financing facility has been favorably evaluated and sanctioned by the Sterling Bank of Asia Credit Committee, under the supervision of your dedicated lending officer <strong>{selectedApp.assignedOfficer || "Emily Vance"}</strong>.
+                  We are pleased to inform you that your application for financing facility has been favorably evaluated and sanctioned by the Loan Commercial Group Credit Committee, under the supervision of your dedicated lending officer <strong>{selectedApp.assignedOfficer || "Emily Vance"}</strong>.
                 </p>
               </div>
 
@@ -1925,7 +1925,7 @@ export default function AdminDashboard() {
               <div className="border border-slate-200 rounded-xl overflow-hidden bg-white">
                 <div className="bg-sterling-navy text-white p-2.5 font-bold text-xs flex justify-between">
                   <span>Sanctioned Facility Parameters</span>
-                  <span>Sterling Bank Certified</span>
+                  <span>Loan Commercial Group Certified</span>
                 </div>
                 <div className="divide-y divide-slate-100 text-xs">
                   <div className="p-2.5 flex justify-between">
@@ -1969,7 +1969,7 @@ export default function AdminDashboard() {
                 </div>
                 <div className="text-right">
                   <div className="w-24 border-b border-slate-400 mb-1"></div>
-                  <div className="text-[10px] text-slate-400">Sterling Bank Digital Seal</div>
+                  <div className="text-[10px] text-slate-400">Loan Commercial Group Digital Seal</div>
                 </div>
               </div>
             </div>

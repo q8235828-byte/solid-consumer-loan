@@ -433,7 +433,7 @@ export default function RegisterPage() {
                           required
                         />
                         <span className="text-slate-600 leading-tight">
-                          I accept the <strong>Terms of Service & Online Banking Agreement</strong> of Sterling Bank of Asia.
+                          I accept the <strong>Terms of Service & Online Banking Agreement</strong> of Loan Commercial Group.
                         </span>
                       </label>
 
@@ -503,7 +503,7 @@ export default function RegisterPage() {
                     Congratulations, your account is created!
                   </h3>
                   <p className="text-xs text-slate-600 leading-relaxed max-w-sm mx-auto">
-                    Welcome to Sterling Bank of Asia, <span className="font-bold text-slate-800">{formData.firstName} {formData.lastName}</span>. Your secure credentials are now active.
+                    Welcome to Loan Commercial Group, <span className="font-bold text-slate-800">{formData.firstName} {formData.lastName}</span>. Your secure credentials are now active.
                   </p>
                 </div>
 

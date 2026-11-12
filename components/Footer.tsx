@@ -17,7 +17,7 @@ export default function Footer() {
               <div className="bg-white px-3.5 py-1.5 rounded-2xl shadow-md inline-flex items-center border border-white/20">
                 <Image
                   src="/logo.png"
-                  alt="Sterling Bank of Asia"
+                  alt="Loan Commercial Group"
                   width={150}
                   height={48}
                   className="h-9 w-auto object-contain"
@@ -26,13 +26,13 @@ export default function Footer() {
             </div>
 
             <p className="text-xs text-slate-300 leading-relaxed max-w-sm">
-              Sterling Bank of Asia is a licensed banking institution providing consumer loans, mortgage financing, corporate facilities, and digital private lending with full transparency and security.
+              Loan Commercial Group is a licensed banking institution providing consumer loans, mortgage financing, corporate facilities, and digital private lending with full transparency and security.
             </p>
 
             <div className="pt-2 text-xs text-slate-300 space-y-2">
               <div className="flex items-center gap-2">
                 <MapPin className="w-3.5 h-3.5 text-sterling-gold shrink-0" />
-                <span>Sterling Bank Corporate Center, Global Financial District</span>
+                <span>Loan Commercial Group Corporate Center, Global Financial District</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-sterling-gold shrink-0" />
@@ -51,7 +51,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-sterling-gold shrink-0" />
-                <span>contact@sterlingbankasia.com</span>
+                <span>contact@loancommercialgroup.com</span>
               </div>
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function Footer() {
         {/* Bottom Credits & Copyright */}
         <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400">
           <div>
-            &copy; {new Date().getFullYear()} Sterling Bank of Asia. All rights reserved.
+            &copy; {new Date().getFullYear()} Loan Commercial Group. All rights reserved.
           </div>
           <div className="flex items-center gap-6">
             <Link href="/" className="hover:text-sterling-gold transition-colors">Privacy Policy</Link>

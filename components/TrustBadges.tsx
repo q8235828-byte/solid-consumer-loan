@@ -9,7 +9,7 @@ export default function TrustBadges() {
       icon: Building2,
       title: "Regulated Banking Authority",
       subtitle: "Licensed Financial Institution",
-      description: "Sterling Bank of Asia operates under formal regulatory prudential banking oversight and international banking standards.",
+      description: "Loan Commercial Group operates under formal regulatory prudential banking oversight and international banking standards.",
     },
     {
       icon: ShieldCheck,
