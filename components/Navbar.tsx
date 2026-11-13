@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import BrandLogo from "@/components/BrandLogo";
 import { 
   Building2, 
   ChevronDown, 
@@ -168,16 +169,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
           
           {/* Official Loan Commercial Group Brand Logo */}
           <div className="flex items-center gap-4">
-            <Link href="/" rel="home" className="flex items-center group py-1">
-              <Image 
-                src="/logo.png" 
-                alt="Loan Commercial Group - Private Lending & Capital Facilities" 
-                width={220} 
-                height={55} 
-                className="h-10 sm:h-12 w-auto object-contain transition-transform group-hover:scale-[1.02]"
-                priority
-              />
-            </Link>
+            <BrandLogo variant="dark" size="md" />
           </div>
 
           {/* Desktop Primary Navigation Bar */}

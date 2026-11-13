@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
+import BrandLogo from "@/components/BrandLogo";
 import { Building2, Phone, Mail, MapPin, ExternalLink, ShieldCheck, UserCheck, SlidersHorizontal, Lock } from "lucide-react";
 
 export default function Footer() {
@@ -14,15 +14,7 @@ export default function Footer() {
           {/* Brand & Overview */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="bg-white px-3.5 py-1.5 rounded-2xl shadow-md inline-flex items-center border border-white/20">
-                <Image
-                  src="/logo.png"
-                  alt="Loan Commercial Group"
-                  width={150}
-                  height={48}
-                  className="h-9 w-auto object-contain"
-                />
-              </div>
+              <BrandLogo variant="light" size="md" />
             </div>
 
             <p className="text-xs text-slate-300 leading-relaxed max-w-sm">
