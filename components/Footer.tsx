@@ -84,11 +84,11 @@ export default function Footer() {
               Regulatory Compliance & Security
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Licensed Prudential Banking Authority</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Statutory Deposit Protection Framework</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Data Privacy & Global Confidentiality</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Consumer Lending Regulations & Disclosure</a></li>
-              <li><a href="#" className="hover:text-sterling-gold transition-colors">Financial Ombudsman Dispute Resolution</a></li>
+              <li><Link href="/compliance/banking-authority" className="hover:text-sterling-gold transition-colors">Licensed Prudential Banking Authority</Link></li>
+              <li><Link href="/compliance/deposit-protection" className="hover:text-sterling-gold transition-colors">Statutory Deposit Protection Framework</Link></li>
+              <li><Link href="/compliance/data-privacy" className="hover:text-sterling-gold transition-colors">Data Privacy & Global Confidentiality</Link></li>
+              <li><Link href="/compliance/consumer-lending" className="hover:text-sterling-gold transition-colors">Consumer Lending Regulations & Disclosure</Link></li>
+              <li><Link href="/compliance/dispute-resolution" className="hover:text-sterling-gold transition-colors">Financial Ombudsman Dispute Resolution</Link></li>
             </ul>
           </div>
 
@@ -111,9 +111,9 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Loan Commercial Group. All rights reserved.
           </div>
           <div className="flex items-center gap-6">
-            <Link href="/" className="hover:text-sterling-gold transition-colors">Privacy Policy</Link>
-            <Link href="/" className="hover:text-sterling-gold transition-colors">Terms of Service</Link>
-            <Link href="/" className="hover:text-sterling-gold transition-colors">Security Disclosures</Link>
+            <Link href="/compliance/data-privacy" className="hover:text-sterling-gold transition-colors">Privacy Policy</Link>
+            <Link href="/compliance/consumer-lending" className="hover:text-sterling-gold transition-colors">Terms of Service</Link>
+            <Link href="/compliance/banking-authority" className="hover:text-sterling-gold transition-colors">Security Disclosures</Link>
             <Link href="/admin" className="text-slate-500 hover:text-slate-400">Admin Portal</Link>
           </div>
         </div>
