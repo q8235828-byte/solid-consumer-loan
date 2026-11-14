@@ -9,6 +9,7 @@ import HowItWorks from "@/components/HowItWorks";
 import Testimonials from "@/components/Testimonials";
 import TrackerSection from "@/components/TrackerSection";
 import TrustBadges from "@/components/TrustBadges";
+import WhyChooseUs from "@/components/WhyChooseUs";
 import Footer from "@/components/Footer";
 import QuickApplyModal from "@/components/QuickApplyModal";
 
@@ -23,30 +24,30 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 font-sans antialiased text-slate-800">
-      {/* Top French Banking Navbar */}
+      {/* Top Banking Navbar */}
       <Navbar onOpenApply={handleOpenApply} />
 
       {/* Main Content Sections */}
       <main className="flex-1">
-        {/* Hero Section with Live Euro Calculator & Real Advisor Photo */}
+        {/* Welcome & Hero Section with Live Calculator */}
         <Hero onOpenApply={handleOpenApply} />
 
-        {/* Retail Loan Products Matrix with Real Photography */}
+        {/* Core Financial Services (Personal & Business, Housing & Construction, International Investment) */}
         <ProductCards onOpenApply={handleOpenApply} />
 
-        {/* 30-Second Pre-Eligibility Quiz */}
-        <EligibilityQuiz onOpenApply={handleOpenApply} />
-
-        {/* 4-Step Application Walkthrough */}
+        {/* 5-Step How It Works Walkthrough */}
         <HowItWorks />
 
-        {/* Real Customer Testimonials & Verified Reviews */}
+        {/* Why Choose Us & Your Dream, Opportunity, Commitment Closing Section */}
+        <WhyChooseUs onOpenApply={handleOpenApply} />
+
+        {/* Verified Client Reviews */}
         <Testimonials onOpenApply={handleOpenApply} />
 
         {/* Application Status Tracker */}
         <TrackerSection />
 
-        {/* ACPR, FGDR, RGPD & eIDAS Trust Badges */}
+        {/* Regulatory & Institutional Trust Badges */}
         <TrustBadges />
       </main>
 

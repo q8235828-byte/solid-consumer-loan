@@ -137,7 +137,7 @@ export default function PersonalLoansPage() {
                       </li>
                       <li className="flex items-start gap-2">
                         <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                        <span>Loan amounts from <strong>$5,000 to $1,000,000+</strong></span>
+                        <span>Loan amounts from <strong>$100,000 to $500,000,000</strong></span>
                       </li>
                       <li className="flex items-start gap-2">
                         <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />

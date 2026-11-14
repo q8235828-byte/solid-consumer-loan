@@ -15,31 +15,38 @@ export default function HowItWorks() {
   const steps = [
     {
       number: "01",
-      title: "Simulate Your Financing",
-      description: "Select your desired loan amount and repayment tenor tailored to your cashflow. Instantly review your fixed interest rate and monthly payments with zero obligation.",
-      icon: Sliders,
-      eta: "1 Minute",
+      title: "1. Submit Your Application",
+      description: "Tell us about your financial needs or business proposal through our secure digital application portal.",
+      icon: FileText,
+      tag: "Initiation",
     },
     {
       number: "02",
-      title: "Complete Online Application",
-      description: "Provide your basic personal, employment, or corporate details through our streamlined, secure 256-bit SSL encrypted digital onboarding portal.",
-      icon: FileText,
-      eta: "3-5 Minutes",
+      title: "2. Application Review",
+      description: "Our team assesses your project, financial background, and funding eligibility with speed and discretion.",
+      icon: Sliders,
+      tag: "Assessment",
     },
     {
       number: "03",
-      title: "Submit Verification Documents",
-      description: "Securely upload your valid government ID, recent earnings statements, or business documents directly from your smartphone or computer.",
+      title: "3. Investor Connection",
+      description: "Qualified proposals may be matched with suitable private investors and international investment partners worldwide.",
       icon: UploadCloud,
-      eta: "Instant",
+      tag: "Matching",
     },
     {
       number: "04",
-      title: "Rapid Fund Disbursement",
-      description: "Upon approval and digital agreement confirmation, your funds are disbursed directly to your designated bank account via secure wire transfer.",
+      title: "4. Agreement",
+      description: "Both parties discuss, negotiate, and mutually agree on the detailed investment terms, covenants, and conditions.",
+      icon: CheckCircle2,
+      tag: "Execution",
+    },
+    {
+      number: "05",
+      title: "5. Funding",
+      description: "Financing proceeds after successful verification, formal credit approval, and binding contractual agreement.",
       icon: Banknote,
-      eta: "24-48 Hours",
+      tag: "Capital Release",
     },
   ];
 
@@ -50,57 +57,54 @@ export default function HowItWorks() {
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="inline-flex items-center gap-1.5 text-xs font-bold text-sterling-gold uppercase tracking-wider bg-sterling-navy/5 px-3 py-1 rounded-full">
             <Clock className="w-3.5 h-3.5" />
-            100% Digital Financing Process
+            Clear & Streamlined Process
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-sterling-navy font-display tracking-tight">
-            How It Works: Simple, Transparent & Fast
+            HOW DOES IT WORK?
           </h2>
           <p className="text-slate-600 text-base sm:text-lg">
-            Experience our rapid 4-step digital onboarding designed to deliver fast decisions and rapid capital disbursement without unnecessary paperwork.
+            A transparent, professional five-step pathway connecting your vision to institutional capital and verified global investment partners.
           </p>
         </div>
 
-        {/* 4 Steps Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+        {/* 5 Steps Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 relative">
           {steps.map((step, idx) => {
             const Icon = step.icon;
             return (
               <div
                 key={idx}
-                className="relative bg-slate-50/80 rounded-3xl p-7 border border-slate-200/80 hover:border-sterling-gold/50 hover:bg-white hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
+                className="relative bg-slate-50/80 rounded-3xl p-6 border border-slate-200/80 hover:border-sterling-gold/50 hover:bg-white hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
               >
                 {/* Step Header */}
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-3xl font-black text-sterling-gold/30 group-hover:text-sterling-gold transition-colors">
+                    <span className="font-mono text-2xl font-black text-sterling-gold/40 group-hover:text-sterling-gold transition-colors">
                       {step.number}
                     </span>
-                    <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-sterling-navy/5 text-sterling-navy font-mono">
-                      {step.eta}
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-sterling-navy/5 text-sterling-navy font-mono">
+                      {step.tag}
                     </span>
                   </div>
 
-                  <div className="w-12 h-12 rounded-2xl bg-white shadow-sm border border-slate-200/80 flex items-center justify-center text-sterling-navy group-hover:bg-sterling-navy group-hover:text-sterling-gold transition-all duration-300">
-                    <Icon className="w-6 h-6" />
+                  <div className="w-11 h-11 rounded-2xl bg-white shadow-sm border border-slate-200/80 flex items-center justify-center text-sterling-navy group-hover:bg-sterling-navy group-hover:text-sterling-gold transition-all duration-300">
+                    <Icon className="w-5 h-5" />
                   </div>
 
-                  <h3 className="text-lg font-bold text-sterling-navy font-display">
+                  <h3 className="text-base font-bold text-sterling-navy font-display">
                     {step.title}
                   </h3>
 
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  <p className="text-xs text-slate-600 leading-relaxed">
                     {step.description}
                   </p>
                 </div>
 
                 {/* Step Footer */}
-                <div className="pt-6 mt-6 border-t border-slate-200/60 flex items-center justify-between text-xs text-slate-400">
+                <div className="pt-4 mt-5 border-t border-slate-200/60 flex items-center justify-between text-xs text-slate-400">
                   <span className="flex items-center gap-1.5 text-emerald-600 font-semibold text-[11px]">
-                    <CheckCircle2 className="w-3.5 h-3.5" /> Step {idx + 1} of 4
+                    <CheckCircle2 className="w-3.5 h-3.5" /> Stage {idx + 1} of 5
                   </span>
-                  {idx < steps.length - 1 && (
-                    <ArrowRight className="w-4 h-4 text-slate-300 hidden lg:block" />
-                  )}
                 </div>
               </div>
             );

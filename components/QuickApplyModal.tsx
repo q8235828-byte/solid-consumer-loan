@@ -26,14 +26,14 @@ interface QuickApplyModalProps {
 export default function QuickApplyModal({
   isOpen,
   onClose,
-  defaultLoanType = "personnel",
-  defaultAmount = 15000,
-  defaultTenor = 48,
+  defaultLoanType = "investment",
+  defaultAmount = 1000000,
+  defaultTenor = 60,
 }: QuickApplyModalProps) {
   const [step, setStep] = useState(1);
   const [loanType, setLoanType] = useState(defaultLoanType);
   const [currency, setCurrency] = useState<CurrencyCode>("USD");
-  const [amount, setAmount] = useState(defaultAmount);
+  const [amount, setAmount] = useState(defaultAmount < 100000 ? 1000000 : defaultAmount);
 
   // Form State
   const [formData, setFormData] = useState({
@@ -270,20 +270,71 @@ export default function QuickApplyModal({
                     </div>
                   </div>
 
-                  {/* Amount input */}
-                  <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
-                      Desired Capital: {currency === "EUR" ? "€" : "$"}{amount.toLocaleString()}
-                    </label>
+                  {/* Amount input & Slider: Min $100,000 to $500,000,000 */}
+                  <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                      <label className="text-xs font-bold text-slate-700">
+                        Desired Capital ({currency === "EUR" ? "EUR €" : "USD $"})
+                      </label>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs text-slate-500 font-medium">Amount:</span>
+                        <input
+                          type="number"
+                          min="100000"
+                          max="500000000"
+                          step="50000"
+                          value={amount}
+                          onChange={(e) => setAmount(Math.max(100000, Number(e.target.value)))}
+                          className="w-36 px-2.5 py-1 text-sm font-black text-sterling-navy bg-white border border-slate-300 rounded-lg text-right font-mono outline-none focus:border-sterling-gold"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="text-xl sm:text-2xl font-black text-sterling-navy font-mono">
+                      {currency === "EUR" ? "€" : "$"}{amount.toLocaleString("en-US")}
+                    </div>
+
                     <input
                       type="range"
-                      min="5000"
-                      max="1000000"
-                      step="5000"
-                      value={amount}
+                      min="100000"
+                      max="50000000" // slider scales up to 50M smoothly, direct input allows up to 500M
+                      step="100000"
+                      value={Math.min(50000000, amount)}
                       onChange={(e) => setAmount(Number(e.target.value))}
-                      className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sterling-gold"
+                      className="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sterling-gold"
                     />
+
+                    <div className="flex justify-between text-[10px] text-slate-500 font-semibold">
+                      <span>Min: {currency === "EUR" ? "€100,000" : "$100,000"}</span>
+                      <span>Scale up to {currency === "EUR" ? "€500,000,000" : "$500,000,000"}</span>
+                    </div>
+
+                    {/* Quick Amount Presets */}
+                    <div className="pt-1 flex flex-wrap gap-1.5">
+                      {[
+                        { label: "$100K", val: 100000 },
+                        { label: "$500K", val: 500000 },
+                        { label: "$1M", val: 1000000 },
+                        { label: "$5M", val: 5000000 },
+                        { label: "$10M", val: 10000000 },
+                        { label: "$50M", val: 50000000 },
+                        { label: "$100M", val: 100000000 },
+                        { label: "$500M", val: 500000000 },
+                      ].map((chip) => (
+                        <button
+                          key={chip.val}
+                          type="button"
+                          onClick={() => setAmount(chip.val)}
+                          className={`px-2 py-1 rounded-md text-[10px] font-bold transition-all ${
+                            amount === chip.val
+                              ? "bg-sterling-navy text-white shadow-xs"
+                              : "bg-white text-slate-700 border border-slate-200 hover:border-sterling-gold hover:bg-amber-50/50"
+                          }`}
+                        >
+                          {currency === "EUR" ? chip.label.replace("$", "€") : chip.label}
+                        </button>
+                      ))}
+                    </div>
                   </div>
 
                   {/* Names */}

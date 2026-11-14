@@ -39,43 +39,43 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
     switch (selectedProduct) {
       case "investment":
         return {
-          title: "Private Investment & Corporate Financing",
+          title: "International Investment & Global Partnerships",
           min: 100000,
-          max: 50000000, // slider up to 50M, input accepts up to 500M
+          max: 500000000,
           step: 100000,
           annualRate: 2.95,
           tenors: [12, 36, 60, 120, 180, 240, 300], // 1 to 25 years
-          tagline: "Large-scale capital for legitimate business, expansion, infrastructure & private investments.",
+          tagline: "Access potential investment partnerships from $100,000 to $5,000,000,000 and beyond.",
         };
       case "personnel":
         return {
-          title: "Personal & Liquidity Loan",
-          min: 1000,
-          max: 75000,
-          step: 500,
-          annualRate: 3.50,
-          tenors: [12, 24, 36, 48, 60, 72, 84],
-          tagline: "Unsecured financing without usage restriction for personal and family needs.",
+          title: "Personal & Business Loans",
+          min: 100000,
+          max: 500000000,
+          step: 50000,
+          annualRate: 3.15,
+          tenors: [12, 24, 36, 48, 60, 120, 180, 240, 300],
+          tagline: "Capital for personal needs, business expansion, property purchases, and approved projects.",
         };
       case "auto":
         return {
-          title: "Auto, Fleet & Clean Mobility",
-          min: 5000,
-          max: 150000,
-          step: 1000,
+          title: "Commercial Fleet & Asset Financing",
+          min: 100000,
+          max: 500000000,
+          step: 50000,
           annualRate: 3.10,
-          tenors: [12, 24, 36, 48, 60, 72, 84],
-          tagline: "Financing for new and certified vehicles, EV commercial fleets and clean transport.",
+          tenors: [12, 24, 36, 48, 60, 120, 180, 240, 300],
+          tagline: "Financing for commercial fleets, equipment, marine assets, and clean mobility.",
         };
       case "immo":
         return {
-          title: "Real Estate & Commercial Development",
-          min: 50000,
-          max: 10000000,
-          step: 50000,
+          title: "Housing & Construction Financing",
+          min: 100000,
+          max: 500000000,
+          step: 100000,
           annualRate: 2.85,
-          tenors: [60, 120, 180, 240, 300], // up to 25 years
-          tagline: "Property acquisitions, construction, structural renovation and development facilities.",
+          tenors: [36, 60, 120, 180, 240, 300], // up to 25 years
+          tagline: "House construction, real estate development, and commercial building projects.",
         };
     }
   }, [selectedProduct]);
@@ -87,13 +87,13 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
       setLoanAmount(1000000);
       setTenorMonths(120); // 10 years
     } else if (type === "personnel") {
-      setLoanAmount(25000);
-      setTenorMonths(48);
+      setLoanAmount(500000);
+      setTenorMonths(60);
     } else if (type === "auto") {
-      setLoanAmount(45000);
+      setLoanAmount(500000);
       setTenorMonths(60);
     } else {
-      setLoanAmount(250000);
+      setLoanAmount(1000000);
       setTenorMonths(180);
     }
   };
@@ -221,16 +221,41 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
             className="w-full"
           />
 
-          <div className="flex justify-between text-[10px] text-slate-400 mt-1">
-            <span>Min: {formatCurrency(config.min)}</span>
-            <span>Max (online): {formatCurrency(config.max)}</span>
+          <div className="flex justify-between text-[10px] text-slate-500 font-semibold mt-1">
+            <span>Min: {formatCurrency(100000)}</span>
+            <span>Max facility: {formatCurrency(500000000)}</span>
           </div>
 
-          {selectedProduct === "investment" && (
-            <div className="mt-2 text-[10px] text-slate-500 italic">
-              * Facilities up to {formatCurrency(500000000)} available upon institutional due diligence.
-            </div>
-          )}
+          {/* Quick Amount Selector Chips */}
+          <div className="mt-2.5 flex flex-wrap gap-1.5">
+            {[
+              { label: "$100K", val: 100000 },
+              { label: "$500K", val: 500000 },
+              { label: "$1M", val: 1000000 },
+              { label: "$5M", val: 5000000 },
+              { label: "$10M", val: 10000000 },
+              { label: "$50M", val: 50000000 },
+              { label: "$100M", val: 100000000 },
+              { label: "$500M", val: 500000000 },
+            ].map((chip) => (
+              <button
+                key={chip.val}
+                type="button"
+                onClick={() => setLoanAmount(chip.val)}
+                className={`px-2 py-1 rounded-md text-[10px] font-bold transition-all ${
+                  loanAmount === chip.val
+                    ? "bg-sterling-navy text-white shadow-xs"
+                    : "bg-slate-50 text-slate-700 border border-slate-200 hover:border-sterling-gold hover:bg-amber-50/50"
+                }`}
+              >
+                {currency === "EUR" ? chip.label.replace("$", "€") : chip.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-2 text-[10px] text-slate-500 italic">
+            * Investment partnerships and capital structuring available up to {formatCurrency(5000000000)} upon project evaluation.
+          </div>
         </div>
 
         {/* Tenor / Duration Control */}

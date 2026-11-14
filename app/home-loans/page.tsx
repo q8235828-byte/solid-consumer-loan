@@ -21,7 +21,7 @@ import {
 import { formatMoney } from "@/lib/utils";
 
 export default function HomeLoansPage() {
-  const [projectBudget, setProjectBudget] = useState(75000);
+  const [projectBudget, setProjectBudget] = useState(1000000);
   const [tenorYears, setTenorYears] = useState(15);
   const [projectType, setProjectType] = useState<"renovation" | "energy" | "acquisition">("renovation");
   const [applyModalOpen, setApplyModalOpen] = useState(false);
@@ -187,16 +187,16 @@ export default function HomeLoansPage() {
                   </div>
                   <input
                     type="range"
-                    min={10000}
-                    max={500000}
-                    step={5000}
+                    min={100000}
+                    max={10000000}
+                    step={50000}
                     value={projectBudget}
                     onChange={(e) => setProjectBudget(Number(e.target.value))}
                     className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sterling-gold"
                   />
-                  <div className="flex justify-between text-[10px] text-slate-400 mt-1">
-                    <span>$10,000</span>
-                    <span>$500,000+</span>
+                  <div className="flex justify-between text-[10px] text-slate-500 font-semibold mt-1">
+                    <span>Min: $100,000</span>
+                    <span>Scale up to $500,000,000</span>
                   </div>
                 </div>
 

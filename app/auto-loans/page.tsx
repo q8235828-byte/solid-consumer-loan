@@ -21,7 +21,7 @@ import {
 import { formatMoney } from "@/lib/utils";
 
 export default function AutoLoansPage() {
-  const [vehiclePrice, setVehiclePrice] = useState(25000);
+  const [vehiclePrice, setVehiclePrice] = useState(500000);
   const [downpaymentPct, setDownpaymentPct] = useState(10);
   const [tenorMonths, setTenorMonths] = useState(60);
   const [vehicleType, setVehicleType] = useState<"electric" | "new" | "used">("electric");
@@ -88,8 +88,8 @@ export default function AutoLoansPage() {
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
-                    <div className="text-xl font-bold text-sterling-gold">Up to $150,000</div>
-                    <div className="text-xs text-slate-300">USD & EUR • New & Pre-owned</div>
+                    <div className="text-xl font-bold text-sterling-gold">$100k to $500M</div>
+                    <div className="text-xs text-slate-300">USD & EUR • Fleet & Commercial</div>
                   </div>
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10">
                     <div className="text-xl font-bold text-sterling-gold">$0 Down Payment</div>
@@ -192,16 +192,16 @@ export default function AutoLoansPage() {
                   </div>
                   <input
                     type="range"
-                    min={5000}
-                    max={120000}
-                    step={1000}
+                    min={100000}
+                    max={10000000}
+                    step={50000}
                     value={vehiclePrice}
                     onChange={(e) => setVehiclePrice(Number(e.target.value))}
                     className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sterling-gold"
                   />
-                  <div className="flex justify-between text-[10px] text-slate-400 mt-1">
-                    <span>$5,000</span>
-                    <span>$120,000</span>
+                  <div className="flex justify-between text-[10px] text-slate-500 font-semibold mt-1">
+                    <span>Min: $100,000</span>
+                    <span>Max: $10,000,000+</span>
                   </div>
                 </div>
 

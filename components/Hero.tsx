@@ -38,17 +38,27 @@ export default function Hero({ onOpenApply }: HeroProps) {
             <div className="inline-flex items-center gap-2 bg-sterling-gold/20 border border-sterling-gold/40 px-4 py-1.5 rounded-full shadow-sm">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
               <span className="text-xs font-black tracking-wider text-sterling-gold uppercase">
-                VALID LOAN OFFER — FAST APPROVAL & RAPID PROCESSING
+                WELCOME TO LOAN COMMERCIAL GROUP
               </span>
             </div>
 
             {/* Main Headline */}
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.15] font-display text-white">
-              International Private Investment &{" "}
+              Your Trusted Partner in Banking, Loans &{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-amber-200">
-                Lending Solutions
+                Global Investment Opportunities
               </span>
             </h1>
+
+            {/* Mission Statement Banner */}
+            <div className="p-4 sm:p-5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 text-slate-100 text-xs sm:text-sm leading-relaxed space-y-2">
+              <p>
+                At <strong className="text-sterling-gold">Loan Commercial Group</strong>, we believe everyone deserves an opportunity to achieve their financial goals. We provide access to loan financing, real estate funding, business development, and international private investment opportunities.
+              </p>
+              <p className="text-slate-300">
+                Our mission is to connect individuals, entrepreneurs, and businesses with financial solutions that help turn their dreams into reality.
+              </p>
+            </div>
 
             {/* Official Announcement Statement Box */}
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl">
@@ -84,7 +94,7 @@ export default function Hero({ onOpenApply }: HeroProps) {
                     USD $100,000 to $500,000,000
                   </div>
                   <div className="text-[10px] text-slate-300">
-                    High-capacity capital structuring
+                    High-capacity capital structuring (up to $5B for investment partnerships)
                   </div>
                 </div>
 
@@ -121,7 +131,7 @@ export default function Hero({ onOpenApply }: HeroProps) {
                 </a>
 
                 <a
-                  href="mailto:contact@sterlingbank.fr?subject=Financing%20Application%20Inquiry%20(USD%2FEUR)&body=Dear%20Lending%20Team%2C%0A%0AI%20am%20seeking%20financing%20for%20legitimate%20business%2Finvestment%20purposes.%20Please%20provide%20application%20requirements%20and%20guidelines."
+                  href="mailto:customer.experience@loancommercialgroup.com?subject=Financing%20Application%20Inquiry%20(USD%2FEUR)&body=Dear%20Lending%20Team%2C%0A%0AI%20am%20seeking%20financing%20for%20legitimate%20business%2Finvestment%20purposes.%20Please%20provide%20application%20requirements%20and%20guidelines."
                   className="flex-1 bg-white/10 hover:bg-white/20 text-white border border-white/30 font-bold text-xs py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2"
                 >
                   <Mail className="w-4 h-4 text-sterling-gold" />

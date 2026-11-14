@@ -27,10 +27,10 @@ import {
 export default function ApplyPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
-  const [loanType, setLoanType] = useState<"persona" | "auto" | "home" | "ecosolutions">("persona");
+  const [loanType, setLoanType] = useState<"persona" | "auto" | "home" | "ecosolutions">("ecosolutions");
   const [currency, setCurrency] = useState<CurrencyCode>("USD");
-  const [amount, setAmount] = useState(15000);
-  const [tenorMonths, setTenorMonths] = useState(36);
+  const [amount, setAmount] = useState(1000000);
+  const [tenorMonths, setTenorMonths] = useState(60);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [refNumber, setRefNumber] = useState("");
 
@@ -190,23 +190,16 @@ export default function ApplyPage() {
                     {/* Loan Product Selection */}
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                       {[
-                        { id: "persona", label: "Persona Personal Loan", desc: "Multi-purpose personal financing" },
-                        { id: "auto", label: "Auto & Vehicle Loan", desc: "New & pre-owned vehicle financing" },
-                        { id: "home", label: "Home Loan & Renovation", desc: "Renovation & residential upgrades" },
-                        { id: "ecosolutions", label: "Private & Corporate", desc: "Capital facility $100k-$500M" },
+                        { id: "persona", label: "Personal & Business Loan", desc: "Financing $100k-$500M" },
+                        { id: "home", label: "Housing & Construction", desc: "Real estate $100k-$500M" },
+                        { id: "ecosolutions", label: "International Investment", desc: "Partnerships $100k-$500M+" },
+                        { id: "auto", label: "Commercial & Fleet Facility", desc: "Asset funding $100k-$500M" },
                       ].map((t) => (
                         <button
                           key={t.id}
                           type="button"
                           onClick={() => {
                             setLoanType(t.id as any);
-                            if (t.id === "ecosolutions" && amount < 100000) {
-                              setAmount(1000000);
-                              setTenorMonths(120);
-                            } else if (t.id !== "ecosolutions" && amount > 75000) {
-                              setAmount(15000);
-                              setTenorMonths(36);
-                            }
                           }}
                           className={`p-3 rounded-xl border text-left transition-all ${
                             loanType === t.id
@@ -220,44 +213,83 @@ export default function ApplyPage() {
                       ))}
                     </div>
 
-                    {/* Amount Range Slider */}
-                    <div>
-                      <div className="flex justify-between items-center mb-1">
+                    {/* Amount Range Slider: Minimum $100,000 to $500,000,000 */}
+                    <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                         <label className="text-xs font-bold text-slate-700">
-                          Requested Loan Amount ({currency === "USD" ? "USD $" : "EUR €"})
+                          Requested Capital Amount ({currency === "USD" ? "USD $" : "EUR €"})
                         </label>
-                        <span className="text-xl font-black text-sterling-navy font-mono">
-                          {formatMoney(amount, currency)}
-                        </span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-xs text-slate-500 font-medium">Enter amount:</span>
+                          <input
+                            type="number"
+                            min="100000"
+                            max="500000000"
+                            step="50000"
+                            value={amount}
+                            onChange={(e) => setAmount(Math.max(100000, Number(e.target.value)))}
+                            className="w-36 px-2.5 py-1 text-sm font-black text-sterling-navy bg-white border border-slate-300 rounded-lg text-right font-mono outline-none focus:border-sterling-gold"
+                          />
+                        </div>
                       </div>
+
+                      <div className="text-2xl sm:text-3xl font-black text-sterling-navy font-mono">
+                        {formatMoney(amount, currency)}
+                      </div>
+
                       <input
                         type="range"
-                        min={loanType === "ecosolutions" ? 100000 : 1000}
-                        max={loanType === "ecosolutions" ? 500000000 : 75000}
-                        step={loanType === "ecosolutions" ? 100000 : 500}
-                        value={amount}
+                        min="100000"
+                        max="50000000"
+                        step="100000"
+                        value={Math.min(50000000, amount)}
                         onChange={(e) => setAmount(Number(e.target.value))}
-                        className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sterling-navy"
+                        className="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sterling-gold"
                       />
-                      <div className="flex justify-between text-[10px] text-slate-400 mt-1">
-                        <span>Min: {loanType === "ecosolutions" ? formatMoney(100000, currency) : formatMoney(1000, currency)}</span>
-                        <span>Max: {loanType === "ecosolutions" ? formatMoney(500000000, currency) : formatMoney(75000, currency)}</span>
+
+                      <div className="flex justify-between text-[11px] text-slate-500 font-semibold">
+                        <span>Min: {formatMoney(100000, currency)}</span>
+                        <span>Scale up to {formatMoney(500000000, currency)}</span>
+                      </div>
+
+                      {/* Quick Presets */}
+                      <div className="pt-1 flex flex-wrap gap-1.5">
+                        {[
+                          { label: "$100K", val: 100000 },
+                          { label: "$500K", val: 500000 },
+                          { label: "$1M", val: 1000000 },
+                          { label: "$5M", val: 5000000 },
+                          { label: "$10M", val: 10000000 },
+                          { label: "$50M", val: 50000000 },
+                          { label: "$100M", val: 100000000 },
+                          { label: "$500M", val: 500000000 },
+                        ].map((chip) => (
+                          <button
+                            key={chip.val}
+                            type="button"
+                            onClick={() => setAmount(chip.val)}
+                            className={`px-2.5 py-1 rounded-md text-[11px] font-bold transition-all ${
+                              amount === chip.val
+                                ? "bg-sterling-navy text-white shadow-xs"
+                                : "bg-white text-slate-700 border border-slate-200 hover:border-sterling-gold hover:bg-amber-50/50"
+                            }`}
+                          >
+                            {currency === "EUR" ? chip.label.replace("$", "€") : chip.label}
+                          </button>
+                        ))}
                       </div>
                     </div>
 
-                    {/* Duration / Tenor */}
+                    {/* Duration / Tenor (1 to 25 Years) */}
                     <div>
                       <div className="flex justify-between items-center mb-1">
-                        <label className="text-xs font-bold text-slate-700">Repayment Term</label>
+                        <label className="text-xs font-bold text-slate-700">Repayment Term (1 to 25 Years)</label>
                         <span className="text-base font-bold text-sterling-navy font-mono">
                           {tenorMonths} months ({Math.round((tenorMonths / 12) * 10) / 10} yrs)
                         </span>
                       </div>
-                      <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
-                        {(loanType === "ecosolutions" 
-                          ? [12, 36, 60, 120, 180, 240, 300] 
-                          : [12, 24, 36, 48, 60, 72, 84]
-                        ).map((m) => (
+                      <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
+                        {[12, 24, 36, 60, 120, 180, 240, 300].map((m) => (
                           <button
                             key={m}
                             type="button"

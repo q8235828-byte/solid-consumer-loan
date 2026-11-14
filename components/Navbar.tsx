@@ -72,7 +72,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
   };
 
   const searchResults = [
-    { title: "Personal Loans (Persona)", url: "/personal-loans", category: "Loans", desc: "Unsecured personal loan from $1,000 to $75,000 in USD/EUR." },
+    { title: "Personal Loans (Persona)", url: "/personal-loans", category: "Loans", desc: "Financing from $100,000 to $500,000,000 in USD/EUR." },
     { title: "Auto Loans", url: "/auto-loans", category: "Loans", desc: "Up to 100% vehicle financing for brand new & pre-owned cars." },
     { title: "Home Loans & Renovation", url: "/home-loans", category: "Loans", desc: "Home improvement and construction financing up to 25 years." },
     { title: "Private Investment & Corporate Lending", url: "/apply", category: "Corporate", desc: "USD $100k to $500M financing with 1 to 25 year terms." },
@@ -422,7 +422,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                         <span>Personal Loan (Persona)</span>
                         <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
-                      <div className="text-[11px] text-slate-500">Unsecured credit up to 75,000 $ / € • Fixed 2.85% APR</div>
+                      <div className="text-[11px] text-slate-500">Financing from $100,000 to $500,000,000 • Fixed 2.85% APR</div>
                     </Link>
                   </li>
                   <li>
