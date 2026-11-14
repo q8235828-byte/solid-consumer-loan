@@ -11,7 +11,13 @@ import {
   assignLoan,
   deleteApplication,
   addApplication,
-  LoanApplication 
+  getWithdrawalRequests,
+  saveWithdrawalRequests,
+  approveWithdrawalRequest,
+  rejectWithdrawalRequest,
+  updateClientBalance,
+  LoanApplication,
+  WithdrawalRequest
 } from "@/lib/loanStore";
 import { formatMoney } from "@/lib/utils";
 import { 
@@ -157,7 +163,24 @@ export default function AdminDashboard() {
     maxDTI: 35
   });
   const [policySaved, setPolicySaved] = useState(false);
-  const [activeTab, setActiveTab] = useState<"applications" | "policy" | "analytics">("applications");
+  const [activeTab, setActiveTab] = useState<"applications" | "balances" | "withdrawals" | "policy" | "analytics">("applications");
+
+  // Client Balances Management State
+  const [balanceModalOpen, setBalanceModalOpen] = useState(false);
+  const [balanceTargetApp, setBalanceTargetApp] = useState<LoanApplication | null>(null);
+  const [newBalanceInput, setNewBalanceInput] = useState<number>(10000);
+  const [balanceReasonInput, setBalanceReasonInput] = useState("");
+  const [balanceSearchQuery, setBalanceSearchQuery] = useState("");
+
+  // Withdrawals Clearance Desk State
+  const [withdrawals, setWithdrawals] = useState<WithdrawalRequest[]>([]);
+  const [withdrawalActionModal, setWithdrawalActionModal] = useState<{ open: boolean; type: "approve" | "reject"; req: WithdrawalRequest | null }>({
+    open: false,
+    type: "approve",
+    req: null
+  });
+  const [withdrawalAdminNote, setWithdrawalAdminNote] = useState("");
+  const [withdrawalsFilter, setWithdrawalsFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
 
   const loadData = () => {
     const list = getApplications();
@@ -172,6 +195,8 @@ export default function AdminDashboard() {
     } else {
       setSelectedApp(null);
     }
+    const wths = getWithdrawalRequests();
+    setWithdrawals(wths);
   };
 
   useEffect(() => {
@@ -193,7 +218,11 @@ export default function AdminDashboard() {
 
     const handleUpdate = () => loadData();
     window.addEventListener("lcg_applications_updated", handleUpdate);
-    return () => window.removeEventListener("lcg_applications_updated", handleUpdate);
+    window.addEventListener("lcg_withdrawals_updated", handleUpdate);
+    return () => {
+      window.removeEventListener("lcg_applications_updated", handleUpdate);
+      window.removeEventListener("lcg_withdrawals_updated", handleUpdate);
+    };
   }, []);
 
   const handleAuthenticate = (e: React.FormEvent) => {
@@ -372,6 +401,62 @@ export default function AdminDashboard() {
     setPolicySaved(true);
     setTimeout(() => setPolicySaved(false), 2500);
     showToast("Global credit policy benchmark saved!");
+  };
+
+  // Open Balance Update Modal
+  const handleOpenBalanceModal = (app: LoanApplication) => {
+    setBalanceTargetApp(app);
+    setNewBalanceInput(app.accountBalance !== undefined ? app.accountBalance : (app.amount || 10000));
+    setBalanceReasonInput("Account balance adjustment authorized by Administrator");
+    setBalanceModalOpen(true);
+  };
+
+  // Save Client Balance (e.g. change from 10000 to 20000)
+  const handleSaveClientBalance = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!balanceTargetApp) return;
+
+    if (newBalanceInput < 0 || isNaN(newBalanceInput)) {
+      alert("Please enter a valid positive balance amount.");
+      return;
+    }
+
+    const ok = updateClientBalance(balanceTargetApp.id, Number(newBalanceInput), balanceReasonInput);
+    if (ok) {
+      loadData();
+      setBalanceModalOpen(false);
+      showToast(`Balance for ${balanceTargetApp.applicantName} updated to $${Number(newBalanceInput).toLocaleString()} ${balanceTargetApp.currency || "USD"}!`);
+    } else {
+      alert("Failed to update client balance. Please try again.");
+    }
+  };
+
+  // Open Withdrawal Action Modal (Approve or Reject)
+  const handleOpenWithdrawalAction = (req: WithdrawalRequest, type: "approve" | "reject") => {
+    setWithdrawalActionModal({ open: true, type, req });
+    setWithdrawalAdminNote(
+      type === "approve"
+        ? `Approved by Administrator. SWIFT Wire transfer reference #WIRE-${Math.floor(100000 + Math.random() * 900000)} initiated.`
+        : "Withdrawal declined due to pending identity verification. Please contact support."
+    );
+  };
+
+  // Execute Withdrawal Action
+  const handleExecuteWithdrawalAction = (e: React.FormEvent) => {
+    e.preventDefault();
+    const { req, type } = withdrawalActionModal;
+    if (!req) return;
+
+    if (type === "approve") {
+      approveWithdrawalRequest(req.id, withdrawalAdminNote);
+      showToast(`Withdrawal #${req.id} for $${req.amount.toLocaleString()} APPROVED and funds disbursed!`);
+    } else {
+      rejectWithdrawalRequest(req.id, withdrawalAdminNote);
+      showToast(`Withdrawal #${req.id} for $${req.amount.toLocaleString()} DECLINED.`);
+    }
+
+    loadData();
+    setWithdrawalActionModal({ open: false, type: "approve", req: null });
   };
 
   // Quick Manual New Application Creation
@@ -706,7 +791,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-slate-200 gap-6 text-sm font-semibold">
+        <div className="flex flex-wrap border-b border-slate-200 gap-2 sm:gap-6 text-sm font-semibold">
           <button
             onClick={() => setActiveTab("applications")}
             className={`pb-3 border-b-2 transition-colors flex items-center gap-2 ${
@@ -716,7 +801,46 @@ export default function AdminDashboard() {
             }`}
           >
             <Users className="w-4 h-4 text-sterling-gold" />
-            Applicant Dossiers & Loan Assignment Desk ({filteredApps.length})
+            <span>Loan Dossiers & Assignment Desk</span>
+            <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-mono">
+              {filteredApps.length}
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("balances")}
+            className={`pb-3 border-b-2 transition-colors flex items-center gap-2 ${
+              activeTab === "balances"
+                ? "border-sterling-navy text-sterling-navy font-bold"
+                : "border-transparent text-slate-500 hover:text-slate-800"
+            }`}
+          >
+            <DollarSign className="w-4 h-4 text-emerald-600" />
+            <span>Client Balances & Treasury</span>
+            <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-bold border border-emerald-200">
+              {applications.length} Accounts
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("withdrawals")}
+            className={`pb-3 border-b-2 transition-colors flex items-center gap-2 ${
+              activeTab === "withdrawals"
+                ? "border-sterling-navy text-sterling-navy font-bold"
+                : "border-transparent text-slate-500 hover:text-slate-800"
+            }`}
+          >
+            <Banknote className="w-4 h-4 text-sterling-gold" />
+            <span>Withdrawals Clearance Desk</span>
+            {withdrawals.filter(w => w.status === "pending").length > 0 ? (
+              <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500 text-white font-extrabold animate-pulse">
+                {withdrawals.filter(w => w.status === "pending").length} Pending
+              </span>
+            ) : (
+              <span className="text-xs px-2 py-0.5 rounded-full bg-slate-100 text-slate-500">
+                {withdrawals.length}
+              </span>
+            )}
           </button>
 
           <button
@@ -1545,6 +1669,294 @@ export default function AdminDashboard() {
           </div>
         )}
 
+        {/* TAB 3: Client Balances & Treasury Desk */}
+        {activeTab === "balances" && (
+          <div className="space-y-6">
+            
+            {/* Header & Metrics */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-100">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200 mb-2">
+                    <DollarSign className="w-3.5 h-3.5" />
+                    Client Balances & Liquidity Treasury
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-black text-sterling-navy">
+                    Client Balance Ledger & Account Control
+                  </h2>
+                  <p className="text-xs text-slate-500 max-w-xl">
+                    View active client account balances and instantly update ledger amounts (e.g. change from $10,000 to $20,000). Updates take effect immediately in the borrower&apos;s dashboard.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-4">
+                  <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-right">
+                    <span className="text-[11px] font-semibold text-slate-500 uppercase block">Total Client Deposits</span>
+                    <span className="text-2xl font-black text-sterling-navy">
+                      ${applications.reduce((sum, a) => sum + (a.accountBalance !== undefined ? a.accountBalance : (a.amount || 10000)), 0).toLocaleString("en-US")}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Search filter */}
+              <div className="pt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="relative max-w-md w-full">
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                  <input
+                    type="text"
+                    value={balanceSearchQuery}
+                    onChange={(e) => setBalanceSearchQuery(e.target.value)}
+                    placeholder="Search client name, account #, reference, email..."
+                    className="w-full pl-10 pr-4 py-2.5 text-xs border border-slate-200 rounded-xl outline-none focus:border-sterling-navy focus:ring-1 focus:ring-sterling-navy"
+                  />
+                </div>
+                <div className="text-xs text-slate-500">
+                  Showing <strong>{applications.filter(a => 
+                    !balanceSearchQuery || 
+                    a.applicantName.toLowerCase().includes(balanceSearchQuery.toLowerCase()) ||
+                    a.email.toLowerCase().includes(balanceSearchQuery.toLowerCase()) ||
+                    a.referenceNumber.toLowerCase().includes(balanceSearchQuery.toLowerCase()) ||
+                    (a.accountNumber && a.accountNumber.toLowerCase().includes(balanceSearchQuery.toLowerCase()))
+                  ).length}</strong> client accounts
+                </div>
+              </div>
+            </div>
+
+            {/* Balances Table */}
+            <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left border-collapse">
+                  <thead>
+                    <tr className="bg-slate-50 text-slate-500 uppercase text-[10px] tracking-wider border-b border-slate-200">
+                      <th className="py-3.5 px-4 font-bold">Client / Account Holder</th>
+                      <th className="py-3.5 px-4 font-bold">Account Number</th>
+                      <th className="py-3.5 px-4 font-bold">Account Category</th>
+                      <th className="py-3.5 px-4 font-bold">Current Account Balance</th>
+                      <th className="py-3.5 px-4 font-bold">Linked Loan Facility</th>
+                      <th className="py-3.5 px-4 font-bold text-right">Balance Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 text-slate-700">
+                    {applications
+                      .filter(a => 
+                        !balanceSearchQuery || 
+                        a.applicantName.toLowerCase().includes(balanceSearchQuery.toLowerCase()) ||
+                        a.email.toLowerCase().includes(balanceSearchQuery.toLowerCase()) ||
+                        a.referenceNumber.toLowerCase().includes(balanceSearchQuery.toLowerCase()) ||
+                        (a.accountNumber && a.accountNumber.toLowerCase().includes(balanceSearchQuery.toLowerCase()))
+                      )
+                      .map((app) => {
+                        const bal = app.accountBalance !== undefined ? app.accountBalance : (app.amount || 10000);
+                        const accNum = app.accountNumber || `LCG-ACC-${app.referenceNumber.replace(/[^0-9]/g, '')}-USD`;
+                        return (
+                          <tr key={app.id} className="hover:bg-amber-50/30 transition-colors">
+                            <td className="py-4 px-4">
+                              <div className="font-extrabold text-sm text-sterling-navy">{app.civility} {app.applicantName}</div>
+                              <div className="text-[11px] text-slate-400">{app.email} • {app.phone}</div>
+                            </td>
+                            <td className="py-4 px-4 font-mono font-bold text-slate-700">
+                              {accNum}
+                            </td>
+                            <td className="py-4 px-4">
+                              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700">
+                                {app.accountType || "Private Checking & Loan Facility"}
+                              </span>
+                            </td>
+                            <td className="py-4 px-4">
+                              <span className="text-base font-black text-emerald-600 block">
+                                {formatMoney(bal, app.currency || "USD")}
+                              </span>
+                              <span className="text-[10px] text-slate-400">Available cleared capital</span>
+                            </td>
+                            <td className="py-4 px-4">
+                              <div className="font-bold text-slate-800">{app.loanTypeLabel}</div>
+                              <div className="text-[10px] text-slate-400 font-mono">{app.referenceNumber} (${app.amount.toLocaleString()})</div>
+                            </td>
+                            <td className="py-4 px-4 text-right">
+                              <button
+                                onClick={() => handleOpenBalanceModal(app)}
+                                className="px-4 py-2 rounded-xl bg-sterling-navy hover:bg-sterling-navy-deep text-white font-bold text-xs inline-flex items-center gap-1.5 shadow-sm transition-all hover:scale-[1.02]"
+                              >
+                                <Edit3 className="w-3.5 h-3.5 text-sterling-gold" />
+                                <span>Edit Balance</span>
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        )}
+
+        {/* TAB 4: Withdrawals Clearance Desk */}
+        {activeTab === "withdrawals" && (
+          <div className="space-y-6">
+            
+            {/* Header & Metrics */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-100">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-800 text-xs font-bold border border-amber-200 mb-2">
+                    <Banknote className="w-3.5 h-3.5 text-sterling-gold" />
+                    Treasury Outflow & Wire Clearances
+                  </div>
+                  <h2 className="text-xl sm:text-2xl font-black text-sterling-navy">
+                    Withdrawal Approvals & Fund Release Desk
+                  </h2>
+                  <p className="text-xs text-slate-500 max-w-xl">
+                    Review outward withdrawal requests submitted by borrowers. Approving a request dispatches wire authorization and deducts the funds from the client&apos;s balance.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-right">
+                    <span className="text-[10px] font-bold text-amber-800 uppercase block">Pending Clearances</span>
+                    <span className="text-xl font-black text-amber-700">
+                      ${withdrawals.filter(w => w.status === "pending").reduce((sum, w) => sum + w.amount, 0).toLocaleString("en-US")}
+                    </span>
+                    <span className="text-[10px] text-amber-600 block">
+                      ({withdrawals.filter(w => w.status === "pending").length} requests awaiting action)
+                    </span>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-right">
+                    <span className="text-[10px] font-bold text-emerald-800 uppercase block">Total Disbursed</span>
+                    <span className="text-xl font-black text-emerald-700">
+                      ${withdrawals.filter(w => w.status === "approved").reduce((sum, w) => sum + w.amount, 0).toLocaleString("en-US")}
+                    </span>
+                    <span className="text-[10px] text-emerald-600 block">
+                      ({withdrawals.filter(w => w.status === "approved").length} releases executed)
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Status Filters */}
+              <div className="pt-6 flex flex-wrap items-center gap-2 text-xs">
+                {(["all", "pending", "approved", "rejected"] as const).map((st) => (
+                  <button
+                    key={st}
+                    onClick={() => setWithdrawalsFilter(st)}
+                    className={`px-3.5 py-1.5 rounded-xl font-bold uppercase tracking-wider text-[11px] transition-all ${
+                      withdrawalsFilter === st
+                        ? "bg-sterling-navy text-white shadow-sm"
+                        : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                    }`}
+                  >
+                    {st === "all" ? "All Requests" : st === "pending" ? "Pending Approval" : st === "approved" ? "Approved & Disbursed" : "Declined"}
+                    {" "}
+                    ({st === "all" ? withdrawals.length : withdrawals.filter(w => w.status === st).length})
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Requests Table */}
+            <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left border-collapse">
+                  <thead>
+                    <tr className="bg-slate-50 text-slate-500 uppercase text-[10px] tracking-wider border-b border-slate-200">
+                      <th className="py-3.5 px-4 font-bold">Request ID & Date</th>
+                      <th className="py-3.5 px-4 font-bold">Client / Borrower</th>
+                      <th className="py-3.5 px-4 font-bold">Withdrawal Amount</th>
+                      <th className="py-3.5 px-4 font-bold">Destination Bank & Details</th>
+                      <th className="py-3.5 px-4 font-bold">Status</th>
+                      <th className="py-3.5 px-4 font-bold text-right">Approval Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 text-slate-700">
+                    {withdrawals
+                      .filter(w => withdrawalsFilter === "all" || w.status === withdrawalsFilter)
+                      .map((req) => (
+                        <tr key={req.id} className="hover:bg-slate-50/60 transition-colors">
+                          <td className="py-4 px-4">
+                            <span className="font-mono font-bold text-sterling-navy block text-sm">#{req.id.toUpperCase()}</span>
+                            <span className="text-[10px] text-slate-400">
+                              {new Date(req.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit" })}
+                            </span>
+                          </td>
+                          <td className="py-4 px-4">
+                            <div className="font-bold text-slate-800 text-sm">{req.applicantName}</div>
+                            <div className="text-[10px] text-slate-400 font-mono">{req.referenceNumber}</div>
+                            <div className="text-[10px] text-slate-500">{req.email}</div>
+                          </td>
+                          <td className="py-4 px-4">
+                            <span className="text-base font-black text-slate-900 block">
+                              {formatMoney(req.amount, req.currency)}
+                            </span>
+                            <span className="text-[10px] text-slate-400">{req.method}</span>
+                          </td>
+                          <td className="py-4 px-4 max-w-xs space-y-0.5">
+                            <div className="font-semibold text-slate-800">{req.bankName}</div>
+                            <div className="text-[11px] text-slate-600 font-mono">IBAN/Acc: {req.accountNumberOrIban}</div>
+                            <div className="text-[10px] text-slate-400 font-mono">SWIFT/Route: {req.routingOrSwift} • {req.beneficiaryName}</div>
+                            {req.notes && (
+                              <div className="text-[10px] text-indigo-600 italic mt-1">Note: &ldquo;{req.notes}&rdquo;</div>
+                            )}
+                          </td>
+                          <td className="py-4 px-4">
+                            {req.status === "approved" ? (
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
+                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                                Approved & Released
+                              </span>
+                            ) : req.status === "rejected" ? (
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800">
+                                <XCircle className="w-3.5 h-3.5 text-red-600" />
+                                Declined
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 animate-pulse">
+                                <Clock className="w-3.5 h-3.5 text-amber-600" />
+                                Pending Admin Approval
+                              </span>
+                            )}
+                            {req.adminNote && (
+                              <div className="text-[10px] text-slate-500 mt-1 max-w-xs leading-snug">
+                                {req.adminNote}
+                              </div>
+                            )}
+                          </td>
+                          <td className="py-4 px-4 text-right">
+                            {req.status === "pending" ? (
+                              <div className="inline-flex items-center gap-2">
+                                <button
+                                  onClick={() => handleOpenWithdrawalAction(req, "approve")}
+                                  className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs inline-flex items-center gap-1 shadow-sm transition-all"
+                                >
+                                  <Check className="w-3.5 h-3.5" />
+                                  <span>Approve</span>
+                                </button>
+                                <button
+                                  onClick={() => handleOpenWithdrawalAction(req, "reject")}
+                                  className="px-3 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 font-bold text-xs border border-red-200 transition-all"
+                                >
+                                  <XCircle className="w-3.5 h-3.5" />
+                                  <span>Decline</span>
+                                </button>
+                              </div>
+                            ) : (
+                              <span className="text-[11px] text-slate-400 italic">
+                                Action Finalized
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        )}
+
       </main>
 
       {/* ======================================================== */}
@@ -2171,6 +2583,289 @@ export default function AdminDashboard() {
                   className="px-5 py-2.5 rounded-xl bg-sterling-navy hover:bg-sterling-navy-light text-white font-bold shadow-md"
                 >
                   Create & Open Dossier
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ======================================================== */}
+      {/* MODAL 4: CLIENT ACCOUNT BALANCE ADJUSTMENT MODAL */}
+      {/* ======================================================== */}
+      {balanceModalOpen && balanceTargetApp && (
+        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 my-8 space-y-6 animate-scale-up text-left">
+            
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-700 font-black flex items-center justify-center">
+                  <DollarSign className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-sterling-navy">Adjust Client Account Balance</h3>
+                  <p className="text-xs text-slate-400">Institutional Ledger Balance Override</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setBalanceModalOpen(false)}
+                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 font-bold text-xs"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Target Client Profile Card */}
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1 text-xs">
+              <div className="flex justify-between items-center">
+                <span className="font-bold text-slate-700 text-sm">{balanceTargetApp.civility} {balanceTargetApp.applicantName}</span>
+                <span className="font-mono text-sterling-navy font-bold">{balanceTargetApp.referenceNumber}</span>
+              </div>
+              <div className="text-slate-500">{balanceTargetApp.email} • {balanceTargetApp.phone}</div>
+              <div className="text-[11px] text-slate-400 font-mono">Account: {balanceTargetApp.accountNumber || `LCG-ACC-${balanceTargetApp.referenceNumber.replace(/[^0-9]/g, '')}-USD`}</div>
+            </div>
+
+            <form onSubmit={handleSaveClientBalance} className="space-y-4 text-xs">
+              
+              {/* Current vs New Balance */}
+              <div className="grid grid-cols-2 gap-3 p-3.5 rounded-2xl bg-amber-50/60 border border-amber-200/80">
+                <div>
+                  <span className="text-[10px] font-bold text-slate-500 uppercase block mb-0.5">Current Balance</span>
+                  <span className="text-xl font-black text-slate-700">
+                    {formatMoney(
+                      balanceTargetApp.accountBalance !== undefined ? balanceTargetApp.accountBalance : (balanceTargetApp.amount || 10000),
+                      balanceTargetApp.currency || "USD"
+                    )}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-emerald-800 uppercase block mb-0.5">New Balance</span>
+                  <span className="text-xl font-black text-emerald-600">
+                    ${(Number(newBalanceInput) || 0).toLocaleString("en-US")}
+                  </span>
+                </div>
+              </div>
+
+              {/* Balance Input */}
+              <div className="space-y-1.5">
+                <label className="font-bold text-slate-700 flex items-center justify-between">
+                  <span>New Balance Amount ({balanceTargetApp.currency || "USD"})</span>
+                  <span className="text-[10px] text-slate-400">e.g. change from 10000 to 20000</span>
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3.5 top-2.5 text-slate-400 font-bold">$</span>
+                  <input
+                    type="number"
+                    required
+                    min={0}
+                    step={100}
+                    value={newBalanceInput}
+                    onChange={(e) => setNewBalanceInput(parseFloat(e.target.value) || 0)}
+                    className="w-full pl-8 pr-3 py-2.5 rounded-xl border border-slate-200 focus:border-sterling-navy focus:ring-1 focus:ring-sterling-navy font-bold text-slate-900 text-base outline-none"
+                    placeholder="Enter new balance amount..."
+                  />
+                </div>
+
+                {/* Quick Presets */}
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setNewBalanceInput(10000)}
+                    className="px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-50 text-[11px] font-semibold text-slate-700"
+                  >
+                    Set to $10,000
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setNewBalanceInput(20000)}
+                    className="px-2.5 py-1 rounded-lg border border-emerald-300 bg-emerald-50 text-[11px] font-bold text-emerald-800"
+                  >
+                    Set to $20,000
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setNewBalanceInput(50000)}
+                    className="px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-50 text-[11px] font-semibold text-slate-700"
+                  >
+                    Set to $50,000
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setNewBalanceInput((prev) => prev + 5000)}
+                    className="px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-50 text-[11px] font-semibold text-slate-700"
+                  >
+                    +$5,000
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setNewBalanceInput((prev) => Math.max(0, prev - 1000))}
+                    className="px-2.5 py-1 rounded-lg border border-slate-200 hover:bg-slate-50 text-[11px] font-semibold text-slate-700"
+                  >
+                    -$1,000
+                  </button>
+                </div>
+              </div>
+
+              {/* Adjustment Reason / Memo */}
+              <div className="space-y-1.5">
+                <label className="font-bold text-slate-700">Audit Reason / Authorization Memo</label>
+                <input
+                  type="text"
+                  required
+                  value={balanceReasonInput}
+                  onChange={(e) => setBalanceReasonInput(e.target.value)}
+                  placeholder="e.g. Loan facility top-up / manual credit correction"
+                  className="w-full p-2.5 rounded-xl border border-slate-200 focus:border-sterling-navy outline-none text-slate-700"
+                />
+              </div>
+
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setBalanceModalOpen(false)}
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold text-xs hover:bg-slate-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2.5 rounded-xl bg-sterling-navy hover:bg-sterling-navy-deep text-white font-bold text-xs shadow-md transition-all flex items-center gap-1.5"
+                >
+                  <Check className="w-4 h-4 text-sterling-gold" />
+                  <span>Save New Balance</span>
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ======================================================== */}
+      {/* MODAL 5: WITHDRAWAL APPROVAL / REJECTION MODAL */}
+      {/* ======================================================== */}
+      {withdrawalActionModal.open && withdrawalActionModal.req && (
+        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 my-8 space-y-6 animate-scale-up text-left">
+            
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-black ${
+                  withdrawalActionModal.type === "approve"
+                    ? "bg-emerald-50 text-emerald-700"
+                    : "bg-red-50 text-red-700"
+                }`}>
+                  {withdrawalActionModal.type === "approve" ? (
+                    <Check className="w-5 h-5" />
+                  ) : (
+                    <XCircle className="w-5 h-5" />
+                  )}
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-sterling-navy">
+                    {withdrawalActionModal.type === "approve" ? "Approve & Release Withdrawal" : "Decline Withdrawal Request"}
+                  </h3>
+                  <p className="text-xs text-slate-400">Request ID: #{withdrawalActionModal.req.id.toUpperCase()}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setWithdrawalActionModal({ open: false, type: "approve", req: null })}
+                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 font-bold text-xs"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Request Summary */}
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
+              <div className="flex justify-between items-center">
+                <span className="text-slate-500">Applicant / Borrower:</span>
+                <strong className="text-slate-800">{withdrawalActionModal.req.applicantName}</strong>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-slate-500">Withdrawal Amount:</span>
+                <strong className="text-base text-sterling-navy font-black">
+                  {formatMoney(withdrawalActionModal.req.amount, withdrawalActionModal.req.currency)}
+                </strong>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-slate-500">Payout Method:</span>
+                <span className="font-medium text-slate-700">{withdrawalActionModal.req.method}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-slate-500">Destination Bank:</span>
+                <span className="font-semibold text-slate-800">{withdrawalActionModal.req.bankName}</span>
+              </div>
+              <div className="flex justify-between items-center font-mono text-[11px]">
+                <span className="text-slate-500 font-sans">IBAN / Account #:</span>
+                <span className="text-slate-700">{withdrawalActionModal.req.accountNumberOrIban}</span>
+              </div>
+              <div className="flex justify-between items-center font-mono text-[11px]">
+                <span className="text-slate-500 font-sans">SWIFT BIC / Routing:</span>
+                <span className="text-slate-700">{withdrawalActionModal.req.routingOrSwift}</span>
+              </div>
+            </div>
+
+            <form onSubmit={handleExecuteWithdrawalAction} className="space-y-4 text-xs">
+              
+              <div className="space-y-1.5">
+                <label className="font-bold text-slate-700">
+                  {withdrawalActionModal.type === "approve"
+                    ? "Treasury Wire Clearance Reference / Note"
+                    : "Decline Reason (Visible to Client in Portal)"}
+                </label>
+                <textarea
+                  rows={3}
+                  required
+                  value={withdrawalAdminNote}
+                  onChange={(e) => setWithdrawalAdminNote(e.target.value)}
+                  placeholder={
+                    withdrawalActionModal.type === "approve"
+                      ? "Enter wire transfer clearing confirmation or memo..."
+                      : "Enter reason for declining this withdrawal request..."
+                  }
+                  className="w-full p-2.5 rounded-xl border border-slate-200 focus:border-sterling-navy outline-none text-slate-700 text-xs"
+                />
+              </div>
+
+              {withdrawalActionModal.type === "approve" ? (
+                <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-[11px] text-emerald-900 leading-relaxed">
+                  <strong>Balance Impact:</strong> Approving this request will automatically deduct <strong>{formatMoney(withdrawalActionModal.req.amount, withdrawalActionModal.req.currency)}</strong> from {withdrawalActionModal.req.applicantName}&apos;s account balance and mark status as Approved & Disbursed.
+                </div>
+              ) : (
+                <div className="p-3 bg-red-50 rounded-xl border border-red-200 text-[11px] text-red-900 leading-relaxed">
+                  <strong>Notice:</strong> Declining will release any clearance hold and notify the borrower with your explanation.
+                </div>
+              )}
+
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setWithdrawalActionModal({ open: false, type: "approve", req: null })}
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold text-xs hover:bg-slate-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className={`px-5 py-2.5 rounded-xl text-white font-bold text-xs shadow-md transition-all flex items-center gap-1.5 ${
+                    withdrawalActionModal.type === "approve"
+                      ? "bg-emerald-600 hover:bg-emerald-700"
+                      : "bg-red-600 hover:bg-red-700"
+                  }`}
+                >
+                  {withdrawalActionModal.type === "approve" ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      <span>Confirm Approval & Disburse Funds</span>
+                    </>
+                  ) : (
+                    <>
+                      <XCircle className="w-4 h-4" />
+                      <span>Confirm Decline</span>
+                    </>
+                  )}
                 </button>
               </div>
 

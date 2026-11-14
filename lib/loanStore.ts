@@ -45,7 +45,71 @@ export interface LoanApplication {
   assignedDisbursementMethod?: string;
   assignedDisbursementDate?: string;
   assignmentDate?: string;
+
+  // Account & Available Balance Fields
+  accountBalance?: number;
+  accountNumber?: string;
+  accountType?: string;
 }
+
+export interface WithdrawalRequest {
+  id: string;
+  applicationId: string;
+  referenceNumber: string;
+  applicantName: string;
+  email: string;
+  amount: number;
+  currency: "USD" | "EUR";
+  method: string;
+  beneficiaryName: string;
+  bankName: string;
+  accountNumberOrIban: string;
+  routingOrSwift: string;
+  notes?: string;
+  status: "pending" | "approved" | "rejected";
+  createdAt: string;
+  processedAt?: string;
+  adminNote?: string;
+}
+
+const INITIAL_WITHDRAWALS: WithdrawalRequest[] = [
+  {
+    id: "wth-201",
+    applicationId: "app-101",
+    referenceNumber: "LCG-2026-89412",
+    applicantName: "David Harrison",
+    email: "d.harrison@example.com",
+    amount: 2500,
+    currency: "USD",
+    method: "Direct Wire Transfer (SWIFT / Fedwire)",
+    beneficiaryName: "David Harrison",
+    bankName: "JPMorgan Chase Bank, N.A.",
+    accountNumberOrIban: "US89CHAS12345678901234",
+    routingOrSwift: "CHASUS33XXX",
+    notes: "Home improvement contractor milestone payment",
+    status: "pending",
+    createdAt: "2026-11-05T14:30:00Z"
+  },
+  {
+    id: "wth-202",
+    applicationId: "app-103",
+    referenceNumber: "LCG-2026-93820",
+    applicantName: "Marcus Vance",
+    email: "marcus.vance@example.com",
+    amount: 12000,
+    currency: "USD",
+    method: "Commercial Vendor Transfer",
+    beneficiaryName: "Solar Grid Technologies LLC",
+    bankName: "Bank of America, N.A.",
+    accountNumberOrIban: "US44BOFA98765432109876",
+    routingOrSwift: "BOFAUS3NXXX",
+    notes: "Solar panel installation phase 1 payment",
+    status: "approved",
+    createdAt: "2026-11-02T16:00:00Z",
+    processedAt: "2026-11-03T10:15:00Z",
+    adminNote: "Approved by Emily Vance. Wire reference #WIRE-894721 dispatched via Fedwire."
+  }
+];
 
 const INITIAL_APPLICATIONS: LoanApplication[] = [
   {
@@ -58,6 +122,9 @@ const INITIAL_APPLICATIONS: LoanApplication[] = [
     loanType: "persona",
     loanTypeLabel: "Persona Personal Loan",
     currency: "USD",
+    accountBalance: 10000,
+    accountNumber: "LCG-ACC-89412-USD",
+    accountType: "Private Checking & Loan Facility Account",
     amount: 15000,
     termMonths: 36,
     monthlyPayment: 435.12,
@@ -106,6 +173,9 @@ const INITIAL_APPLICATIONS: LoanApplication[] = [
     loanType: "auto",
     loanTypeLabel: "Auto & Vehicle Loan",
     currency: "USD",
+    accountBalance: 25000,
+    accountNumber: "LCG-ACC-92147-USD",
+    accountType: "Commercial Auto Financing Account",
     amount: 28000,
     termMonths: 48,
     monthlyPayment: 620.45,
@@ -152,6 +222,9 @@ const INITIAL_APPLICATIONS: LoanApplication[] = [
     loanType: "ecosolutions",
     loanTypeLabel: "EcoSolutions Solar & Energy Facility",
     currency: "USD",
+    accountBalance: 35000,
+    accountNumber: "LCG-ACC-93820-USD",
+    accountType: "EcoSolutions Capital Reserve Account",
     amount: 35000,
     termMonths: 60,
     monthlyPayment: 625.80,
@@ -198,6 +271,9 @@ const INITIAL_APPLICATIONS: LoanApplication[] = [
     loanType: "persona",
     loanTypeLabel: "Persona Personal Loan",
     currency: "USD",
+    accountBalance: 8000,
+    accountNumber: "LCG-ACC-94011-USD",
+    accountType: "Personal Facility Escrow Account",
     amount: 8000,
     termMonths: 24,
     monthlyPayment: 343.20,
@@ -234,7 +310,13 @@ export function getApplications(): LoanApplication[] {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(INITIAL_APPLICATIONS));
       return INITIAL_APPLICATIONS;
     }
-    return JSON.parse(raw);
+    const parsed: LoanApplication[] = JSON.parse(raw);
+    return parsed.map((app, index) => ({
+      ...app,
+      accountBalance: app.accountBalance !== undefined ? app.accountBalance : (index === 0 ? 10000 : (app.amount || 10000)),
+      accountNumber: app.accountNumber || `LCG-ACC-${app.referenceNumber.replace(/[^0-9]/g, '') || "89412"}-USD`,
+      accountType: app.accountType || "Private Checking & Loan Facility Account"
+    }));
   } catch (e) {
     console.error("Failed to read from localStorage:", e);
     return INITIAL_APPLICATIONS;
@@ -384,5 +466,154 @@ export function deleteApplication(id: string): boolean {
   const filtered = apps.filter(a => a.id !== id);
   if (filtered.length === apps.length) return false;
   saveApplications(filtered);
+  return true;
+}
+
+export const WITHDRAWALS_STORAGE_KEY = "lcg_bank_withdrawals_v5";
+
+export function getWithdrawalRequests(): WithdrawalRequest[] {
+  if (typeof window === "undefined") return INITIAL_WITHDRAWALS;
+  try {
+    const raw = localStorage.getItem(WITHDRAWALS_STORAGE_KEY);
+    if (!raw) {
+      localStorage.setItem(WITHDRAWALS_STORAGE_KEY, JSON.stringify(INITIAL_WITHDRAWALS));
+      return INITIAL_WITHDRAWALS;
+    }
+    return JSON.parse(raw);
+  } catch (e) {
+    console.error("Failed to read withdrawals from localStorage:", e);
+    return INITIAL_WITHDRAWALS;
+  }
+}
+
+export function saveWithdrawalRequests(requests: WithdrawalRequest[]): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(WITHDRAWALS_STORAGE_KEY, JSON.stringify(requests));
+    window.dispatchEvent(new Event("lcg_withdrawals_updated"));
+  } catch (e) {
+    console.error("Failed to save withdrawals to localStorage:", e);
+  }
+}
+
+export function submitWithdrawalRequest(req: {
+  applicationId: string;
+  referenceNumber: string;
+  applicantName: string;
+  email: string;
+  amount: number;
+  currency: "USD" | "EUR";
+  method: string;
+  beneficiaryName: string;
+  bankName: string;
+  accountNumberOrIban: string;
+  routingOrSwift: string;
+  notes?: string;
+}): WithdrawalRequest {
+  const requests = getWithdrawalRequests();
+  const id = `wth-${Date.now().toString().slice(-5)}`;
+  const newRequest: WithdrawalRequest = {
+    ...req,
+    id,
+    status: "pending",
+    createdAt: new Date().toISOString()
+  };
+
+  const updated = [newRequest, ...requests];
+  saveWithdrawalRequests(updated);
+
+  // Add an officer note to the application as well
+  const apps = getApplications();
+  const appIndex = apps.findIndex(a => a.id === req.applicationId || a.referenceNumber === req.referenceNumber);
+  if (appIndex !== -1) {
+    const app = apps[appIndex];
+    app.officerNotes = [
+      `[Withdrawal Requested] Client submitted withdrawal request #${id} for $${req.amount.toLocaleString()} via ${req.method}. Pending Administrator approval.`,
+      ...app.officerNotes
+    ];
+    apps[appIndex] = app;
+    saveApplications(apps);
+  }
+
+  return newRequest;
+}
+
+export function approveWithdrawalRequest(requestId: string, adminNote?: string): boolean {
+  const requests = getWithdrawalRequests();
+  const index = requests.findIndex(r => r.id === requestId);
+  if (index === -1) return false;
+
+  const req = requests[index];
+  if (req.status === "approved") return true;
+
+  // Deduct from client balance in applications
+  const apps = getApplications();
+  const appIndex = apps.findIndex(a => a.id === req.applicationId || a.referenceNumber === req.referenceNumber);
+  if (appIndex !== -1) {
+    const app = apps[appIndex];
+    const currentBal = app.accountBalance !== undefined ? app.accountBalance : app.amount;
+    const newBal = Math.max(0, currentBal - req.amount);
+    app.accountBalance = newBal;
+    app.officerNotes = [
+      `[Disbursement Approved] Administrator approved withdrawal #${req.id} of $${req.amount.toLocaleString()}. Remaining balance: $${newBal.toLocaleString()}.${adminNote ? ` (${adminNote})` : ""}`,
+      ...app.officerNotes
+    ];
+    app.lastUpdated = new Date().toISOString();
+    apps[appIndex] = app;
+    saveApplications(apps);
+  }
+
+  req.status = "approved";
+  req.processedAt = new Date().toISOString();
+  req.adminNote = adminNote || "Approved and wire transfer clearance initiated by Administrator.";
+  requests[index] = req;
+  saveWithdrawalRequests(requests);
+  return true;
+}
+
+export function rejectWithdrawalRequest(requestId: string, reason?: string): boolean {
+  const requests = getWithdrawalRequests();
+  const index = requests.findIndex(r => r.id === requestId);
+  if (index === -1) return false;
+
+  const req = requests[index];
+  req.status = "rejected";
+  req.processedAt = new Date().toISOString();
+  req.adminNote = reason || "Withdrawal request declined. Contact compliance or dedicated account officer.";
+  requests[index] = req;
+  saveWithdrawalRequests(requests);
+
+  // Add note to application
+  const apps = getApplications();
+  const appIndex = apps.findIndex(a => a.id === req.applicationId || a.referenceNumber === req.referenceNumber);
+  if (appIndex !== -1) {
+    const app = apps[appIndex];
+    app.officerNotes = [
+      `[Withdrawal Declined] Request #${req.id} for $${req.amount.toLocaleString()} was declined by Administrator. Reason: ${req.adminNote}`,
+      ...app.officerNotes
+    ];
+    apps[appIndex] = app;
+    saveApplications(apps);
+  }
+
+  return true;
+}
+
+export function updateClientBalance(applicationId: string, newBalance: number, note?: string): boolean {
+  const apps = getApplications();
+  const index = apps.findIndex(a => a.id === applicationId);
+  if (index === -1) return false;
+
+  const app = apps[index];
+  const oldBalance = app.accountBalance !== undefined ? app.accountBalance : 10000;
+  app.accountBalance = newBalance;
+  app.lastUpdated = new Date().toISOString();
+  const updateNote = note 
+    ? `[Balance Adjusted] Administrator updated account balance from $${oldBalance.toLocaleString()} to $${newBalance.toLocaleString()}. Reason: ${note}`
+    : `[Balance Adjusted] Administrator updated account balance from $${oldBalance.toLocaleString()} to $${newBalance.toLocaleString()}.`;
+  app.officerNotes = [updateNote, ...app.officerNotes];
+
+  apps[index] = app;
+  saveApplications(apps);
   return true;
 }
