@@ -15,18 +15,18 @@ export default function BrandLogo({ className = "", variant = "dark", size = "md
   const scaleClasses = {
     sm: "scale-90",
     md: "scale-100",
-    lg: "scale-110 sm:scale-125"
+    lg: "scale-105 sm:scale-125"
   };
 
   return (
     <Link 
       href="/" 
       rel="home" 
-      className={`inline-flex items-center gap-3.5 group select-none transition-transform hover:scale-[1.02] ${scaleClasses[size]} ${className}`}
+      className={`inline-flex items-center gap-2 sm:gap-3.5 group select-none transition-transform hover:scale-[1.02] max-w-full ${scaleClasses[size]} ${className}`}
       aria-label="Loan Commercial Group - Private Lending & Capital Facilities"
     >
       {/* Precision Geometric SVG Crest Emblem */}
-      <div className="relative w-11 h-11 sm:w-12 sm:h-12 shrink-0 filter drop-shadow-md">
+      <div className="relative w-8 h-8 sm:w-11 sm:h-11 md:w-12 md:h-12 shrink-0 filter drop-shadow-md">
         <svg 
           viewBox="0 0 100 100" 
           className="w-full h-full"
@@ -102,26 +102,27 @@ export default function BrandLogo({ className = "", variant = "dark", size = "md
       </div>
 
       {/* Brand Name Typography */}
-      <div className="flex flex-col justify-center leading-none">
-        <div className="flex items-center gap-1.5">
-          <span className={`text-[19px] sm:text-[22px] font-black tracking-tight font-display uppercase ${
+      <div className="flex flex-col justify-center leading-none min-w-0">
+        <div className="flex items-center gap-1 sm:gap-1.5 whitespace-nowrap">
+          <span className={`text-[13px] xs:text-[15px] sm:text-[20px] md:text-[22px] font-black tracking-tight font-display uppercase whitespace-nowrap ${
             isDark ? "text-[#002D62]" : "text-white"
           }`}>
             LOAN COMMERCIAL
           </span>
-          <span className="text-[19px] sm:text-[22px] font-black tracking-tight font-display uppercase bg-gradient-to-r from-amber-500 via-sterling-gold to-amber-600 bg-clip-text text-transparent">
+          <span className="text-[13px] xs:text-[15px] sm:text-[20px] md:text-[22px] font-black tracking-tight font-display uppercase whitespace-nowrap bg-gradient-to-r from-amber-500 via-sterling-gold to-amber-600 bg-clip-text text-transparent">
             GROUP
           </span>
         </div>
 
-        <div className="flex items-center gap-1.5 mt-1">
-          <span className="h-[1px] w-3 bg-sterling-gold/70 inline-block" />
-          <span className={`text-[9.5px] sm:text-[10px] font-bold tracking-[0.22em] uppercase font-sans ${
+        <div className="flex items-center gap-1 sm:gap-1.5 mt-1 sm:mt-1.5 whitespace-nowrap overflow-hidden">
+          <span className="h-[1px] w-2 sm:w-3 bg-sterling-gold/70 inline-block shrink-0" />
+          <span className={`text-[7px] sm:text-[9.5px] font-bold tracking-[0.14em] sm:tracking-[0.22em] uppercase font-sans truncate ${
             isDark ? "text-amber-800/90" : "text-amber-200/80"
           }`}>
-            PRIVATE LENDING & CAPITAL FACILITIES
+            <span className="hidden sm:inline">PRIVATE LENDING & CAPITAL FACILITIES</span>
+            <span className="sm:hidden">PRIVATE LENDING & FACILITIES</span>
           </span>
-          <span className="h-[1px] w-3 bg-sterling-gold/70 inline-block" />
+          <span className="h-[1px] w-2 sm:w-3 bg-sterling-gold/70 inline-block shrink-0" />
         </div>
       </div>
     </Link>

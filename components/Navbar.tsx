@@ -92,8 +92,8 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
       {/* =========================================================================
           TOP TIER: SECONDARY NAVIGATION & UTILITIES
           ========================================================================= */}
-      <div className="bg-[#002244] text-slate-200 text-xs py-2 px-4 sm:px-8 border-b border-slate-700/60">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
+      <div className="bg-[#002244] text-slate-200 text-xs py-1.5 sm:py-2 px-3 sm:px-6 lg:px-8 border-b border-slate-700/60 overflow-hidden">
+        <div className="max-w-7xl mx-auto flex justify-between items-center gap-2">
           
           {/* Secondary Nav Links (About Us, Calculator, Careers, ATMs, Contact) */}
           <nav aria-label="Secondary Menu" className="hidden lg:flex items-center gap-5 text-[11px] font-medium tracking-wide">
@@ -133,12 +133,12 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
           </nav>
 
           {/* Quick Notice on Mobile */}
-          <div className="lg:hidden text-[11px] font-semibold text-sterling-gold-light truncate">
-            Loan Commercial Group • Private Investment & Consumer Lending
+          <div className="lg:hidden text-[10px] sm:text-[11px] font-semibold text-sterling-gold-light truncate min-w-0 pr-1">
+            <span className="hidden xs:inline">Loan Commercial Group • </span>Private Investment & Lending
           </div>
 
           {/* Secondary Right: Currency, Search, Language, Auth */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {/* Search Toggle Button */}
             <button
               type="button"
@@ -153,7 +153,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
             <span className="text-slate-600 hidden sm:inline">|</span>
 
             {/* Currency Badge: USD & EUR Only */}
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-sterling-gold/20 text-sterling-gold font-bold text-[10px] border border-sterling-gold/30">
+            <span className="inline-flex items-center gap-1 px-2 sm:px-2.5 py-0.5 rounded-full bg-sterling-gold/20 text-sterling-gold font-bold text-[9px] sm:text-[10px] border border-sterling-gold/30 whitespace-nowrap shrink-0">
               USD ($) & EUR (€) Only
             </span>
           </div>
@@ -164,11 +164,11 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
       {/* =========================================================================
           MAIN TIER: BRAND LOGO + PRIMARY NAVIGATION + ONLINE BANKING CTA
           ========================================================================= */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           
           {/* Official Loan Commercial Group Brand Logo */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center min-w-0 pr-2">
             <BrandLogo variant="dark" size="md" />
           </div>
 
@@ -340,23 +340,23 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
           </div>
 
           {/* Mobile Right Controls: Search Icon + Hamburger Toggle */}
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-1 sm:gap-2 lg:hidden shrink-0">
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="p-2 rounded-xl text-slate-700 hover:bg-slate-100"
+              className="p-1.5 sm:p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors"
               aria-label="Search"
             >
-              <Search className="w-6 h-6 text-[#002855]" />
+              <Search className="w-5 h-5 sm:w-6 sm:h-6 text-[#002855]" />
             </button>
 
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl text-slate-800 hover:bg-slate-100 transition-colors"
+              className="p-1.5 sm:p-2 rounded-xl text-slate-800 hover:bg-slate-100 transition-colors"
               aria-label="Toggle navigation menu"
             >
-              {mobileMenuOpen ? <X className="w-7 h-7 text-[#002855]" /> : <Menu className="w-7 h-7 text-[#002855]" />}
+              {mobileMenuOpen ? <X className="w-6 h-6 sm:w-7 sm:h-7 text-[#002855]" /> : <Menu className="w-6 h-6 sm:w-7 sm:h-7 text-[#002855]" />}
             </button>
           </div>
 
