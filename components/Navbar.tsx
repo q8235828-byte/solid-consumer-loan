@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import BrandLogo from "@/components/BrandLogo";
+import GoogleTranslate from "@/components/GoogleTranslate";
 import { 
   Building2, 
   ChevronDown, 
@@ -72,13 +73,13 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
   };
 
   const searchResults = [
-    { title: "Personal Loans (Persona)", url: "/personal-loans", category: "Loans", desc: "Financing from $100,000 to $500,000,000 in USD/EUR." },
-    { title: "Auto Loans", url: "/auto-loans", category: "Loans", desc: "Up to 100% vehicle financing for brand new & pre-owned cars." },
-    { title: "Home Loans & Renovation", url: "/home-loans", category: "Loans", desc: "Home improvement and construction financing up to 25 years." },
-    { title: "Private Investment & Corporate Lending", url: "/apply", category: "Corporate", desc: "USD $100k to $500M financing with 1 to 25 year terms." },
-    { title: "Loan Monthly Payment Calculator", url: "/#calculator", category: "Tools", desc: "Simulate monthly installments in USD ($) and EUR (€)." },
-    { title: "Loan Application Tracker", url: "/tracker", category: "Services", desc: "Track your submitted loan application in real-time." },
-    { title: "Client Online Banking Area", url: "/dashboard", category: "Portal", desc: "Access your statements, payment schedule and advisor chat." },
+    { title: "Prêt Personnel (Persona)", url: "/personal-loans", category: "Crédits", desc: "Financement personnel de 100 000 $ à 500 000 000 $ en USD/EUR." },
+    { title: "Prêt Auto & Mobilité", url: "/auto-loans", category: "Crédits", desc: "Financement jusqu'à 100% pour véhicules neufs et d'occasion." },
+    { title: "Prêt Immobilier & Rénovation", url: "/home-loans", category: "Crédits", desc: "Financement de construction et rénovation jusqu'à 25 ans." },
+    { title: "Investissement Privé & Financement Entreprise", url: "/apply", category: "Entreprises", desc: "Financement de 100k$ à 500M$ avec durées de 1 à 25 ans." },
+    { title: "Simulateur de Mensualités de Prêt", url: "/#calculator", category: "Outils", desc: "Simulez vos mensualités en USD ($) et Euro (€)." },
+    { title: "Suivi de Demande en Direct", url: "/tracker", category: "Services", desc: "Suivez votre dossier de financement en temps réel." },
+    { title: "Espace Client Sécurisé", url: "/dashboard", category: "Portail", desc: "Accédez à vos relevés, échéanciers et conseiller dédié." },
   ].filter(item => 
     !searchQuery.trim() || 
     item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -96,13 +97,13 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
         <div className="max-w-7xl mx-auto flex justify-between items-center gap-2">
           
           {/* Secondary Nav Links (About Us, Calculator, Careers, ATMs, Contact) */}
-          <nav aria-label="Secondary Menu" className="hidden lg:flex items-center gap-5 text-[11px] font-medium tracking-wide">
+          <nav aria-label="Menu Secondaire" className="hidden lg:flex items-center gap-5 text-[11px] font-medium tracking-wide">
             <Link href="/" className="hover:text-sterling-gold transition-colors">
-              About Us
+              À Propos
             </Link>
             <span className="text-slate-500">|</span>
             <a href="/#calculator" className="hover:text-sterling-gold transition-colors">
-              Loan Calculator
+              Simulateur de Prêt
             </a>
             <span className="text-slate-500">|</span>
             <a 
@@ -111,30 +112,30 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               rel="noreferrer" 
               className="hover:text-sterling-gold transition-colors inline-flex items-center gap-1"
             >
-              Careers <ExternalLink className="w-2.5 h-2.5 opacity-70" />
+              Carrières <ExternalLink className="w-2.5 h-2.5 opacity-70" />
             </a>
             <span className="text-slate-500">|</span>
             <Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">
-              Branches and ATMs
+              Agences & Distributeurs
             </Link>
             <span className="text-slate-500">|</span>
             <a href="mailto:customer.experience@loancommercialgroup.com" className="hover:text-sterling-gold transition-colors">
-              Contact Us
+              Contactez-nous
             </a>
             <span className="text-slate-500">|</span>
             <a 
-              href="https://wa.me/?text=Hello%2C%20I%20am%20interested%20in%20your%20Loan%20Offer." 
+              href="https://wa.me/?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%28e%29%20par%20votre%20offre%20de%20financement." 
               target="_blank" 
               rel="noreferrer" 
               className="text-emerald-400 hover:text-emerald-300 font-bold transition-colors inline-flex items-center gap-1"
             >
-              WhatsApp Support
+              Support WhatsApp
             </a>
           </nav>
 
           {/* Quick Notice on Mobile */}
           <div className="lg:hidden text-[10px] sm:text-[11px] font-semibold text-sterling-gold-light truncate min-w-0 pr-1">
-            <span className="hidden xs:inline">Loan Commercial Group • </span>Private Investment & Lending
+            <span className="hidden xs:inline">Loan Commercial Group • </span>Investissement Privé & Prêts
           </div>
 
           {/* Secondary Right: Currency, Search, Language, Auth */}
@@ -144,18 +145,21 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               type="button"
               onClick={() => setSearchOpen(true)}
               className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white transition-colors text-[11px]"
-              aria-label="Search site"
+              aria-label="Recherche sur le site"
             >
               <Search className="w-3.5 h-3.5 text-sterling-gold" />
-              <span>Search</span>
+              <span>Recherche</span>
             </button>
 
             <span className="text-slate-600 hidden sm:inline">|</span>
 
             {/* Currency Badge: USD & EUR Only */}
             <span className="inline-flex items-center gap-1 px-2 sm:px-2.5 py-0.5 rounded-full bg-sterling-gold/20 text-sterling-gold font-bold text-[9px] sm:text-[10px] border border-sterling-gold/30 whitespace-nowrap shrink-0">
-              USD ($) & EUR (€) Only
+              USD ($) & EUR (€) Uniquement
             </span>
+
+            {/* Language Selector */}
+            <GoogleTranslate />
           </div>
 
         </div>
@@ -175,11 +179,11 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
           {/* Desktop Primary Navigation Bar */}
           <nav 
             role="navigation" 
-            aria-label="Main navigation" 
+            aria-label="Navigation principale" 
             className="hidden lg:flex items-center gap-8 text-[15px] font-bold text-[#002855]"
             onMouseLeave={handleMouseLeave}
           >
-            {/* Category 1: Personal */}
+            {/* Category 1: Particuliers */}
             <div 
               className="relative py-7 cursor-pointer"
               onMouseEnter={() => handleMouseEnter("personal")}
@@ -190,12 +194,12 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                   activeMegaMenu === "personal" ? "text-sterling-gold" : "hover:text-sterling-gold"
                 }`}
               >
-                <span>Personal</span>
+                <span>Particuliers</span>
                 <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeMegaMenu === "personal" ? "rotate-180 text-sterling-gold" : "text-slate-400"}`} />
               </button>
             </div>
 
-            {/* Category 2: Business */}
+            {/* Category 2: Entreprises */}
             <div 
               className="relative py-7 cursor-pointer"
               onMouseEnter={() => handleMouseEnter("business")}
@@ -206,12 +210,12 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                   activeMegaMenu === "business" ? "text-sterling-gold" : "hover:text-sterling-gold"
                 }`}
               >
-                <span>Business</span>
+                <span>Entreprises</span>
                 <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeMegaMenu === "business" ? "rotate-180 text-sterling-gold" : "text-slate-400"}`} />
               </button>
             </div>
 
-            {/* Category 3: Investment */}
+            {/* Category 3: Investissement */}
             <div 
               className="relative py-7 cursor-pointer"
               onMouseEnter={() => handleMouseEnter("investment")}
@@ -222,12 +226,12 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                   activeMegaMenu === "investment" ? "text-sterling-gold" : "hover:text-sterling-gold"
                 }`}
               >
-                <span>Investment</span>
+                <span>Investissement</span>
                 <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeMegaMenu === "investment" ? "rotate-180 text-sterling-gold" : "text-slate-400"}`} />
               </button>
             </div>
 
-            {/* Category 4: eBanking */}
+            {/* Category 4: Banque en Ligne */}
             <div 
               className="relative py-7 cursor-pointer"
               onMouseEnter={() => handleMouseEnter("ebanking")}
@@ -238,13 +242,13 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                   activeMegaMenu === "ebanking" ? "text-sterling-gold" : "hover:text-sterling-gold"
                 }`}
               >
-                <span>eBanking</span>
+                <span>Banque en Ligne</span>
                 <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${activeMegaMenu === "ebanking" ? "rotate-180 text-sterling-gold" : "text-slate-400"}`} />
               </button>
             </div>
           </nav>
 
-          {/* Action CTAs: Online Banking Dropdown + Fast Apply */}
+          {/* Action CTAs: Espace Client Dropdown + Demande en Ligne */}
           <div className="hidden sm:flex items-center gap-3">
             
             {/* Secure Online Banking Login Trigger */}
@@ -255,7 +259,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                 className="px-4 py-2.5 rounded-xl border-2 border-[#002855] text-[#002855] hover:bg-[#002855] hover:text-white font-extrabold text-xs sm:text-sm transition-all flex items-center gap-2 shadow-sm"
               >
                 <Lock className="w-4 h-4 text-sterling-gold" />
-                <span>Online Banking</span>
+                <span>Espace Client</span>
                 <ChevronDown className={`w-3.5 h-3.5 transition-transform ${onlineBankingOpen ? "rotate-180" : ""}`} />
               </button>
 
@@ -266,18 +270,18 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                   <div className="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-slate-200 z-50 p-4 space-y-3 animate-in fade-in zoom-in-95">
                     <div className="border-b border-slate-100 pb-2">
                       <div className="text-xs font-black text-[#002855] uppercase tracking-wider">
-                        Secure Banking Portal
+                        Portail Bancaire Sécurisé
                       </div>
                       <div className="text-[11px] text-slate-500">
-                        256-Bit SSL Encryption • eIDAS Compliant
+                        Chiffrement SSL 256-Bit • Conforme eIDAS
                       </div>
                     </div>
 
                     <div className="space-y-2">
                       <div className="p-3 bg-slate-50 rounded-xl hover:bg-amber-50/50 border border-slate-100 transition-colors">
                         <div className="flex items-center justify-between mb-1">
-                          <span className="font-bold text-xs text-[#002855]">Personal Banking</span>
-                          <span className="text-[10px] text-emerald-600 font-bold bg-emerald-100 px-2 py-0.5 rounded-full">Personal</span>
+                          <span className="font-bold text-xs text-[#002855]">Banque des Particuliers</span>
+                          <span className="text-[10px] text-emerald-600 font-bold bg-emerald-100 px-2 py-0.5 rounded-full">Particuliers</span>
                         </div>
                         <div className="flex flex-col gap-1 text-[11px]">
                           <Link 
@@ -285,7 +289,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                             onClick={() => setOnlineBankingOpen(false)}
                             className="text-sterling-navy hover:text-sterling-gold font-semibold flex items-center justify-between"
                           >
-                            <span>Client Portal Login</span>
+                            <span>Connexion Espace Client</span>
                             <ArrowRight className="w-3 h-3" />
                           </Link>
                           <Link 
@@ -293,22 +297,22 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                             onClick={() => setOnlineBankingOpen(false)}
                             className="text-slate-500 hover:text-slate-800"
                           >
-                            New client? Enroll online
+                            Nouveau client ? Ouvrir un compte
                           </Link>
                         </div>
                       </div>
 
                       <div className="p-3 bg-slate-50 rounded-xl hover:bg-slate-100/70 border border-slate-100 transition-colors">
                         <div className="flex items-center justify-between mb-1">
-                          <span className="font-bold text-xs text-[#002855]">Corporate & Business</span>
-                          <span className="text-[10px] text-indigo-600 font-bold bg-indigo-100 px-2 py-0.5 rounded-full">Corporate</span>
+                          <span className="font-bold text-xs text-[#002855]">Entreprises & Institutionnels</span>
+                          <span className="text-[10px] text-indigo-600 font-bold bg-indigo-100 px-2 py-0.5 rounded-full">Entreprises</span>
                         </div>
                         <Link 
                           href="/login" 
                           onClick={() => setOnlineBankingOpen(false)}
                           className="text-xs text-slate-700 hover:text-sterling-navy font-semibold flex items-center justify-between mt-1"
                         >
-                          <span>Optima Online Access</span>
+                          <span>Accès Portail Optima</span>
                           <ArrowRight className="w-3 h-3" />
                         </Link>
                       </div>
@@ -319,7 +323,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                           onClick={() => setOnlineBankingOpen(false)}
                           className="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg block text-center transition-colors"
                         >
-                          Track Loan Application Live
+                          Suivre ma Demande de Prêt
                         </Link>
                       </div>
                     </div>
@@ -333,7 +337,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               href="/apply"
               className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold text-sterling-navy-deep font-extrabold text-xs sm:text-sm shadow-md hover:shadow-sterling-gold/30 hover:scale-[1.02] transition-all flex items-center gap-1.5"
             >
-              <span>Online Application</span>
+              <span>Demande en Ligne</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
             </Link>
 
@@ -381,23 +385,23 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               <div className="space-y-4">
                 <div className="border-b border-slate-200 pb-2 flex items-center gap-2">
                   <PiggyBank className="w-5 h-5 text-sterling-gold" />
-                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Deposit</h3>
+                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Dépôts & Épargne</h3>
                 </div>
                 <div className="space-y-2.5 text-xs text-slate-600">
-                  <div className="font-bold text-[#002855] text-xs pt-1">Savings Account</div>
+                  <div className="font-bold text-[#002855] text-xs pt-1">Comptes d'Épargne</div>
                   <ul className="space-y-1.5 pl-2 border-l border-slate-100">
-                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Solo Savings Account</Link></li>
-                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Solo Basic Savings Account</Link></li>
-                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors font-medium text-sterling-gold-dark">Solo Dollar Savings Account (USD)</Link></li>
-                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Solo Euro Savings Account (EUR)</Link></li>
-                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Neo Kiddie Savings Account</Link></li>
-                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Bayani OFW Savings Account</Link></li>
+                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Compte Épargne Solo</Link></li>
+                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Compte Épargne Solo Essentiel</Link></li>
+                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors font-medium text-sterling-gold-dark">Compte Épargne Dollar (USD)</Link></li>
+                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Compte Épargne Euro (EUR)</Link></li>
+                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Compte Neo Épargne Jeunes</Link></li>
+                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Compte Épargne Diaspora OFW</Link></li>
                   </ul>
-                  <div className="font-bold text-[#002855] text-xs pt-1">Checking & Time Deposit</div>
+                  <div className="font-bold text-[#002855] text-xs pt-1">Comptes Chèques & Dépôts à Terme</div>
                   <ul className="space-y-1.5 pl-2 border-l border-slate-100">
-                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Duo Checking Account</Link></li>
-                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Prima Time Deposit (Short-Term)</Link></li>
-                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Maxima 3 & 5-Year Time Deposit</Link></li>
+                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Compte Chèques Duo</Link></li>
+                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Dépôt à Terme Prima (Court Terme)</Link></li>
+                    <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Dépôt à Terme Maxima 3 & 5 Ans</Link></li>
                   </ul>
                 </div>
               </div>
@@ -407,9 +411,9 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                 <div className="border-b border-sterling-gold/40 pb-2 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Percent className="w-5 h-5 text-sterling-gold" />
-                    <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Consumer Loans</h3>
+                    <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Prêts aux Particuliers</h3>
                   </div>
-                  <span className="text-[10px] font-extrabold bg-sterling-gold text-sterling-navy-deep px-2 py-0.5 rounded-full">RAPID APPROVAL</span>
+                  <span className="text-[10px] font-extrabold bg-sterling-gold text-sterling-navy-deep px-2 py-0.5 rounded-full">ACCORD RAPIDE</span>
                 </div>
                 <ul className="space-y-2 text-xs">
                   <li>
@@ -419,10 +423,10 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                       className="block p-2 rounded-xl hover:bg-white transition-all group"
                     >
                       <div className="font-bold text-[#002855] group-hover:text-sterling-gold flex items-center justify-between">
-                        <span>Personal Loan (Persona)</span>
+                        <span>Prêt Personnel (Persona)</span>
                         <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
-                      <div className="text-[11px] text-slate-500">Financing from $100,000 to $500,000,000 • Fixed 2.85% APR</div>
+                      <div className="text-[11px] text-slate-500">Financement de 100 000 $ à 500 000 000 $ • TAEG fixe de 2,85%</div>
                     </Link>
                   </li>
                   <li>
@@ -432,10 +436,10 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                       className="block p-2 rounded-xl hover:bg-white transition-all group"
                     >
                       <div className="font-bold text-[#002855] group-hover:text-sterling-gold flex items-center justify-between">
-                        <span>Auto Loan</span>
+                        <span>Prêt Auto & Mobilité</span>
                         <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
-                      <div className="text-[11px] text-slate-500">New & used vehicle financing up to 60,000 $ / €</div>
+                      <div className="text-[11px] text-slate-500">Véhicules neufs & occasion jusqu'à 60 000 $ / €</div>
                     </Link>
                   </li>
                   <li>
@@ -445,10 +449,10 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                       className="block p-2 rounded-xl hover:bg-white transition-all group"
                     >
                       <div className="font-bold text-[#002855] group-hover:text-sterling-gold flex items-center justify-between">
-                        <span>Home Loan (Renovation & Habitat)</span>
+                        <span>Prêt Habitat & Rénovation</span>
                         <ArrowRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
-                      <div className="text-[11px] text-slate-500">Financing up to 150,000 $ / € with terms up to 25 years</div>
+                      <div className="text-[11px] text-slate-500">Financement jusqu'à 150 000 $ / € sur une durée maximale de 25 ans</div>
                     </Link>
                   </li>
                   <li>
@@ -458,10 +462,10 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                       className="block p-2 rounded-xl bg-gradient-to-r from-sterling-navy-deep to-sterling-navy text-white hover:shadow-md transition-all"
                     >
                       <div className="font-bold text-sterling-gold text-[11px] flex items-center justify-between">
-                        <span>Private Investment & Corporate ($100k-$500M)</span>
+                        <span>Investissement Privé & Entreprise (100k$-500M$)</span>
                         <ArrowRight className="w-3 h-3 text-sterling-gold" />
                       </div>
-                      <div className="text-[10px] text-slate-300">USD & EUR facilities • Fast processing</div>
+                      <div className="text-[10px] text-slate-300">Facilités en USD et EUR • Traitement accéléré</div>
                     </Link>
                   </li>
                 </ul>
@@ -471,20 +475,20 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               <div className="space-y-4">
                 <div className="border-b border-slate-200 pb-2 flex items-center gap-2">
                   <CreditCard className="w-5 h-5 text-sterling-gold" />
-                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Cards</h3>
+                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Cartes Bancaires</h3>
                 </div>
                 <div className="space-y-3 text-xs text-slate-600">
                   <div className="p-3 bg-slate-50 rounded-xl hover:bg-slate-100/80 transition-colors">
-                    <div className="font-bold text-[#002855]">ShopNPay Visa Debit Card</div>
-                    <p className="text-[11px] text-slate-500 mt-0.5">Contactless worldwide payments with real-time zero-fee alerts.</p>
+                    <div className="font-bold text-[#002855]">Carte Débit Visa ShopNPay</div>
+                    <p className="text-[11px] text-slate-500 mt-0.5">Paiements sans contact mondiaux avec alertes instantanées sans frais.</p>
                   </div>
                   <div className="p-3 bg-slate-50 rounded-xl hover:bg-slate-100/80 transition-colors">
-                    <div className="font-bold text-[#002855]">ShopNPay Visa Prepaid Card</div>
-                    <p className="text-[11px] text-slate-500 mt-0.5">Budget control card, reloadable online anytime with 3D Secure.</p>
+                    <div className="font-bold text-[#002855]">Carte Prépayée Visa ShopNPay</div>
+                    <p className="text-[11px] text-slate-500 mt-0.5">Maîtrise budgétaire, rechargeable en ligne 24/7 avec 3D Secure.</p>
                   </div>
                   <div className="p-3 bg-slate-50 rounded-xl hover:bg-slate-100/80 transition-colors">
-                    <div className="font-bold text-[#002855]">Digital Virtual Cards</div>
-                    <p className="text-[11px] text-slate-500 mt-0.5">Instant generation in mobile app for safe online e-commerce.</p>
+                    <div className="font-bold text-[#002855]">Cartes Virtuelles Numériques</div>
+                    <p className="text-[11px] text-slate-500 mt-0.5">Génération immédiate dans l'application mobile pour achats sécurisés.</p>
                   </div>
                 </div>
               </div>
@@ -493,24 +497,24 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               <div className="space-y-4">
                 <div className="border-b border-slate-200 pb-2 flex items-center gap-2">
                   <Landmark className="w-5 h-5 text-sterling-gold" />
-                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Personal Trust</h3>
+                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Gestion Privée & Fiducie</h3>
                 </div>
                 <div className="space-y-2 text-xs text-slate-600">
                   <p className="text-xs leading-relaxed text-slate-500">
-                    Protect and grow your wealth with our bespoke institutional trust and private wealth management solutions.
+                    Protégez et valorisez vos avoirs grâce à nos solutions institutionnelles de gestion de patrimoine et de fiducie privée.
                   </p>
                   <ul className="space-y-2 pt-2">
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                      <span>Living Trust & Wealth Management</span>
+                      <span>Fiducie Patrimoniale & Gestion Privée</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                      <span>Investment Management Accounts (IMA)</span>
+                      <span>Comptes de Gestion d'Investissement (IMA)</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                      <span>Unit Investment Trust Fund (UITF)</span>
+                      <span>Fonds Fiduciaire de Placement Collectif (UITF)</span>
                     </li>
                   </ul>
                   <div className="pt-4">
@@ -519,7 +523,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                       onClick={() => setActiveMegaMenu(null)}
                       className="inline-flex items-center gap-1.5 text-xs font-bold text-sterling-navy hover:text-sterling-gold transition-colors"
                     >
-                      Schedule consultation with wealth advisor <ArrowRight className="w-3.5 h-3.5" />
+                      Consulter un conseiller patrimonial dédié <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
                 </div>
@@ -543,50 +547,50 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               <div className="space-y-3">
                 <div className="border-b border-slate-200 pb-2 flex items-center gap-2">
                   <PiggyBank className="w-5 h-5 text-sterling-gold" />
-                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Business Deposit</h3>
+                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Dépôts Professionnels</h3>
                 </div>
                 <ul className="space-y-2 text-xs text-slate-600">
-                  <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors font-medium">Business Savings Account</Link></li>
-                  <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Duo Business Checking</Link></li>
-                  <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors font-semibold text-sterling-gold-dark">Solo Dollar & Euro Accounts (USD/EUR)</Link></li>
-                  <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Commercial Time Deposits</Link></li>
+                  <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors font-medium">Compte Épargne Entreprise</Link></li>
+                  <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Compte Chèques Duo Entreprise</Link></li>
+                  <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors font-semibold text-sterling-gold-dark">Comptes Solo Dollar & Euro (USD/EUR)</Link></li>
+                  <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Dépôts à Terme Commerciaux</Link></li>
                 </ul>
               </div>
 
               <div className="space-y-3">
                 <div className="border-b border-slate-200 pb-2 flex items-center gap-2">
                   <Briefcase className="w-5 h-5 text-sterling-gold" />
-                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Business Loans</h3>
+                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Prêts Professionnels</h3>
                 </div>
                 <ul className="space-y-2 text-xs text-slate-600">
-                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors font-medium">Working Capital Facilities</Link></li>
-                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors font-medium">Commercial Real Estate Loans</Link></li>
-                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors font-medium">Equipment & Fleet Financing</Link></li>
-                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors font-bold text-emerald-700">Valid Loan Offer ($100k-$500M)</Link></li>
+                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors font-medium">Lignes de Fonds de Roulement</Link></li>
+                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors font-medium">Prêts Immobiliers Commerciaux</Link></li>
+                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors font-medium">Financement d'Équipements & Flottes</Link></li>
+                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors font-bold text-emerald-700">Offre de Prêt Validée (100k$ - 500M$)</Link></li>
                 </ul>
               </div>
 
               <div className="space-y-3">
                 <div className="border-b border-slate-200 pb-2 flex items-center gap-2">
                   <SlidersHorizontal className="w-5 h-5 text-sterling-gold" />
-                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Optima Business Solutions</h3>
+                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Solutions Optima Entreprises</h3>
                 </div>
                 <ul className="space-y-1.5 text-xs text-slate-600">
-                  <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Payroll System & Crediting</Link></li>
-                  <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Financial & Accounting System</Link></li>
-                  <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Check Writing & Warehousing System</Link></li>
-                  <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Merchant Point-of-Sale (POS)</Link></li>
-                  <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Cash Deposit Machine Services</Link></li>
+                  <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Gestion de Paie & Virements de Salaires</Link></li>
+                  <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Système Comptable & Trésorerie</Link></li>
+                  <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Émission & Traitement Sécurisé des Chèques</Link></li>
+                  <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Terminaux de Paiement Électronique (TPE)</Link></li>
+                  <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Automates de Dépôt d'Espèces</Link></li>
                 </ul>
               </div>
 
               <div className="space-y-3">
                 <div className="border-b border-slate-200 pb-2 flex items-center gap-2">
                   <Landmark className="w-5 h-5 text-sterling-gold" />
-                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Corporate Trust</h3>
+                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Fiducie d'Entreprise</h3>
                 </div>
                 <p className="text-xs text-slate-500 leading-relaxed">
-                  Institutional trusteeship, escrow arrangements, and collateral trusteeship under ACPR framework.
+                  Fiducie institutionnelle, comptes séquestres et gestion de garanties collatérales sous cadre ACPR.
                 </p>
                 <div className="pt-2">
                   <Link 
@@ -594,8 +598,8 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                     onClick={() => setActiveMegaMenu(null)}
                     className="p-3 rounded-xl bg-slate-50 border border-slate-200 block text-xs hover:border-sterling-gold transition-colors"
                   >
-                    <span className="font-bold text-[#002855] block">Optima Online Corporate Banking</span>
-                    <span className="text-[11px] text-slate-500">Multi-tier approval workflows & SEPA batch payments.</span>
+                    <span className="font-bold text-[#002855] block">Optima Banque en Ligne Entreprise</span>
+                    <span className="text-[11px] text-slate-500">Circuits de validation multi-niveaux & virements SEPA groupés.</span>
                   </Link>
                 </div>
               </div>
@@ -618,42 +622,42 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               <div className="space-y-3">
                 <div className="border-b border-slate-200 pb-2 flex items-center gap-2">
                   <TrendingUp className="w-5 h-5 text-sterling-gold" />
-                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Treasury Services</h3>
+                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Services de Trésorerie</h3>
                 </div>
                 <ul className="space-y-2 text-xs text-slate-600">
-                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors font-medium">Foreign Exchange Dealing (USD & EUR)</Link></li>
-                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Government Securities & Sovereign Bonds</Link></li>
-                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Corporate Fixed Income Instruments</Link></li>
-                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Hedging & Interest Rate Derivatives</Link></li>
+                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors font-medium">Opérations de Change & Devises (USD & EUR)</Link></li>
+                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Titres Publics & Obligations Souveraines</Link></li>
+                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Instruments Obligataires d'Entreprise</Link></li>
+                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Couverture & Dérivés de Taux d'Intérêt</Link></li>
                 </ul>
               </div>
 
               <div className="space-y-3">
                 <div className="border-b border-slate-200 pb-2 flex items-center gap-2">
                   <Landmark className="w-5 h-5 text-sterling-gold" />
-                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Trust Services</h3>
+                  <h3 className="text-sm font-black text-[#002855] uppercase tracking-wider">Services Fiduciaires</h3>
                 </div>
                 <ul className="space-y-2 text-xs text-slate-600">
-                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Unit Investment Trust Funds (UITF)</Link></li>
-                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Investment Management Accounts</Link></li>
-                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Employee Benefit & Retirement Trusts</Link></li>
-                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Auxiliary Custodianship & Safekeeping</Link></li>
+                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Fonds Fiduciaires de Placement Collectif (UITF)</Link></li>
+                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Comptes de Gestion d'Investissement Dédiés</Link></li>
+                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Fonds de Retraite & Avantages Collaborateurs</Link></li>
+                  <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Conservation d'Actifs & Dépôt Sécurisé</Link></li>
                 </ul>
               </div>
 
               <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
                 <div className="text-xs font-black text-[#002855] uppercase tracking-wider">
-                  Private Investment Offering
+                  Offre d'Investissement Privé
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Registered lending facilities from <strong>$100,000 to $500,000,000</strong> available in <strong>USD ($)</strong> and <strong>Euro (€)</strong> with flexible repayment from 1 to 25 years.
+                  Facilités de financement enregistrées de <strong>100 000 $ à 500 000 000 $</strong> disponibles en <strong>USD ($)</strong> et <strong>Euro (€)</strong> avec remboursement modulable de 1 à 25 ans.
                 </p>
                 <Link
                   href="/apply"
                   onClick={() => setActiveMegaMenu(null)}
                   className="px-4 py-2 bg-sterling-navy hover:bg-sterling-navy-light text-white text-xs font-bold rounded-xl inline-flex items-center gap-1.5 transition-colors shadow-sm"
                 >
-                  <span>Submit Financial Prospectus</span>
+                  <span>Soumettre une Proposition Financière</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
@@ -681,8 +685,8 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                 <div className="w-10 h-10 rounded-xl bg-sterling-navy/5 text-sterling-navy flex items-center justify-center group-hover:bg-[#002855] group-hover:text-sterling-gold transition-colors mb-3">
                   <Lock className="w-5 h-5" />
                 </div>
-                <div className="font-bold text-[#002855] text-sm">Personal Online Banking</div>
-                <p className="text-xs text-slate-500 mt-1">24/7 web access to account balances, wire transfers, and loan schedules.</p>
+                <div className="font-bold text-[#002855] text-sm">Espace Client Particuliers</div>
+                <p className="text-xs text-slate-500 mt-1">Accès web 24/7 aux soldes, virements bancaires et échéanciers de prêt.</p>
               </Link>
 
               <Link 
@@ -693,8 +697,8 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                 <div className="w-10 h-10 rounded-xl bg-sterling-navy/5 text-sterling-navy flex items-center justify-center group-hover:bg-[#002855] group-hover:text-sterling-gold transition-colors mb-3">
                   <Smartphone className="w-5 h-5" />
                 </div>
-                <div className="font-bold text-[#002855] text-sm">Mobile Banking App</div>
-                <p className="text-xs text-slate-500 mt-1">Biometric login, instant notifications, and card freeze on iOS & Android.</p>
+                <div className="font-bold text-[#002855] text-sm">Application Mobile</div>
+                <p className="text-xs text-slate-500 mt-1">Connexion biométrique, alertes en temps réel et verrouillage de carte sur iOS & Android.</p>
               </Link>
 
               <Link 
@@ -705,8 +709,8 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                 <div className="w-10 h-10 rounded-xl bg-sterling-navy/5 text-sterling-navy flex items-center justify-center group-hover:bg-[#002855] group-hover:text-sterling-gold transition-colors mb-3">
                   <CreditCard className="w-5 h-5" />
                 </div>
-                <div className="font-bold text-[#002855] text-sm">Sterling QR Pay & SEPA</div>
-                <p className="text-xs text-slate-500 mt-1">Scan to pay merchants or transfer instant SEPA funds in seconds.</p>
+                <div className="font-bold text-[#002855] text-sm">Paiements QR & SEPA</div>
+                <p className="text-xs text-slate-500 mt-1">Payez vos commerçants ou émettez des virements SEPA instantanés en quelques secondes.</p>
               </Link>
 
               <Link 
@@ -717,8 +721,8 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                 <div className="w-10 h-10 rounded-xl bg-sterling-navy/5 text-sterling-navy flex items-center justify-center group-hover:bg-[#002855] group-hover:text-sterling-gold transition-colors mb-3">
                   <Landmark className="w-5 h-5" />
                 </div>
-                <div className="font-bold text-[#002855] text-sm">ATM Banking Network</div>
-                <p className="text-xs text-slate-500 mt-1">Fee-free cash withdrawals & automated deposit cash machines nationwide.</p>
+                <div className="font-bold text-[#002855] text-sm">Réseau de Distributeurs</div>
+                <p className="text-xs text-slate-500 mt-1">Retraits d'espèces sans commission et automates de dépôt dans l'ensemble du réseau.</p>
               </Link>
 
             </div>
@@ -739,7 +743,7 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
                 autoFocus
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search products, loans, rates, calculator, or tracker..."
+                placeholder="Rechercher des produits, prêts, simulateur ou suivi de dossier..."
                 className="w-full text-sm sm:text-base outline-none text-slate-800 placeholder-slate-400 font-medium"
               />
               <button
@@ -753,11 +757,11 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
 
             <div className="max-h-96 overflow-y-auto p-4 divide-y divide-slate-100">
               <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-2 pb-2">
-                Suggested Search Results
+                Résultats Suggérés
               </div>
               {searchResults.length === 0 ? (
                 <div className="p-6 text-center text-xs text-slate-400">
-                  No matching services found for &quot;{searchQuery}&quot;. Try &quot;personal loans&quot;, &quot;calculator&quot;, or &quot;tracker&quot;.
+                  Aucun service correspondant trouvé pour &quot;{searchQuery}&quot;. Essayez &quot;prêt personnel&quot;, &quot;simulateur&quot; ou &quot;suivi&quot;.
                 </div>
               ) : (
                 searchResults.map((item, idx) => (
@@ -801,14 +805,14 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               className="py-2.5 px-3 rounded-xl border border-[#002855] text-[#002855] font-bold text-xs flex items-center justify-center gap-1.5"
             >
               <Lock className="w-3.5 h-3.5 text-sterling-gold" />
-              <span>Online Banking</span>
+              <span>Espace Client</span>
             </Link>
             <Link
               href="/apply"
               onClick={() => setMobileMenuOpen(false)}
               className="py-2.5 px-3 rounded-xl bg-sterling-gold text-sterling-navy-deep font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-sm"
             >
-              <span>Apply Online</span>
+              <span>Demande en Ligne</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -822,38 +826,38 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
             >
               <span className="flex items-center gap-2">
                 <PiggyBank className="w-4 h-4 text-sterling-gold" />
-                Personal
+                Particuliers
               </span>
               <ChevronDown className={`w-4 h-4 transition-transform ${mobileAccordion.personal ? "rotate-180" : ""}`} />
             </button>
             {mobileAccordion.personal && (
               <div className="p-3 bg-white space-y-2 text-xs border-t border-slate-100">
-                <div className="font-bold text-sterling-gold-dark text-[11px] uppercase tracking-wider">Consumer Loans</div>
+                <div className="font-bold text-sterling-gold-dark text-[11px] uppercase tracking-wider">Prêts aux Particuliers</div>
                 <div className="space-y-1.5 pl-2">
                   <Link href="/personal-loans" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-slate-700 hover:text-sterling-gold">
-                    • Personal Loan (Persona)
+                    • Prêt Personnel (Persona)
                   </Link>
                   <Link href="/auto-loans" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-slate-700 hover:text-sterling-gold">
-                    • Auto Loan
+                    • Prêt Auto & Mobilité
                   </Link>
                   <Link href="/home-loans" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-slate-700 hover:text-sterling-gold">
-                    • Home Loan (Renovation)
+                    • Prêt Habitat & Rénovation
                   </Link>
                   <Link href="/apply" onClick={() => setMobileMenuOpen(false)} className="block py-1 font-bold text-emerald-700">
-                    • Private Investment ($100k-$500M in USD/EUR)
+                    • Investissement Privé (100k$ - 500M$ en USD/EUR)
                   </Link>
                 </div>
 
-                <div className="font-bold text-sterling-gold-dark text-[11px] uppercase tracking-wider pt-2">Deposit & Accounts</div>
+                <div className="font-bold text-sterling-gold-dark text-[11px] uppercase tracking-wider pt-2">Dépôts & Comptes</div>
                 <div className="space-y-1.5 pl-2">
                   <Link href="/personal-loans" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-slate-700">
-                    • Solo Savings Account (USD / EUR)
+                    • Compte Épargne Solo (USD / EUR)
                   </Link>
                   <Link href="/personal-loans" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-slate-700">
-                    • Duo Checking Account
+                    • Compte Chèques Duo
                   </Link>
                   <Link href="/personal-loans" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-slate-700">
-                    • Time Deposits
+                    • Dépôts à Terme
                   </Link>
                 </div>
               </div>
@@ -869,20 +873,20 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
             >
               <span className="flex items-center gap-2">
                 <Briefcase className="w-4 h-4 text-sterling-gold" />
-                Business
+                Entreprises
               </span>
               <ChevronDown className={`w-4 h-4 transition-transform ${mobileAccordion.business ? "rotate-180" : ""}`} />
             </button>
             {mobileAccordion.business && (
               <div className="p-3 bg-white space-y-2 text-xs border-t border-slate-100 pl-4">
                 <Link href="/apply" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-slate-700">
-                  • Business Loans & Commercial Financing
+                  • Prêts Professionnels & Financement Commercial
                 </Link>
                 <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-slate-700">
-                  • Optima Payroll & Cash Solutions
+                  • Gestion de Paie & Solutions de Trésorerie Optima
                 </Link>
                 <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-slate-700">
-                  • Corporate Trust Services
+                  • Services Fiduciaires d'Entreprise
                 </Link>
               </div>
             )}
@@ -897,17 +901,17 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
             >
               <span className="flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-sterling-gold" />
-                Investment
+                Investissement
               </span>
               <ChevronDown className={`w-4 h-4 transition-transform ${mobileAccordion.investment ? "rotate-180" : ""}`} />
             </button>
             {mobileAccordion.investment && (
               <div className="p-3 bg-white space-y-2 text-xs border-t border-slate-100 pl-4">
                 <Link href="/apply" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-slate-700">
-                  • Treasury & Forex Dealing (USD/EUR)
+                  • Trésorerie & Opérations de Change (USD/EUR)
                 </Link>
                 <Link href="/apply" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-slate-700">
-                  • Unit Investment Trust Funds (UITF)
+                  • Fonds Fiduciaires de Placement Collectif (UITF)
                 </Link>
               </div>
             )}
@@ -922,20 +926,20 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
             >
               <span className="flex items-center gap-2">
                 <Smartphone className="w-4 h-4 text-sterling-gold" />
-                eBanking
+                Banque en Ligne
               </span>
               <ChevronDown className={`w-4 h-4 transition-transform ${mobileAccordion.ebanking ? "rotate-180" : ""}`} />
             </button>
             {mobileAccordion.ebanking && (
               <div className="p-3 bg-white space-y-2 text-xs border-t border-slate-100 pl-4">
                 <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-slate-700">
-                  • Online Banking Portal
+                  • Portail Espace Client Sécurisé
                 </Link>
                 <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="block py-1 text-slate-700">
-                  • Mobile App Features
+                  • Fonctionnalités Application Mobile
                 </Link>
                 <Link href="/tracker" onClick={() => setMobileMenuOpen(false)} className="block py-1 font-bold text-sterling-navy">
-                  • Application Tracking Portal
+                  • Portail de Suivi de Demande en Direct
                 </Link>
               </div>
             )}
@@ -944,13 +948,13 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
           {/* Direct Secondary Links */}
           <div className="pt-2 border-t border-slate-100 space-y-1 text-xs">
             <a href="/#calculator" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-slate-600 hover:text-sterling-navy">
-              Loan Calculator & Simulator
+              Simulateur & Calculateur de Prêt
             </a>
             <Link href="/tracker" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-slate-600 hover:text-sterling-navy">
-              Live Application Tracker
+              Suivi de Demande en Direct
             </Link>
-            <a href="https://wa.me/?text=Hello%20I%20am%20interested%20in%20your%20Loan%20Offer" target="_blank" rel="noreferrer" className="block py-1.5 text-emerald-600 font-bold">
-              Direct WhatsApp Support
+            <a href="https://wa.me/?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%28e%29%20par%20votre%20offre%20de%20financement." target="_blank" rel="noreferrer" className="block py-1.5 text-emerald-600 font-bold">
+              Support WhatsApp Direct
             </a>
           </div>
 

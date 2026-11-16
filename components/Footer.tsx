@@ -18,27 +18,27 @@ export default function Footer() {
             </div>
 
             <p className="text-xs text-slate-300 leading-relaxed max-w-sm">
-              Loan Commercial Group is a licensed banking institution providing consumer loans, mortgage financing, corporate facilities, and digital private lending with full transparency and security.
+              Loan Commercial Group est une institution financière régulée offrant des prêts aux particuliers, des financements immobiliers, des facilités pour entreprises et des solutions de crédit privé numérique en toute transparence et sécurité.
             </p>
 
             <div className="pt-2 text-xs text-slate-300 space-y-2">
               <div className="flex items-center gap-2">
                 <MapPin className="w-3.5 h-3.5 text-sterling-gold shrink-0" />
-                <span>Loan Commercial Group Corporate Center, Global Financial District</span>
+                <span>Centre d'Affaires Loan Commercial Group, Quartier Financier International</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-sterling-gold shrink-0" />
-                <span>Customer Care & Loan Advisory: Available 24/7</span>
+                <span>Service Client & Conseil en Financement : Disponible 24/7</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-emerald-400 font-bold text-xs">WhatsApp:</span>
+                <span className="text-emerald-400 font-bold text-xs">WhatsApp :</span>
                 <a 
-                  href="https://wa.me/?text=Hello%20I%20am%20interested%20in%20your%20Loan%20Offer" 
+                  href="https://wa.me/?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%28e%29%20par%20votre%20offre%20de%20financement." 
                   target="_blank" 
                   rel="noreferrer" 
                   className="text-emerald-400 hover:underline"
                 >
-                  Direct WhatsApp Support
+                  Support WhatsApp Direct
                 </a>
               </div>
               <div className="flex items-center gap-2">
@@ -51,44 +51,44 @@ export default function Footer() {
           {/* Financing Solutions */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-sterling-gold uppercase tracking-wider">
-              Financing Solutions
+              Solutions de Financement
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
-              <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors font-medium text-sterling-gold">Persona Personal Loan</Link></li>
-              <li><Link href="/auto-loans" className="hover:text-sterling-gold transition-colors">Auto Loan & Fleet Facility</Link></li>
-              <li><Link href="/home-loans" className="hover:text-sterling-gold transition-colors">Home Loan & Construction</Link></li>
-              <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Private Investment Lending ($100k-$500M)</Link></li>
-              <li><Link href="/tracker" className="hover:text-sterling-gold transition-colors">Application Status Tracker</Link></li>
-              <li><Link href="/loan-calculator" className="hover:text-sterling-gold transition-colors">Interactive Loan Simulator</Link></li>
+              <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors font-medium text-sterling-gold">Prêt Personnel Persona</Link></li>
+              <li><Link href="/auto-loans" className="hover:text-sterling-gold transition-colors">Prêt Auto & Facilité Mobilité</Link></li>
+              <li><Link href="/home-loans" className="hover:text-sterling-gold transition-colors">Prêt Habitat & Construction</Link></li>
+              <li><Link href="/apply" className="hover:text-sterling-gold transition-colors">Prêt d'Investissement Privé (100k$ - 500M$)</Link></li>
+              <li><Link href="/tracker" className="hover:text-sterling-gold transition-colors">Suivi de Demande en Direct</Link></li>
+              <li><Link href="/loan-calculator" className="hover:text-sterling-gold transition-colors">Simulateur de Prêt Interactif</Link></li>
             </ul>
           </div>
 
           {/* Online Banking & Services */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-sterling-gold uppercase tracking-wider">
-              Online Banking & Tools
+              Banque en Ligne & Outils
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
-              <li><Link href="/login" className="hover:text-sterling-gold transition-colors flex items-center gap-1.5"><UserCheck className="w-3.5 h-3.5 text-sterling-gold" /> Secure Client Login</Link></li>
-              <li><Link href="/register" className="hover:text-sterling-gold transition-colors flex items-center gap-1.5"><UserCheck className="w-3.5 h-3.5 text-emerald-400" /> Enroll / Open Account</Link></li>
-              <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Borrower Portal Dashboard</Link></li>
-              <li><Link href="/tracker" className="hover:text-sterling-gold transition-colors">Real-Time Application Status</Link></li>
-              <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Required Documentation</Link></li>
-              <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Frequently Asked Questions (FAQ)</Link></li>
+              <li><Link href="/login" className="hover:text-sterling-gold transition-colors flex items-center gap-1.5"><UserCheck className="w-3.5 h-3.5 text-sterling-gold" /> Connexion Espace Client</Link></li>
+              <li><Link href="/register" className="hover:text-sterling-gold transition-colors flex items-center gap-1.5"><UserCheck className="w-3.5 h-3.5 text-emerald-400" /> S'inscrire / Ouvrir un Compte</Link></li>
+              <li><Link href="/dashboard" className="hover:text-sterling-gold transition-colors">Tableau de Bord Emprunteur</Link></li>
+              <li><Link href="/tracker" className="hover:text-sterling-gold transition-colors">Statut de Dossier en Temps Réel</Link></li>
+              <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Pièces Justificatives Requises</Link></li>
+              <li><Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">Foire Aux Questions (FAQ)</Link></li>
             </ul>
           </div>
 
           {/* Compliance & Regulatory Trust */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold text-sterling-gold uppercase tracking-wider">
-              Regulatory Compliance & Security
+              Conformité Réglementaire & Sécurité
             </h4>
             <ul className="space-y-2 text-xs text-slate-300">
-              <li><Link href="/compliance/banking-authority" className="hover:text-sterling-gold transition-colors">Licensed Prudential Banking Authority</Link></li>
-              <li><Link href="/compliance/deposit-protection" className="hover:text-sterling-gold transition-colors">Statutory Deposit Protection Framework</Link></li>
-              <li><Link href="/compliance/data-privacy" className="hover:text-sterling-gold transition-colors">Data Privacy & Global Confidentiality</Link></li>
-              <li><Link href="/compliance/consumer-lending" className="hover:text-sterling-gold transition-colors">Consumer Lending Regulations & Disclosure</Link></li>
-              <li><Link href="/compliance/dispute-resolution" className="hover:text-sterling-gold transition-colors">Financial Ombudsman Dispute Resolution</Link></li>
+              <li><Link href="/compliance/banking-authority" className="hover:text-sterling-gold transition-colors">Autorité Bancaire Prudentielle Agréée</Link></li>
+              <li><Link href="/compliance/deposit-protection" className="hover:text-sterling-gold transition-colors">Cadre Légal de Protection des Dépôts</Link></li>
+              <li><Link href="/compliance/data-privacy" className="hover:text-sterling-gold transition-colors">Protection des Données & Confidentialité</Link></li>
+              <li><Link href="/compliance/consumer-lending" className="hover:text-sterling-gold transition-colors">Réglementation du Crédit & Transparence</Link></li>
+              <li><Link href="/compliance/dispute-resolution" className="hover:text-sterling-gold transition-colors">Médiateur Financier & Résolution des Litiges</Link></li>
             </ul>
           </div>
 
@@ -98,23 +98,23 @@ export default function Footer() {
         <div className="mt-8 p-4 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-300 space-y-2">
           <div className="flex items-center gap-2 font-bold text-sterling-gold">
             <ShieldCheck className="w-4 h-4 text-sterling-gold" />
-            <span>Responsible Lending Notice & Capital Commitment</span>
+            <span>Avertissement Crédit Responsable & Engagement Financier</span>
           </div>
           <p className="leading-relaxed">
-            Borrowing involves a financial commitment that must be repaid. Please verify your monthly repayment capability before entering into any credit agreement. All loan approvals are subject to underwriting assessment, identity verification, and required regulatory compliance. Available in USD ($) and EUR (€).
+            Un crédit vous engage et doit être remboursé. Vérifiez vos capacités de remboursement mensuel avant de vous engager. Tout octroi de prêt est soumis à l'étude du dossier, aux vérifications d'identité et aux exigences réglementaires en vigueur. Disponible en USD ($) et EUR (€).
           </p>
         </div>
 
         {/* Bottom Credits & Copyright */}
         <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-400">
           <div>
-            &copy; {new Date().getFullYear()} Loan Commercial Group. All rights reserved.
+            &copy; {new Date().getFullYear()} Loan Commercial Group. Tous droits réservés.
           </div>
           <div className="flex items-center gap-6">
-            <Link href="/compliance/data-privacy" className="hover:text-sterling-gold transition-colors">Privacy Policy</Link>
-            <Link href="/compliance/consumer-lending" className="hover:text-sterling-gold transition-colors">Terms of Service</Link>
-            <Link href="/compliance/banking-authority" className="hover:text-sterling-gold transition-colors">Security Disclosures</Link>
-            <Link href="/admin" className="text-slate-500 hover:text-slate-400">Admin Portal</Link>
+            <Link href="/compliance/data-privacy" className="hover:text-sterling-gold transition-colors">Politique de Confidentialité</Link>
+            <Link href="/compliance/consumer-lending" className="hover:text-sterling-gold transition-colors">Conditions Générales</Link>
+            <Link href="/compliance/banking-authority" className="hover:text-sterling-gold transition-colors">Divulgations de Sécurité</Link>
+            <Link href="/admin" className="text-slate-500 hover:text-slate-400">Portail Administrateur</Link>
           </div>
         </div>
 

@@ -147,11 +147,11 @@ export default function QuickApplyModal({
           <div className="bg-slate-50 px-6 py-3 border-b border-slate-200">
             <div className="flex items-center justify-between max-w-xl mx-auto">
               {[
-                { s: 1, label: "Identity" },
-                { s: 2, label: "Residence" },
-                { s: 3, label: "Employment" },
-                { s: 4, label: "Documents" },
-                { s: 5, label: "Review" },
+                { s: 1, label: "Identité" },
+                { s: 2, label: "Résidence" },
+                { s: 3, label: "Emploi" },
+                { s: 4, label: "Justificatifs" },
+                { s: 5, label: "Récapitulatif" },
               ].map((item) => (
                 <div key={item.s} className="flex flex-col items-center">
                   <div
@@ -185,32 +185,32 @@ export default function QuickApplyModal({
 
               <div className="space-y-2">
                 <h3 className="text-2xl font-black text-sterling-navy font-display">
-                  Application Successfully Submitted!
+                  Demande Enregistrée avec Succès !
                 </h3>
                 <p className="text-sm text-slate-600 max-w-md mx-auto">
-                  Thank you, <span className="font-bold text-slate-800">{formData.firstName} {formData.lastName}</span>. Your application file has been registered.
+                  Merci, <span className="font-bold text-slate-800">{formData.firstName} {formData.lastName}</span>. Votre dossier a été transmis pour analyse préliminaire.
                 </p>
               </div>
 
               {/* Reference Box */}
               <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 max-w-sm mx-auto space-y-1">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                  Application Reference Number
+                  Numéro de Référence du Dossier
                 </span>
                 <div className="text-2xl font-black font-mono text-sterling-navy">
                   {applicationRef || "LCG-2026-9842"}
                 </div>
                 <div className="text-[11px] text-emerald-700 font-semibold pt-1">
-                  Confirmation sent to {formData.email || "your email address"}
+                  Accusé de réception envoyé à {formData.email || "votre adresse e-mail"}
                 </div>
               </div>
 
               {/* Next steps advice */}
               <div className="text-left max-w-md mx-auto bg-amber-50/60 border border-amber-200/70 rounded-2xl p-4 text-xs text-slate-700 space-y-2">
-                <div className="font-bold text-amber-900">Next Steps:</div>
-                <div>1. Preliminary review of documents within 24 business hours.</div>
-                <div>2. Direct agreement issuance via secure digital signature.</div>
-                <div>3. Fund disbursement to your verified bank account.</div>
+                <div className="font-bold text-amber-900">Prochaines Étapes :</div>
+                <div>1. Analyse préliminaire des justificatifs sous 24h ouvrées.</div>
+                <div>2. Envoi de l'accord de principe pour signature électronique certifiée.</div>
+                <div>3. Mise à disposition des fonds sur votre compte bancaire.</div>
               </div>
 
               <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center">
@@ -219,14 +219,14 @@ export default function QuickApplyModal({
                   onClick={handleReset}
                   className="px-6 py-3 rounded-xl bg-sterling-navy hover:bg-sterling-navy-deep text-white font-bold text-xs uppercase tracking-wider shadow"
                 >
-                  Track Application Status
+                  Suivre l'Avancement du Dossier
                 </Link>
                 <button
                   onClick={handleReset}
                   type="button"
                   className="px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs uppercase tracking-wider"
                 >
-                  Close Window
+                  Fermer la Fenêtre
                 </button>
               </div>
             </div>
@@ -237,13 +237,13 @@ export default function QuickApplyModal({
               {step === 1 && (
                 <div className="space-y-4 animate-in fade-in duration-150">
                   <div className="border-b border-slate-100 pb-2">
-                    <h4 className="text-base font-bold text-sterling-navy">Step 1: Financing Parameters & Identity</h4>
-                    <p className="text-xs text-slate-500">Select currency and provide your primary identity details.</p>
+                    <h4 className="text-base font-bold text-sterling-navy">Étape 1 : Paramètres du Financement & Identité</h4>
+                    <p className="text-xs text-slate-500">Sélectionnez la devise et complétez vos informations d'identité civile.</p>
                   </div>
 
                   {/* Currency Picker */}
                   <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-700">Loan Currency:</span>
+                    <span className="text-xs font-bold text-slate-700">Devise du Crédit :</span>
                     <div className="flex gap-2">
                       <button
                         type="button"
@@ -274,10 +274,10 @@ export default function QuickApplyModal({
                   <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                       <label className="text-xs font-bold text-slate-700">
-                        Desired Capital ({currency === "EUR" ? "EUR €" : "USD $"})
+                        Capital Souhaité ({currency === "EUR" ? "EUR €" : "USD $"})
                       </label>
                       <div className="flex items-center gap-1.5">
-                        <span className="text-xs text-slate-500 font-medium">Amount:</span>
+                        <span className="text-xs text-slate-500 font-medium">Montant :</span>
                         <input
                           type="number"
                           min="100000"
@@ -297,7 +297,7 @@ export default function QuickApplyModal({
                     <input
                       type="range"
                       min="100000"
-                      max="50000000" // slider scales up to 50M smoothly, direct input allows up to 500M
+                      max="50000000"
                       step="100000"
                       value={Math.min(50000000, amount)}
                       onChange={(e) => setAmount(Number(e.target.value))}
@@ -305,8 +305,8 @@ export default function QuickApplyModal({
                     />
 
                     <div className="flex justify-between text-[10px] text-slate-500 font-semibold">
-                      <span>Min: {currency === "EUR" ? "€100,000" : "$100,000"}</span>
-                      <span>Scale up to {currency === "EUR" ? "€500,000,000" : "$500,000,000"}</span>
+                      <span>Min : {currency === "EUR" ? "100 000 €" : "100 000 $"}</span>
+                      <span>Échelle jusqu'à {currency === "EUR" ? "500 000 000 €" : "500 000 000 $"}</span>
                     </div>
 
                     {/* Quick Amount Presets */}
@@ -340,22 +340,22 @@ export default function QuickApplyModal({
                   {/* Names */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">First Name *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Prénom *</label>
                       <input
                         type="text"
                         required
-                        placeholder="John"
+                        placeholder="Jean"
                         value={formData.firstName}
                         onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                         className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold focus:ring-1 focus:ring-sterling-gold"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Last Name *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Nom *</label>
                       <input
                         type="text"
                         required
-                        placeholder="Smith"
+                        placeholder="Dupont"
                         value={formData.lastName}
                         onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                         className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold focus:ring-1 focus:ring-sterling-gold"
@@ -366,22 +366,22 @@ export default function QuickApplyModal({
                   {/* Email & Mobile */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Email Address *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Adresse E-mail *</label>
                       <input
                         type="email"
                         required
-                        placeholder="john.smith@example.com"
+                        placeholder="jean.dupont@example.com"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold focus:ring-1 focus:ring-sterling-gold"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Mobile Phone (WhatsApp enabled) *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Téléphone Mobile (compatible WhatsApp) *</label>
                       <input
                         type="tel"
                         required
-                        placeholder="+1 555-0199"
+                        placeholder="+33 6 12 34 56 78"
                         value={formData.mobile}
                         onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
                         className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold focus:ring-1 focus:ring-sterling-gold"
@@ -392,7 +392,7 @@ export default function QuickApplyModal({
                   {/* Date of Birth & ID Type */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Date of Birth *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Date de Naissance *</label>
                       <input
                         type="date"
                         required
@@ -402,15 +402,15 @@ export default function QuickApplyModal({
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Identification Document Type *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Type de Document d'Identité *</label>
                       <select
                         value={formData.idType}
                         onChange={(e) => setFormData({ ...formData, idType: e.target.value })}
                         className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none bg-white"
                       >
-                        <option>International Passport</option>
-                        <option>National Identity Card</option>
-                        <option>Driver&apos;s License</option>
+                        <option>Passeport International</option>
+                        <option>Carte Nationale d'Identité</option>
+                        <option>Permis de Conduire</option>
                       </select>
                     </div>
                   </div>
@@ -421,16 +421,16 @@ export default function QuickApplyModal({
               {step === 2 && (
                 <div className="space-y-4 animate-in fade-in duration-150">
                   <div className="border-b border-slate-100 pb-2">
-                    <h4 className="text-base font-bold text-sterling-navy">Step 2: Residential Address & Living Details</h4>
-                    <p className="text-xs text-slate-500">Provide your current registered residential address.</p>
+                    <h4 className="text-base font-bold text-sterling-navy">Étape 2 : Adresse de Résidence & Logement</h4>
+                    <p className="text-xs text-slate-500">Renseignez votre adresse de résidence principale actuelle.</p>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Street Address *</label>
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">Adresse Postale *</label>
                     <input
                       type="text"
                       required
-                      placeholder="123 Banking Blvd, Suite 400"
+                      placeholder="12 rue de la Paix"
                       value={formData.address}
                       onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                       className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold"
@@ -439,22 +439,22 @@ export default function QuickApplyModal({
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Postal / ZIP Code *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Code Postal *</label>
                       <input
                         type="text"
                         required
-                        placeholder="10001"
+                        placeholder="75008"
                         value={formData.postalCode}
                         onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
                         className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">City / Region *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Ville / Région *</label>
                       <input
                         type="text"
                         required
-                        placeholder="New York / London"
+                        placeholder="Paris"
                         value={formData.city}
                         onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                         className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold"
@@ -464,29 +464,29 @@ export default function QuickApplyModal({
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Housing Status *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Statut du Logement *</label>
                       <select
                         value={formData.residenceOwnership}
                         onChange={(e) => setFormData({ ...formData, residenceOwnership: e.target.value })}
                         className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none bg-white"
                       >
-                        <option>Homeowner without mortgage</option>
-                        <option>Homeowner with active mortgage</option>
-                        <option>Tenant (Renting)</option>
-                        <option>Corporate Housing / Family</option>
+                        <option>Propriétaire sans crédit</option>
+                        <option>Propriétaire avec crédit immobilier en cours</option>
+                        <option>Locataire</option>
+                        <option>Logé par employeur / Famille</option>
                       </select>
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Years at Current Address *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Ancienneté au Domicile (Années) *</label>
                       <select
                         value={formData.yearsAtResidence}
                         onChange={(e) => setFormData({ ...formData, yearsAtResidence: e.target.value })}
                         className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none bg-white"
                       >
-                        <option>Less than 1 year</option>
-                        <option>1 to 2 years</option>
-                        <option>3 to 5 years</option>
-                        <option>More than 5 years</option>
+                        <option>Moins de 1 an</option>
+                        <option>1 à 2 ans</option>
+                        <option>3 à 5 ans</option>
+                        <option>Plus de 5 ans</option>
                       </select>
                     </div>
                   </div>
@@ -497,27 +497,27 @@ export default function QuickApplyModal({
               {step === 3 && (
                 <div className="space-y-4 animate-in fade-in duration-150">
                   <div className="border-b border-slate-100 pb-2">
-                    <h4 className="text-base font-bold text-sterling-navy">Step 3: Professional Employment & Cashflow</h4>
-                    <p className="text-xs text-slate-500">To evaluate repayment capability under responsible lending standards.</p>
+                    <h4 className="text-base font-bold text-sterling-navy">Étape 3 : Situation Professionnelle & Revenus</h4>
+                    <p className="text-xs text-slate-500">Pour évaluer votre capacité de remboursement selon les normes bancaires.</p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Employment Type *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Type de Contrat / Statut *</label>
                       <select
                         value={formData.contractType}
                         onChange={(e) => setFormData({ ...formData, contractType: e.target.value })}
                         className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none bg-white"
                       >
-                        <option>Permanent Full-Time</option>
-                        <option>Executive / Senior Management</option>
-                        <option>Business Owner / Corporate Officer</option>
-                        <option>Independent Professional / Consultant</option>
-                        <option>Civil Servant / Public Sector</option>
+                        <option>CDI / Salarié Temps Plein</option>
+                        <option>Cadre Dirigeant / Direction</option>
+                        <option>Chef d'Entreprise / Dirigeant</option>
+                        <option>Profession Libérale / Consultant</option>
+                        <option>Fonction Publique</option>
                       </select>
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Net Monthly Income ({currency === "EUR" ? "€" : "$"}) *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Revenu Net Mensuel ({currency === "EUR" ? "€" : "$"}) *</label>
                       <input
                         type="number"
                         required
@@ -530,20 +530,20 @@ export default function QuickApplyModal({
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Employer / Company Name *</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Employeur / Nom de Société *</label>
                       <input
                         type="text"
-                        placeholder="Acme Global Corporation"
+                        placeholder="Société Générale de Distribution"
                         value={formData.employerName}
                         onChange={(e) => setFormData({ ...formData, employerName: e.target.value })}
                         className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Job Title / Role</label>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1">Poste Occupé / Fonction</label>
                       <input
                         type="text"
-                        placeholder="Senior Operations Director"
+                        placeholder="Directeur des Opérations"
                         value={formData.jobTitle}
                         onChange={(e) => setFormData({ ...formData, jobTitle: e.target.value })}
                         className="w-full px-3.5 py-2 rounded-xl border border-slate-200 text-xs text-slate-800 outline-none focus:border-sterling-gold"
@@ -557,8 +557,8 @@ export default function QuickApplyModal({
               {step === 4 && (
                 <div className="space-y-4 animate-in fade-in duration-150">
                   <div className="border-b border-slate-100 pb-2">
-                    <h4 className="text-base font-bold text-sterling-navy">Step 4: Required Documentation & Proof</h4>
-                    <p className="text-xs text-slate-500">Upload clear photographs or digital PDFs for expedited 24h assessment.</p>
+                    <h4 className="text-base font-bold text-sterling-navy">Étape 4 : Justificatifs & Pièces Dossier</h4>
+                    <p className="text-xs text-slate-500">Téléversez des copies claires ou fichiers PDF pour une analyse express sous 24h.</p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -567,16 +567,16 @@ export default function QuickApplyModal({
                       <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-sterling-gold mx-auto">
                         <Upload className="w-5 h-5" />
                       </div>
-                      <div className="text-xs font-bold text-slate-700">1. Valid Identity Document</div>
-                      <div className="text-[11px] text-slate-400 mb-2">Passport or Government ID</div>
+                      <div className="text-xs font-bold text-slate-700">1. Pièce d'Identité Valide</div>
+                      <div className="text-[11px] text-slate-400 mb-2">Passeport ou CNI</div>
                       <button
                         type="button"
-                        onClick={() => handleFileDrop("id", "Government_ID.pdf")}
+                        onClick={() => handleFileDrop("id", "Piece_Identite.pdf")}
                         className={`w-full py-1.5 px-3 rounded-lg text-xs font-semibold transition-all ${
                           uploadedFiles.id ? "bg-emerald-100 text-emerald-800" : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-100"
                         }`}
                       >
-                        {uploadedFiles.id ? `✓ ${uploadedFiles.id}` : "Choose File"}
+                        {uploadedFiles.id ? `✓ ${uploadedFiles.id}` : "Choisir Fichier"}
                       </button>
                     </div>
 
@@ -585,16 +585,16 @@ export default function QuickApplyModal({
                       <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-sterling-gold mx-auto">
                         <Upload className="w-5 h-5" />
                       </div>
-                      <div className="text-xs font-bold text-slate-700">2. Proof of Income</div>
-                      <div className="text-[11px] text-slate-400 mb-2">Recent pay statement or tax return</div>
+                      <div className="text-xs font-bold text-slate-700">2. Justificatif de Revenus</div>
+                      <div className="text-[11px] text-slate-400 mb-2">Bulletin de salaire ou bilan fiscal</div>
                       <button
                         type="button"
-                        onClick={() => handleFileDrop("income", "Proof_Income.pdf")}
+                        onClick={() => handleFileDrop("income", "Justificatif_Revenus.pdf")}
                         className={`w-full py-1.5 px-3 rounded-lg text-xs font-semibold transition-all ${
                           uploadedFiles.income ? "bg-emerald-100 text-emerald-800" : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-100"
                         }`}
                       >
-                        {uploadedFiles.income ? `✓ ${uploadedFiles.income}` : "Choose File"}
+                        {uploadedFiles.income ? `✓ ${uploadedFiles.income}` : "Choisir Fichier"}
                       </button>
                     </div>
 
@@ -603,22 +603,22 @@ export default function QuickApplyModal({
                       <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-sterling-gold mx-auto">
                         <Upload className="w-5 h-5" />
                       </div>
-                      <div className="text-xs font-bold text-slate-700">3. Bank Account Proof</div>
-                      <div className="text-[11px] text-slate-400 mb-2">Account statement for wire transfer</div>
+                      <div className="text-xs font-bold text-slate-700">3. Relevé d'Identité Bancaire (RIB)</div>
+                      <div className="text-[11px] text-slate-400 mb-2">RIB / IBAN pour le virement</div>
                       <button
                         type="button"
-                        onClick={() => handleFileDrop("bank", "Bank_Statement.pdf")}
+                        onClick={() => handleFileDrop("bank", "RIB_Bancaire.pdf")}
                         className={`w-full py-1.5 px-3 rounded-lg text-xs font-semibold transition-all ${
                           uploadedFiles.bank ? "bg-emerald-100 text-emerald-800" : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-100"
                         }`}
                       >
-                        {uploadedFiles.bank ? `✓ ${uploadedFiles.bank}` : "Choose File"}
+                        {uploadedFiles.bank ? `✓ ${uploadedFiles.bank}` : "Choisir Fichier"}
                       </button>
                     </div>
                   </div>
 
                   <div className="text-[11px] text-slate-500 italic text-center">
-                    Accepted formats: PDF, JPG, PNG (Max 15MB per file). Documents are stored in secure encrypted vaults.
+                    Formats acceptés : PDF, JPG, PNG (Max 15 Mo par fichier). Documents stockés dans des coffres-forts numériques chiffrés.
                   </div>
                 </div>
               )}
@@ -627,30 +627,30 @@ export default function QuickApplyModal({
               {step === 5 && (
                 <div className="space-y-4 animate-in fade-in duration-150">
                   <div className="border-b border-slate-100 pb-2">
-                    <h4 className="text-base font-bold text-sterling-navy">Step 5: Review & Digital Confirmation</h4>
-                    <p className="text-xs text-slate-500">Please review your submitted details before encrypted transmission.</p>
+                    <h4 className="text-base font-bold text-sterling-navy">Étape 5 : Récapitulatif & Confirmation Numérique</h4>
+                    <p className="text-xs text-slate-500">Veuillez vérifier l'exactitude des informations avant transmission sécurisée.</p>
                   </div>
 
                   {/* Summary Box */}
                   <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-2 text-xs">
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Applicant:</span>
+                      <span className="text-slate-500">Emprunteur :</span>
                       <span className="font-bold text-slate-800">{formData.firstName} {formData.lastName}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Credit Facility:</span>
+                      <span className="text-slate-500">Facilité Demandée :</span>
                       <span className="font-bold text-sterling-navy">{loanType}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Requested Amount:</span>
+                      <span className="text-slate-500">Montant Demandé :</span>
                       <span className="font-black text-sterling-gold font-mono">{currency === "EUR" ? "€" : "$"}{amount.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Contact Email:</span>
+                      <span className="text-slate-500">E-mail de Contact :</span>
                       <span className="font-bold text-slate-800">{formData.email}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Mobile Phone:</span>
+                      <span className="text-slate-500">Téléphone Mobile :</span>
                       <span className="font-bold text-slate-800">{formData.mobile}</span>
                     </div>
                   </div>
@@ -665,7 +665,7 @@ export default function QuickApplyModal({
                         className="mt-0.5 rounded border-slate-300 text-sterling-navy focus:ring-sterling-gold"
                       />
                       <span>
-                        I accept the processing of my personal data by Loan Commercial Group in accordance with privacy laws and banking confidentiality regulations.
+                        J'accepte le traitement de mes données personnelles par Loan Commercial Group conformément aux dispositions du RGPD et aux règles de confidentialité bancaire.
                       </span>
                     </label>
 
@@ -677,7 +677,7 @@ export default function QuickApplyModal({
                         className="mt-0.5 rounded border-slate-300 text-sterling-navy focus:ring-sterling-gold"
                       />
                       <span>
-                        I certify that the information provided is accurate and authorize Loan Commercial Group to perform necessary financial due diligence.
+                        Je certifie sur l'honneur l'exactitude des renseignements fournis et autorise Loan Commercial Group à effectuer les vérifications d'usage requises.
                       </span>
                     </label>
                   </div>
@@ -693,7 +693,7 @@ export default function QuickApplyModal({
                     className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-100 text-xs font-bold flex items-center gap-1.5 transition-colors"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
-                    <span>Previous</span>
+                    <span>Précédent</span>
                   </button>
                 ) : <div />}
 
@@ -703,7 +703,7 @@ export default function QuickApplyModal({
                     onClick={handleNext}
                     className="px-6 py-2.5 rounded-xl bg-sterling-navy hover:bg-sterling-navy-deep text-white text-xs font-bold flex items-center gap-1.5 transition-colors shadow"
                   >
-                    <span>Continue to Step {step + 1}</span>
+                    <span>Continuer vers l'Étape {step + 1}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 ) : (
@@ -712,7 +712,7 @@ export default function QuickApplyModal({
                     className="px-7 py-3 rounded-xl bg-gradient-to-r from-sterling-gold to-sterling-gold-light hover:from-amber-600 hover:to-sterling-gold text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all"
                   >
                     <Lock className="w-3.5 h-3.5" />
-                    <span>Transmit Encrypted Application</span>
+                    <span>Transmettre le Dossier Chiffré</span>
                   </button>
                 )}
               </div>

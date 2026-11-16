@@ -23,33 +23,33 @@ interface WhyChooseUsProps {
 export default function WhyChooseUs({ onOpenApply }: WhyChooseUsProps) {
   const reasons = [
     {
-      title: "International Investment Opportunities",
-      desc: "Direct conduit to high-net-worth private investors, family offices, and cross-border capital partners worldwide.",
+      title: "Opportunités d'Investissement International",
+      desc: "Accès direct aux investisseurs privés fortunés, family offices et partenaires en capital transfrontalier.",
       icon: Globe2,
     },
     {
-      title: "Substantial Project Financing",
-      desc: "Robust capital capacity ranging from $100,000 to $500,000,000 and up to $5 Billion+ for qualifying institutional ventures.",
+      title: "Financement de Projets d'Envergure",
+      desc: "Capacité financière robuste allant de 100 000 $ à 500 000 000 $, et jusqu'à 5 milliards de dollars pour les structures institutionnelles qualifiées.",
       icon: Banknote,
     },
     {
-      title: "Business & Real Estate Funding",
-      desc: "Specialized structures for enterprise acquisitions, commercial expansion, infrastructure, and property development.",
+      title: "Financement d'Entreprises & Immobilier",
+      desc: "Structures spécialisées pour les acquisitions d'entreprises, l'expansion commerciale, les infrastructures et le développement immobilier.",
       icon: Building,
     },
     {
-      title: "Professional Financial Assistance",
-      desc: "Dedicated underwriting specialists guiding applicants through due diligence, risk assessment, and legal documentation.",
+      title: "Assistance Financière Professionnelle",
+      desc: "Spécialistes du crédit dédiés accompagnant chaque candidat tout au long de la due diligence, de l'évaluation des risques et du formalisme contractuel.",
       icon: UserCheck,
     },
     {
-      title: "Confidential Application Procedures",
-      desc: "Strict non-disclosure protocols, end-to-end 256-bit encryption, and discretion for every corporate and private client.",
+      title: "Procédures de Candidature Confidentielles",
+      desc: "Protocoles stricts de non-divulgation, chiffrement 256 bits de bout en bout et discrétion absolue pour chaque client professionnel et particulier.",
       icon: Lock,
     },
     {
-      title: "Transparent Financing Agreements",
-      desc: "Clear legal covenants, predictable amortizations, zero hidden clauses, and mutually agreed contracts.",
+      title: "Accords de Financement Transparents",
+      desc: "Clauses contractuelles claires, échéanciers prévisibles, absence totale de frais dissimulés et contrats mutuellement validés.",
       icon: FileCheck2,
     },
   ];
@@ -69,13 +69,13 @@ export default function WhyChooseUs({ onOpenApply }: WhyChooseUsProps) {
           <div className="text-center max-w-3xl mx-auto space-y-3">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sterling-gold/20 text-sterling-gold text-xs font-bold uppercase tracking-wider border border-sterling-gold/30">
               <Sparkles className="w-3.5 h-3.5" />
-              Strategic Advantages
+              Avantages Stratégiques
             </div>
             <h2 className="text-3xl sm:text-4xl font-black font-display tracking-tight text-white">
-              WHY CHOOSE US?
+              POURQUOI NOUS CHOISIR ?
             </h2>
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-              We bridge the gap between ambitious financial initiatives and world-class liquidity through rigorous standards, global reach, and bespoke execution.
+              Nous relions les initiatives financières ambitieuses à une liquidité de premier ordre grâce à des standards rigoureux, une portée mondiale et une exécution sur mesure.
             </p>
           </div>
 
@@ -108,23 +108,23 @@ export default function WhyChooseUs({ onOpenApply }: WhyChooseUsProps) {
         <div className="bg-gradient-to-r from-sterling-navy-deep via-sterling-navy to-[#051C3E] rounded-3xl p-8 sm:p-12 border border-sterling-gold/30 shadow-2xl space-y-8 text-center max-w-5xl mx-auto">
           <div className="space-y-3">
             <span className="text-xs font-black uppercase tracking-widest text-sterling-gold font-mono">
-              Empowering Visionary Projects Worldwide
+              Soutenir les Projets Visionnaires à Travers le Monde
             </span>
             <h3 className="text-2xl sm:text-3xl md:text-4xl font-black font-display tracking-tight text-white uppercase">
-              YOUR DREAM. YOUR OPPORTUNITY. OUR COMMITMENT.
+              VOTRE RÊVE. VOTRE OPPORTUNITÉ. NOTRE ENGAGEMENT.
             </h3>
             <p className="text-slate-200 text-sm sm:text-base max-w-3xl mx-auto leading-relaxed">
-              Whether you need a personal loan, business capital, construction financing, or an international investment partner, we welcome you to explore the opportunities available through our platform.
+              Que vous ayez besoin d'un prêt personnel, de capitaux pour votre entreprise, d'un financement de construction ou d'un partenaire d'investissement international, nous vous invitons à explorer les opportunités offertes par notre plateforme.
             </p>
             <p className="text-sterling-gold font-bold text-base sm:text-lg">
-              Your vision deserves the right financial opportunity.
+              Votre vision mérite la bonne opportunité financière.
             </p>
           </div>
 
           {/* Action CTAs: APPLY TODAY */}
           <div className="space-y-4 pt-2">
             <div className="text-xs font-black uppercase tracking-wider text-slate-300">
-              APPLY TODAY
+              POSTULEZ DÈS AUJOURD'HUI
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
@@ -134,7 +134,7 @@ export default function WhyChooseUs({ onOpenApply }: WhyChooseUsProps) {
                 onClick={() => onOpenApply?.("persona")}
                 className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold text-sterling-navy-deep font-black text-xs sm:text-sm shadow-lg hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
               >
-                <span>APPLY FOR A LOAN</span>
+                <span>DEMANDER UN PRÊT</span>
                 <ArrowRight className="w-4 h-4 stroke-[2.5]" />
               </button>
 
@@ -144,17 +144,17 @@ export default function WhyChooseUs({ onOpenApply }: WhyChooseUsProps) {
                 onClick={() => onOpenApply?.("ecosolutions")}
                 className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm border border-white/25 transition-all flex items-center justify-center gap-2"
               >
-                <span>SUBMIT AN INVESTMENT PROPOSAL</span>
+                <span>SOUMETTRE UNE PROPOSITION D'INVESTISSEMENT</span>
                 <ArrowRight className="w-4 h-4 text-sterling-gold" />
               </button>
 
               {/* Button 3: CONTACT OUR FINANCIAL TEAM */}
               <a
-                href="mailto:customer.experience@loancommercialgroup.com?subject=Contact%20Financial%20Team%20Inquiry&body=Dear%20Financial%20Advisory%20Team%2C%0A%0AI%20am%20seeking%20advisory%20assistance%20regarding%20financing%20or%20an%20investment%20proposal."
+                href="mailto:customer.experience@loancommercialgroup.com?subject=Contact%20Equipe%20Financiere&body=Madame%2C%20Monsieur%20de%20l%27%C3%A9quipe%20financi%C3%A8re%2C%0A%0AJe%20souhaite%20obtenir%20des%20conseils%20concernant%20un%20financement%20ou%20une%20proposition%20d%27investissement."
                 className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow"
               >
                 <MessageCircle className="w-4 h-4" />
-                <span>CONTACT OUR FINANCIAL TEAM</span>
+                <span>CONTACTER NOTRE ÉQUIPE FINANCIÈRE</span>
               </a>
             </div>
           </div>
@@ -162,7 +162,7 @@ export default function WhyChooseUs({ onOpenApply }: WhyChooseUsProps) {
           {/* Legal Regulatory Disclosure Disclaimer */}
           <div className="pt-6 border-t border-white/10 max-w-4xl mx-auto">
             <p className="text-[11px] text-slate-300 leading-relaxed italic text-left sm:text-center">
-              All investment figures represent indicative project funding ranges and are not guaranteed available capital. All applications, investor introductions, and financing arrangements are subject to eligibility, verification, due diligence, investor approval, regulatory requirements, and mutually agreed legal agreements.
+              Tous les montants d'investissement représentent des fourchettes de financement indicatives pour les projets et ne constituent pas un capital garanti. Toutes les demandes, mises en relation avec des investisseurs et montages financiers sont soumises à l'éligibilité, à la vérification, à la diligence raisonnable, à l'approbation des investisseurs, aux exigences réglementaires et à des accords juridiques mutuellement convenus.
             </p>
           </div>
 

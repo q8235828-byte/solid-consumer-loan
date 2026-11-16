@@ -23,7 +23,7 @@ export default function BrandLogo({ className = "", variant = "dark", size = "md
       href="/" 
       rel="home" 
       className={`inline-flex items-center gap-2 sm:gap-3.5 group select-none transition-transform hover:scale-[1.02] max-w-full ${scaleClasses[size]} ${className}`}
-      aria-label="Loan Commercial Group - Private Lending & Capital Facilities"
+      aria-label="Loan Commercial Group - Prêts Privés & Facilités de Capital"
     >
       {/* Precision Geometric SVG Crest Emblem */}
       <div className="relative w-8 h-8 sm:w-11 sm:h-11 md:w-12 md:h-12 shrink-0 filter drop-shadow-md">
@@ -119,8 +119,8 @@ export default function BrandLogo({ className = "", variant = "dark", size = "md
           <span className={`text-[7px] sm:text-[9.5px] font-bold tracking-[0.14em] sm:tracking-[0.22em] uppercase font-sans truncate ${
             isDark ? "text-amber-800/90" : "text-amber-200/80"
           }`}>
-            <span className="hidden sm:inline">PRIVATE LENDING & CAPITAL FACILITIES</span>
-            <span className="sm:hidden">PRIVATE LENDING & FACILITIES</span>
+            <span className="hidden sm:inline">PRÊTS PRIVÉS & FACILITÉS DE CAPITAL</span>
+            <span className="sm:hidden">PRÊTS PRIVÉS & FACILITÉS</span>
           </span>
           <span className="h-[1px] w-2 sm:w-3 bg-sterling-gold/70 inline-block shrink-0" />
         </div>

@@ -39,43 +39,43 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
     switch (selectedProduct) {
       case "investment":
         return {
-          title: "International Investment & Global Partnerships",
+          title: "Investissement International & Partenariats Mondiaux",
           min: 100000,
           max: 500000000,
           step: 100000,
           annualRate: 2.95,
           tenors: [12, 36, 60, 120, 180, 240, 300], // 1 to 25 years
-          tagline: "Access potential investment partnerships from $100,000 to $5,000,000,000 and beyond.",
+          tagline: "Accédez à des partenariats d'investissement de 100 000 $ à 5 000 000 000 $ et au-delà.",
         };
       case "personnel":
         return {
-          title: "Personal & Business Loans",
+          title: "Prêts Personnels & Professionnels",
           min: 100000,
           max: 500000000,
           step: 50000,
           annualRate: 3.15,
           tenors: [12, 24, 36, 48, 60, 120, 180, 240, 300],
-          tagline: "Capital for personal needs, business expansion, property purchases, and approved projects.",
+          tagline: "Capitaux pour besoins personnels, expansion commerciale, acquisition et projets validés.",
         };
       case "auto":
         return {
-          title: "Commercial Fleet & Asset Financing",
+          title: "Flottes Commerciales & Financement d'Actifs",
           min: 100000,
           max: 500000000,
           step: 50000,
           annualRate: 3.10,
           tenors: [12, 24, 36, 48, 60, 120, 180, 240, 300],
-          tagline: "Financing for commercial fleets, equipment, marine assets, and clean mobility.",
+          tagline: "Financement pour flottes d'entreprise, équipements industriels et mobilité propre.",
         };
       case "immo":
         return {
-          title: "Housing & Construction Financing",
+          title: "Financement de l'Habitat & Construction",
           min: 100000,
           max: 500000000,
           step: 100000,
           annualRate: 2.85,
           tenors: [36, 60, 120, 180, 240, 300], // up to 25 years
-          tagline: "House construction, real estate development, and commercial building projects.",
+          tagline: "Construction de maisons, développement immobilier et promotions commerciales.",
         };
     }
   }, [selectedProduct]);
@@ -127,11 +127,11 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
               <Calculator className="w-4 h-4" />
             </div>
             <h3 className="font-extrabold text-lg text-sterling-navy font-display">
-              Loan Calculator & Simulator
+              Simulateur & Calculateur de Prêt
             </h3>
           </div>
           <p className="text-xs text-slate-500 mt-0.5">
-            1 to 25-year repayment facilities • Transparent terms
+            Facilités de remboursement de 1 à 25 ans • Conditions transparentes
           </p>
         </div>
 
@@ -165,10 +165,10 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
       {/* Product Selection Tabs */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-5">
         {[
-          { id: "investment", label: "Private & Corp", icon: Briefcase },
-          { id: "personnel", label: "Personal", icon: UserCheck },
-          { id: "auto", label: "Auto / Fleet", icon: Car },
-          { id: "immo", label: "Real Estate", icon: Home },
+          { id: "investment", label: "Privé & Entreprise", icon: Briefcase },
+          { id: "personnel", label: "Personnel", icon: UserCheck },
+          { id: "auto", label: "Auto / Flotte", icon: Car },
+          { id: "immo", label: "Immobilier", icon: Home },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = selectedProduct === tab.id;
@@ -193,7 +193,7 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
       <div className="mt-4 p-3 bg-amber-50/60 rounded-xl border border-amber-200/60 text-xs text-amber-900 flex items-center justify-between">
         <span className="font-medium">{config.tagline}</span>
         <span className="font-black text-emerald-700 bg-white px-2 py-0.5 rounded shadow-xs whitespace-nowrap ml-2">
-          {config.annualRate}% Fixed Rate
+          {config.annualRate}% Taux Fixe
         </span>
       </div>
 
@@ -203,7 +203,7 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
         {/* Principal Amount Control */}
         <div>
           <div className="flex justify-between items-center mb-2">
-            <label className="text-xs font-bold text-slate-700">Loan Facility Amount</label>
+            <label className="text-xs font-bold text-slate-700">Montant de la Facilité</label>
             <div className="flex items-center gap-1 bg-slate-50 px-3 py-1 rounded-lg border border-slate-200">
               <span className="text-lg font-black text-sterling-navy font-mono">
                 {formatCurrency(loanAmount)}
@@ -222,8 +222,8 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
           />
 
           <div className="flex justify-between text-[10px] text-slate-500 font-semibold mt-1">
-            <span>Min: {formatCurrency(100000)}</span>
-            <span>Max facility: {formatCurrency(500000000)}</span>
+            <span>Min : {formatCurrency(100000)}</span>
+            <span>Facilité max : {formatCurrency(500000000)}</span>
           </div>
 
           {/* Quick Amount Selector Chips */}
@@ -254,16 +254,16 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
           </div>
 
           <div className="mt-2 text-[10px] text-slate-500 italic">
-            * Investment partnerships and capital structuring available up to {formatCurrency(5000000000)} upon project evaluation.
+            * Partenariats d'investissement et structuration de capital disponibles jusqu'à {formatCurrency(5000000000)} sur étude de projet.
           </div>
         </div>
 
         {/* Tenor / Duration Control */}
         <div>
           <div className="flex justify-between items-center mb-2">
-            <label className="text-xs font-bold text-slate-700">Repayment Term</label>
+            <label className="text-xs font-bold text-slate-700">Durée de Remboursement</label>
             <span className="text-sm font-bold text-sterling-navy font-mono">
-              {tenorMonths} Months ({tenorMonths / 12} {tenorMonths / 12 === 1 ? "Year" : "Years"})
+              {tenorMonths} Mois ({tenorMonths / 12} {tenorMonths / 12 === 1 ? "An" : "Ans"})
             </span>
           </div>
 
@@ -278,7 +278,7 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
                     : "bg-slate-50 text-slate-600 border border-slate-200 hover:bg-slate-100"
                 }`}
               >
-                {t >= 12 ? `${t / 12}y` : `${t}m`}
+                {t >= 12 ? `${t / 12} ans` : `${t} m`}
               </button>
             ))}
           </div>
@@ -287,22 +287,22 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
         {/* Calculated Monthly Amortization Display */}
         <div className="bg-gradient-to-br from-slate-50 to-amber-50/40 rounded-2xl p-5 border border-amber-100 shadow-inner">
           <div className="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-1">
-            Estimated Monthly Payment
+            Mensualité Estimée
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-3xl sm:text-4xl font-extrabold text-sterling-navy font-display tracking-tight">
               {formatCurrency(monthlyAmortization)}
             </span>
-            <span className="text-xs font-medium text-slate-500">/ month</span>
+            <span className="text-xs font-medium text-slate-500">/ mois</span>
           </div>
 
           <div className="mt-4 pt-3 border-t border-slate-200/70 grid grid-cols-2 gap-2 text-xs text-slate-600">
             <div>
-              <span className="text-slate-400">Total Interest: </span>
+              <span className="text-slate-400">Total des Intérêts : </span>
               <span className="font-semibold text-slate-700">{formatCurrency(totalInterest)}</span>
             </div>
             <div>
-              <span className="text-slate-400">Total Repayment: </span>
+              <span className="text-slate-400">Montant Total Dû : </span>
               <span className="font-semibold text-slate-700">{formatCurrency(totalRepayment)}</span>
             </div>
           </div>
@@ -317,7 +317,7 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
             }}
             className="w-full bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold hover:from-sterling-gold-dark hover:to-sterling-gold text-sterling-navy-deep font-extrabold py-3.5 px-6 rounded-xl shadow-lg shadow-sterling-gold/25 hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2"
           >
-            <span>Proceed to Application</span>
+            <span>Poursuivre la Demande</span>
             <ArrowRight className="w-4 h-4 stroke-[2.5]" />
           </button>
 
@@ -326,7 +326,7 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
             className="w-full bg-white hover:bg-slate-50 text-sterling-navy font-semibold text-xs py-2.5 px-4 rounded-xl border border-slate-200 transition-colors flex items-center justify-center gap-1.5"
           >
             <Table className="w-3.5 h-3.5 text-sterling-gold" />
-            <span>View Amortization Schedule</span>
+            <span>Voir le Tableau d'Amortissement</span>
           </button>
         </div>
 
