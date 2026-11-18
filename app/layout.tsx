@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import PageLoader from "@/components/PageLoader";
 import FaviconLoader from "@/components/FaviconLoader";
+import SmartsuppChat from "@/components/SmartsuppChat";
+import { LanguageProvider } from "@/lib/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Loan Commercial Group | Prêts Commerciaux & Facilités de Financement Privé",
@@ -34,9 +36,12 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/favicon.png?v=5" />
       </head>
       <body className="min-h-screen bg-slate-50 antialiased selection:bg-sterling-gold selection:text-white">
-        <FaviconLoader />
-        <PageLoader />
-        {children}
+        <LanguageProvider>
+          <FaviconLoader />
+          <PageLoader />
+          {children}
+          <SmartsuppChat />
+        </LanguageProvider>
       </body>
     </html>
   );

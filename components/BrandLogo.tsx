@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { useLanguage } from "@/lib/LanguageContext";
 
 interface BrandLogoProps {
   className?: string;
@@ -10,6 +11,7 @@ interface BrandLogoProps {
 }
 
 export default function BrandLogo({ className = "", variant = "dark", size = "md" }: BrandLogoProps) {
+  const { isFrench } = useLanguage();
   const isDark = variant === "dark"; // dark text for white background
 
   const scaleClasses = {
@@ -119,8 +121,12 @@ export default function BrandLogo({ className = "", variant = "dark", size = "md
           <span className={`text-[7px] sm:text-[9.5px] font-bold tracking-[0.14em] sm:tracking-[0.22em] uppercase font-sans truncate ${
             isDark ? "text-amber-800/90" : "text-amber-200/80"
           }`}>
-            <span className="hidden sm:inline">PRÊTS PRIVÉS & FACILITÉS DE CAPITAL</span>
-            <span className="sm:hidden">PRÊTS PRIVÉS & FACILITÉS</span>
+            <span className="hidden sm:inline">
+              {isFrench ? "PRÊTS PRIVÉS & FACILITÉS DE CAPITAL" : "PRIVATE LENDING & CAPITAL FACILITIES"}
+            </span>
+            <span className="sm:hidden">
+              {isFrench ? "PRÊTS PRIVÉS & FACILITÉS" : "PRIVATE LENDING & FACILITIES"}
+            </span>
           </span>
           <span className="h-[1px] w-2 sm:w-3 bg-sterling-gold/70 inline-block shrink-0" />
         </div>

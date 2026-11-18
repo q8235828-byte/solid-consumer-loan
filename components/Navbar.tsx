@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import BrandLogo from "@/components/BrandLogo";
 import GoogleTranslate from "@/components/GoogleTranslate";
+import { useLanguage } from "@/lib/LanguageContext";
 import { 
   Building2, 
   ChevronDown, 
@@ -38,6 +39,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({ onOpenApply }: NavbarProps) {
+  const { language, setLanguage, isFrench, t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
   const [onlineBankingOpen, setOnlineBankingOpen] = useState(false);
@@ -73,13 +75,48 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
   };
 
   const searchResults = [
-    { title: "Prêt Personnel (Persona)", url: "/personal-loans", category: "Crédits", desc: "Financement personnel de 100 000 $ à 500 000 000 $ en USD/EUR." },
-    { title: "Prêt Auto & Mobilité", url: "/auto-loans", category: "Crédits", desc: "Financement jusqu'à 100% pour véhicules neufs et d'occasion." },
-    { title: "Prêt Immobilier & Rénovation", url: "/home-loans", category: "Crédits", desc: "Financement de construction et rénovation jusqu'à 25 ans." },
-    { title: "Investissement Privé & Financement Entreprise", url: "/apply", category: "Entreprises", desc: "Financement de 100k$ à 500M$ avec durées de 1 à 25 ans." },
-    { title: "Simulateur de Mensualités de Prêt", url: "/#calculator", category: "Outils", desc: "Simulez vos mensualités en USD ($) et Euro (€)." },
-    { title: "Suivi de Demande en Direct", url: "/tracker", category: "Services", desc: "Suivez votre dossier de financement en temps réel." },
-    { title: "Espace Client Sécurisé", url: "/dashboard", category: "Portail", desc: "Accédez à vos relevés, échéanciers et conseiller dédié." },
+    { 
+      title: isFrench ? "Prêt Personnel (Persona)" : "Persona Personal Loan", 
+      url: "/personal-loans", 
+      category: isFrench ? "Crédits" : "Credit", 
+      desc: isFrench ? "Financement personnel de 100 000 $ à 500 000 000 $ en USD/EUR." : "Personal financing from $100,000 to $500,000,000 in USD/EUR." 
+    },
+    { 
+      title: isFrench ? "Prêt Auto & Mobilité" : "Auto & Vehicle Loan", 
+      url: "/auto-loans", 
+      category: isFrench ? "Crédits" : "Credit", 
+      desc: isFrench ? "Financement jusqu'à 100% pour véhicules neufs et d'occasion." : "New and pre-owned vehicle financing up to 100%." 
+    },
+    { 
+      title: isFrench ? "Prêt Immobilier & Rénovation" : "Home & Real Estate Loan", 
+      url: "/home-loans", 
+      category: isFrench ? "Crédits" : "Credit", 
+      desc: isFrench ? "Financement de construction et rénovation jusqu'à 25 ans." : "Construction and renovation funding up to 25 years." 
+    },
+    { 
+      title: isFrench ? "Investissement Privé & Financement Entreprise" : "Private Investment & Corporate Lending", 
+      url: "/apply", 
+      category: isFrench ? "Entreprises" : "Corporate", 
+      desc: isFrench ? "Financement de 100k$ à 500M$ avec durées de 1 à 25 ans." : "Financing from $100k to $500M with terms from 1 to 25 years." 
+    },
+    { 
+      title: isFrench ? "Simulateur de Mensualités de Prêt" : "Interactive Loan Calculator", 
+      url: "/#calculator", 
+      category: isFrench ? "Outils" : "Tools", 
+      desc: isFrench ? "Simulez vos mensualités en USD ($) et Euro (€)." : "Calculate monthly amortizations in USD ($) and Euro (€)." 
+    },
+    { 
+      title: isFrench ? "Suivi de Demande en Direct" : "Live Application Tracker", 
+      url: "/tracker", 
+      category: isFrench ? "Services" : "Services", 
+      desc: isFrench ? "Suivez votre dossier de financement en temps réel." : "Track your credit dossier in real time." 
+    },
+    { 
+      title: isFrench ? "Espace Client Sécurisé" : "Secure Client Portal", 
+      url: "/dashboard", 
+      category: isFrench ? "Portail" : "Portal", 
+      desc: isFrench ? "Accédez à vos relevés, échéanciers et conseiller dédié." : "Access balances, wire transfers, and dedicated advisor." 
+    },
   ].filter(item => 
     !searchQuery.trim() || 
     item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -99,11 +136,11 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
           {/* Secondary Nav Links (About Us, Calculator, Careers, ATMs, Contact) */}
           <nav aria-label="Menu Secondaire" className="hidden lg:flex items-center gap-5 text-[11px] font-medium tracking-wide">
             <Link href="/" className="hover:text-sterling-gold transition-colors">
-              À Propos
+              {t("À Propos", "About Us")}
             </Link>
             <span className="text-slate-500">|</span>
             <a href="/#calculator" className="hover:text-sterling-gold transition-colors">
-              Simulateur de Prêt
+              {t("Simulateur de Prêt", "Loan Calculator")}
             </a>
             <span className="text-slate-500">|</span>
             <a 
@@ -112,15 +149,15 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               rel="noreferrer" 
               className="hover:text-sterling-gold transition-colors inline-flex items-center gap-1"
             >
-              Carrières <ExternalLink className="w-2.5 h-2.5 opacity-70" />
+              {t("Carrières", "Careers")} <ExternalLink className="w-2.5 h-2.5 opacity-70" />
             </a>
             <span className="text-slate-500">|</span>
             <Link href="/personal-loans" className="hover:text-sterling-gold transition-colors">
-              Agences & Distributeurs
+              {t("Agences & Distributeurs", "Branches & ATMs")}
             </Link>
             <span className="text-slate-500">|</span>
             <a href="mailto:customer.experience@loancommercialgroup.com" className="hover:text-sterling-gold transition-colors">
-              Contactez-nous
+              {t("Contactez-nous", "Contact Us")}
             </a>
             <span className="text-slate-500">|</span>
             <a 
@@ -129,13 +166,14 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               rel="noreferrer" 
               className="text-emerald-400 hover:text-emerald-300 font-bold transition-colors inline-flex items-center gap-1"
             >
-              Support WhatsApp
+              {t("Support WhatsApp", "WhatsApp Support")}
             </a>
           </nav>
 
           {/* Quick Notice on Mobile */}
           <div className="lg:hidden text-[10px] sm:text-[11px] font-semibold text-sterling-gold-light truncate min-w-0 pr-1">
-            <span className="hidden xs:inline">Loan Commercial Group • </span>Investissement Privé & Prêts
+            <span className="hidden xs:inline">Loan Commercial Group • </span>
+            {t("Investissement Privé & Prêts", "Private Investment & Lending")}
           </div>
 
           {/* Secondary Right: Currency, Search, Language, Auth */}
@@ -145,17 +183,17 @@ export default function Navbar({ onOpenApply }: NavbarProps) {
               type="button"
               onClick={() => setSearchOpen(true)}
               className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white transition-colors text-[11px]"
-              aria-label="Recherche sur le site"
+              aria-label={t("Recherche sur le site", "Search website")}
             >
               <Search className="w-3.5 h-3.5 text-sterling-gold" />
-              <span>Recherche</span>
+              <span>{t("Recherche", "Search")}</span>
             </button>
 
             <span className="text-slate-600 hidden sm:inline">|</span>
 
             {/* Currency Badge: USD & EUR Only */}
             <span className="inline-flex items-center gap-1 px-2 sm:px-2.5 py-0.5 rounded-full bg-sterling-gold/20 text-sterling-gold font-bold text-[9px] sm:text-[10px] border border-sterling-gold/30 whitespace-nowrap shrink-0">
-              USD ($) & EUR (€) Uniquement
+              {t("USD ($) & EUR (€) Uniquement", "USD ($) & EUR (€) Exclusively")}
             </span>
 
             {/* Language Selector */}
