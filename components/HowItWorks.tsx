@@ -10,43 +10,61 @@ import {
   Clock, 
   CheckCircle2 
 } from "lucide-react";
+import { useLanguage } from "@/lib/LanguageContext";
 
 export default function HowItWorks() {
+  const { t } = useLanguage();
+
   const steps = [
     {
       number: "01",
-      title: "1. Soumettez Votre Demande",
-      description: "Présentez vos besoins financiers ou votre proposition commerciale via notre portail de candidature numérique sécurisé.",
+      title: t("1. Soumettez Votre Demande", "1. Submit Your Application"),
+      description: t(
+        "Présentez vos besoins financiers ou votre proposition commerciale via notre portail de candidature numérique sécurisé.",
+        "Tell us about your financial needs or business proposal through our secure online portal."
+      ),
       icon: FileText,
-      tag: "Initialisation",
+      tag: t("Initialisation", "Submission"),
     },
     {
       number: "02",
-      title: "2. Examen du Dossier",
-      description: "Notre équipe évalue votre projet, vos antécédents financiers et votre éligibilité avec rapidité et discrétion.",
+      title: t("2. Examen du Dossier", "2. Application Review"),
+      description: t(
+        "Notre équipe évalue votre projet, vos antécédents financiers et votre éligibilité avec rapidité et discrétion.",
+        "Our team assesses your project, financial background, and eligibility swiftly and discreetly."
+      ),
       icon: Sliders,
-      tag: "Évaluation",
+      tag: t("Évaluation", "Assessment"),
     },
     {
       number: "03",
-      title: "3. Mise en Relation avec des Investisseurs",
-      description: "Les propositions éligibles peuvent être mises en relation avec des investisseurs privés et des partenaires d'investissement internationaux à travers le monde.",
+      title: t("3. Mise en Relation Investisseurs", "3. Investor Connection"),
+      description: t(
+        "Les propositions qualifiées peuvent être associées à des partenaires d'investissement et investisseurs privés adaptés.",
+        "Qualified proposals may be matched with suitable private investors and international capital partners."
+      ),
       icon: UploadCloud,
-      tag: "Mise en Relation",
+      tag: t("Mise en Relation", "Matching"),
     },
     {
       number: "04",
-      title: "4. Accord",
-      description: "Les deux parties examinent, négocient et conviennent mutuellement des termes détaillés, conditions et clauses contractuelles.",
+      title: t("4. Accord Contractuel", "4. Agreement"),
+      description: t(
+        "Les deux parties examinent, négocient et conviennent mutuellement des termes détaillés, conditions et clauses contractuelles.",
+        "Both parties discuss and agree on the investment terms, amortization schedules, and contractual conditions."
+      ),
       icon: CheckCircle2,
-      tag: "Négociation",
+      tag: t("Négociation", "Agreement"),
     },
     {
       number: "05",
-      title: "5. Financement",
-      description: "Le versement des capitaux intervient après vérification complète, approbation formelle du dossier et conclusion de l'accord légal.",
+      title: t("5. Financement & Versement", "5. Funding"),
+      description: t(
+        "Le déblocage du financement intervient après vérification complète, approbation formelle et conclusion de l'accord légal.",
+        "Financing proceeds after successful verification, formal approval, due diligence, and executed legal contract."
+      ),
       icon: Banknote,
-      tag: "Déblocage",
+      tag: t("Déblocage", "Disbursement"),
     },
   ];
 
@@ -57,13 +75,16 @@ export default function HowItWorks() {
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="inline-flex items-center gap-1.5 text-xs font-bold text-sterling-gold uppercase tracking-wider bg-sterling-navy/5 px-3 py-1 rounded-full">
             <Clock className="w-3.5 h-3.5" />
-            Procédure Claire & Accélérée
+            {t("Procédure Claire & Accélérée", "Clear & Accelerated Process")}
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-sterling-navy font-display tracking-tight">
-            COMMENT ÇA FONCTIONNE ?
+            {t("COMMENT ÇA FONCTIONNE ?", "HOW DOES IT WORK?")}
           </h2>
           <p className="text-slate-600 text-base sm:text-lg">
-            Un parcours transparent et professionnel en 5 étapes reliant votre vision aux capitaux institutionnels et à des partenaires d'investissement vérifiés.
+            {t(
+              "Un parcours transparent et professionnel en 5 étapes reliant votre vision aux capitaux institutionnels et à des partenaires d'investissement vérifiés.",
+              "A transparent 5-step process connecting your vision with institutional capital and verified investment partners worldwide."
+            )}
           </p>
         </div>
 
@@ -103,13 +124,14 @@ export default function HowItWorks() {
                 {/* Step Footer */}
                 <div className="pt-4 mt-5 border-t border-slate-200/60 flex items-center justify-between text-xs text-slate-400">
                   <span className="flex items-center gap-1.5 text-emerald-600 font-semibold text-[11px]">
-                    <CheckCircle2 className="w-3.5 h-3.5" /> Étape {idx + 1} sur 5
+                    <CheckCircle2 className="w-3.5 h-3.5" /> {t(`Étape ${idx + 1} sur 5`, `Step ${idx + 1} of 5`)}
                   </span>
                 </div>
               </div>
             );
           })}
         </div>
+
       </div>
     </section>
   );

@@ -14,6 +14,7 @@ import {
   DollarSign
 } from "lucide-react";
 import AmortizationModal from "./AmortizationModal";
+import { useLanguage } from "@/lib/LanguageContext";
 
 interface LoanCalculatorProps {
   onApply?: (loanType: string, amount: number, tenor: number) => void;
@@ -21,9 +22,10 @@ interface LoanCalculatorProps {
 }
 
 export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorProps) {
+  const { t, isFrench } = useLanguage();
   const [currency, setCurrency] = useState<"USD" | "EUR">("USD");
   const [selectedProduct, setSelectedProduct] = useState<"investment" | "personnel" | "auto" | "immo">("investment");
-  const [loanAmount, setLoanAmount] = useState<number>(500000);
+  const [loanAmount, setLoanAmount] = useState<number>(1000000);
   const [tenorMonths, setTenorMonths] = useState<number>(60);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -39,46 +41,58 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
     switch (selectedProduct) {
       case "investment":
         return {
-          title: "Investissement International & Partenariats Mondiaux",
+          title: t("Investissement International & Partenariats Mondiaux", "International Investment & Global Partnerships"),
           min: 100000,
           max: 500000000,
           step: 100000,
           annualRate: 2.95,
           tenors: [12, 36, 60, 120, 180, 240, 300], // 1 to 25 years
-          tagline: "Accédez à des partenariats d'investissement de 100 000 $ à 5 000 000 000 $ et au-delà.",
+          tagline: t(
+            "Accédez à des partenariats d'investissement de 100 000 $ à 5 000 000 000 $ et au-delà.",
+            "Access potential investment partnerships from $100,000 to $5,000,000,000 and beyond."
+          ),
         };
       case "personnel":
         return {
-          title: "Prêts Personnels & Professionnels",
+          title: t("Prêts Personnels & Professionnels", "Personal & Business Loans"),
           min: 100000,
           max: 500000000,
           step: 50000,
           annualRate: 3.15,
           tenors: [12, 24, 36, 48, 60, 120, 180, 240, 300],
-          tagline: "Capitaux pour besoins personnels, expansion commerciale, acquisition et projets validés.",
+          tagline: t(
+            "Capitaux pour besoins personnels, expansion commerciale, acquisition et projets validés.",
+            "Financing for personal needs, business expansion, property purchases, and approved projects."
+          ),
         };
       case "auto":
         return {
-          title: "Flottes Commerciales & Financement d'Actifs",
+          title: t("Flottes Commerciales & Financement d'Actifs", "Commercial Fleet & Asset Financing"),
           min: 100000,
           max: 500000000,
           step: 50000,
           annualRate: 3.10,
           tenors: [12, 24, 36, 48, 60, 120, 180, 240, 300],
-          tagline: "Financement pour flottes d'entreprise, équipements industriels et mobilité propre.",
+          tagline: t(
+            "Financement pour flottes d'entreprise, équipements industriels et mobilité propre.",
+            "Financing for corporate fleets, commercial assets, and specialized equipment."
+          ),
         };
       case "immo":
         return {
-          title: "Financement de l'Habitat & Construction",
+          title: t("Financement de l'Habitat & Construction", "Housing & Construction Financing"),
           min: 100000,
           max: 500000000,
           step: 100000,
           annualRate: 2.85,
           tenors: [36, 60, 120, 180, 240, 300], // up to 25 years
-          tagline: "Construction de maisons, développement immobilier et promotions commerciales.",
+          tagline: t(
+            "Construction de maisons, développement immobilier et promotions commerciales.",
+            "House construction, real estate development, and commercial building projects."
+          ),
         };
     }
-  }, [selectedProduct]);
+  }, [selectedProduct, t]);
 
   // Handle product switch
   const handleProductChange = (type: "investment" | "personnel" | "auto" | "immo") => {
@@ -119,82 +133,82 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
   return (
     <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200 text-slate-800 relative z-20">
       
-      {/* Top Header with Currency Selector */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+      {/* Top Header with Currency Switcher */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
         <div>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-sterling-gold/15 text-sterling-gold flex items-center justify-center font-bold">
-              <Calculator className="w-4 h-4" />
-            </div>
-            <h3 className="font-extrabold text-lg text-sterling-navy font-display">
-              Simulateur & Calculateur de Prêt
-            </h3>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sterling-gold/15 text-sterling-gold font-bold text-xs mb-2">
+            <Calculator className="w-3.5 h-3.5" />
+            <span>{t("Simulateur Financier Haute Fidélité", "High-Precision Financial Simulator")}</span>
           </div>
+          <h3 className="text-xl sm:text-2xl font-black text-sterling-navy font-display tracking-tight">
+            {config.title}
+          </h3>
           <p className="text-xs text-slate-500 mt-0.5">
-            Facilités de remboursement de 1 à 25 ans • Conditions transparentes
+            {config.tagline}
           </p>
         </div>
 
-        {/* Currency Switcher */}
-        <div className="p-1 bg-slate-100 rounded-xl flex items-center gap-1 text-xs font-bold self-end sm:self-auto">
-          <button
-            type="button"
-            onClick={() => setCurrency("USD")}
-            className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1 ${
-              currency === "USD"
-                ? "bg-sterling-navy text-sterling-gold shadow-sm"
-                : "text-slate-500 hover:text-slate-800"
-            }`}
-          >
-            <span>USD ($)</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setCurrency("EUR")}
-            className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1 ${
-              currency === "EUR"
-                ? "bg-sterling-navy text-sterling-gold shadow-sm"
-                : "text-slate-500 hover:text-slate-800"
-            }`}
-          >
-            <span>Euro (€)</span>
-          </button>
+        {/* Currency Switcher USD / EUR */}
+        <div className="flex items-center gap-2 self-start sm:self-center">
+          <span className="text-xs font-bold text-slate-500">{t("Devise :", "Currency:")}</span>
+          <div className="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200">
+            <button
+              type="button"
+              onClick={() => setCurrency("USD")}
+              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                currency === "USD" 
+                  ? "bg-sterling-navy text-white shadow-sm" 
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              USD ($)
+            </button>
+            <button
+              type="button"
+              onClick={() => setCurrency("EUR")}
+              className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                currency === "EUR" 
+                  ? "bg-sterling-navy text-white shadow-sm" 
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              EUR (€)
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Product Selection Tabs */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-5">
         {[
-          { id: "investment", label: "Privé & Entreprise", icon: Briefcase },
-          { id: "personnel", label: "Personnel", icon: UserCheck },
-          { id: "auto", label: "Auto / Flotte", icon: Car },
-          { id: "immo", label: "Immobilier", icon: Home },
-        ].map((tab) => {
-          const Icon = tab.icon;
-          const isActive = selectedProduct === tab.id;
+          { id: "investment", label: t("Investissement Mondial", "Global Investment"), icon: Sparkles, rate: "2.95%" },
+          { id: "personnel", label: t("Personnel & Entreprise", "Personal & Business"), icon: UserCheck, rate: "3.15%" },
+          { id: "immo", label: t("Habitat & Construction", "Housing & Construction"), icon: Home, rate: "2.85%" },
+          { id: "auto", label: t("Flotte Commerciale", "Commercial Fleet"), icon: Car, rate: "3.10%" },
+        ].map((prod) => {
+          const Icon = prod.icon;
+          const isSelected = selectedProduct === prod.id;
           return (
             <button
-              key={tab.id}
-              onClick={() => handleProductChange(tab.id as any)}
-              className={`py-2.5 px-2 rounded-xl text-xs font-bold flex flex-col items-center justify-center gap-1 transition-all ${
-                isActive
-                  ? "bg-sterling-navy text-white shadow-md ring-2 ring-sterling-gold"
-                  : "bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200"
+              key={prod.id}
+              onClick={() => handleProductChange(prod.id as any)}
+              className={`p-3 rounded-2xl border text-left transition-all ${
+                isSelected 
+                  ? "border-sterling-gold bg-amber-50/60 shadow-sm ring-1 ring-sterling-gold" 
+                  : "border-slate-200 hover:border-slate-300 bg-white"
               }`}
             >
-              <Icon className={`w-4 h-4 ${isActive ? "text-sterling-gold" : "text-slate-400"}`} />
-              <span className="truncate">{tab.label}</span>
+              <div className="flex items-center justify-between mb-1">
+                <Icon className={`w-4 h-4 ${isSelected ? "text-sterling-gold" : "text-slate-400"}`} />
+                <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">
+                  {prod.rate}
+                </span>
+              </div>
+              <div className="text-xs font-bold text-sterling-navy truncate">{prod.label}</div>
+              <div className="text-[10px] text-slate-500 font-mono mt-0.5">100k$ - 500M$</div>
             </button>
           );
         })}
-      </div>
-
-      {/* Product Tagline */}
-      <div className="mt-4 p-3 bg-amber-50/60 rounded-xl border border-amber-200/60 text-xs text-amber-900 flex items-center justify-between">
-        <span className="font-medium">{config.tagline}</span>
-        <span className="font-black text-emerald-700 bg-white px-2 py-0.5 rounded shadow-xs whitespace-nowrap ml-2">
-          {config.annualRate}% Taux Fixe
-        </span>
       </div>
 
       {/* Calculator Sliders and Inputs */}
@@ -203,7 +217,9 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
         {/* Principal Amount Control */}
         <div>
           <div className="flex justify-between items-center mb-2">
-            <label className="text-xs font-bold text-slate-700">Montant de la Facilité</label>
+            <label className="text-xs font-bold text-slate-700">
+              {t("Montant de la Facilité Souhaitée", "Requested Facility Amount")}
+            </label>
             <div className="flex items-center gap-1 bg-slate-50 px-3 py-1 rounded-lg border border-slate-200">
               <span className="text-lg font-black text-sterling-navy font-mono">
                 {formatCurrency(loanAmount)}
@@ -218,15 +234,15 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
             step={config.step}
             value={Math.min(loanAmount, config.max)}
             onChange={(e) => setLoanAmount(Number(e.target.value))}
-            className="w-full"
+            className="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sterling-gold"
           />
 
           <div className="flex justify-between text-[10px] text-slate-500 font-semibold mt-1">
-            <span>Min : {formatCurrency(100000)}</span>
-            <span>Facilité max : {formatCurrency(500000000)}</span>
+            <span>{t("Min :", "Min:")} {formatCurrency(100000)}</span>
+            <span>{t("Facilité max :", "Max facility:")} {formatCurrency(500000000)}</span>
           </div>
 
-          {/* Quick Amount Selector Chips */}
+          {/* Quick Amount Selector Chips: Minimum $100K */}
           <div className="mt-2.5 flex flex-wrap gap-1.5">
             {[
               { label: "$100K", val: 100000 },
@@ -254,31 +270,36 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
           </div>
 
           <div className="mt-2 text-[10px] text-slate-500 italic">
-            * Partenariats d'investissement et structuration de capital disponibles jusqu'à {formatCurrency(5000000000)} sur étude de projet.
+            * {t(
+              "Partenariats d'investissement et structuration de capital disponibles jusqu'à 5 000 000 000 $ sur étude de projet.",
+              "Investment partnerships and capital facilities available up to $5,000,000,000 and beyond upon project evaluation."
+            )}
           </div>
         </div>
 
         {/* Tenor / Duration Control */}
         <div>
           <div className="flex justify-between items-center mb-2">
-            <label className="text-xs font-bold text-slate-700">Durée de Remboursement</label>
+            <label className="text-xs font-bold text-slate-700">
+              {t("Durée de Remboursement", "Repayment Term")}
+            </label>
             <span className="text-sm font-bold text-sterling-navy font-mono">
-              {tenorMonths} Mois ({tenorMonths / 12} {tenorMonths / 12 === 1 ? "An" : "Ans"})
+              {tenorMonths} {t("Mois", "Months")} ({tenorMonths / 12} {tenorMonths / 12 === 1 ? t("An", "Yr") : t("Ans", "Yrs")})
             </span>
           </div>
 
           <div className="grid grid-cols-4 sm:grid-cols-7 gap-1.5">
-            {config.tenors.map((t) => (
+            {config.tenors.map((tVal) => (
               <button
-                key={t}
-                onClick={() => setTenorMonths(t)}
+                key={tVal}
+                onClick={() => setTenorMonths(tVal)}
                 className={`py-2 px-1 rounded-lg text-xs font-bold transition-all ${
-                  tenorMonths === t
+                  tenorMonths === tVal
                     ? "bg-sterling-navy text-white shadow-sm ring-1 ring-sterling-gold"
                     : "bg-slate-50 text-slate-600 border border-slate-200 hover:bg-slate-100"
                 }`}
               >
-                {t >= 12 ? `${t / 12} ans` : `${t} m`}
+                {tVal >= 12 ? `${tVal / 12} ${isFrench ? "ans" : "yrs"}` : `${tVal} m`}
               </button>
             ))}
           </div>
@@ -287,22 +308,22 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
         {/* Calculated Monthly Amortization Display */}
         <div className="bg-gradient-to-br from-slate-50 to-amber-50/40 rounded-2xl p-5 border border-amber-100 shadow-inner">
           <div className="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-1">
-            Mensualité Estimée
+            {t("Mensualité Estimée", "Estimated Monthly Payment")}
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-3xl sm:text-4xl font-extrabold text-sterling-navy font-display tracking-tight">
               {formatCurrency(monthlyAmortization)}
             </span>
-            <span className="text-xs font-medium text-slate-500">/ mois</span>
+            <span className="text-xs font-medium text-slate-500">/ {t("mois", "month")}</span>
           </div>
 
           <div className="mt-4 pt-3 border-t border-slate-200/70 grid grid-cols-2 gap-2 text-xs text-slate-600">
             <div>
-              <span className="text-slate-400">Total des Intérêts : </span>
+              <span className="text-slate-400">{t("Total des Intérêts :", "Total Interest:")} </span>
               <span className="font-semibold text-slate-700">{formatCurrency(totalInterest)}</span>
             </div>
             <div>
-              <span className="text-slate-400">Montant Total Dû : </span>
+              <span className="text-slate-400">{t("Montant Total Dû :", "Total Repayment:")} </span>
               <span className="font-semibold text-slate-700">{formatCurrency(totalRepayment)}</span>
             </div>
           </div>
@@ -317,7 +338,7 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
             }}
             className="w-full bg-gradient-to-r from-sterling-gold via-sterling-gold-light to-sterling-gold hover:from-sterling-gold-dark hover:to-sterling-gold text-sterling-navy-deep font-extrabold py-3.5 px-6 rounded-xl shadow-lg shadow-sterling-gold/25 hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2"
           >
-            <span>Poursuivre la Demande</span>
+            <span>{t("Poursuivre la Demande", "Apply for Financing")}</span>
             <ArrowRight className="w-4 h-4 stroke-[2.5]" />
           </button>
 
@@ -326,7 +347,7 @@ export default function LoanCalculator({ onApply, onOpenApply }: LoanCalculatorP
             className="w-full bg-white hover:bg-slate-50 text-sterling-navy font-semibold text-xs py-2.5 px-4 rounded-xl border border-slate-200 transition-colors flex items-center justify-center gap-1.5"
           >
             <Table className="w-3.5 h-3.5 text-sterling-gold" />
-            <span>Voir le Tableau d'Amortissement</span>
+            <span>{t("Voir le Tableau d'Amortissement", "View Amortization Schedule")}</span>
           </button>
         </div>
 

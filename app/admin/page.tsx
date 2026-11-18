@@ -159,9 +159,11 @@ export default function AdminDashboard() {
     auto: 3.10,
     ecosolutions: 2.50,
     home: 3.45,
-    maxAmount: 75000,
+    maxAmount: 500000000,
     maxDTI: 35
   });
+  const [smartsuppKeyInput, setSmartsuppKeyInput] = useState("");
+  const [smartsuppSaved, setSmartsuppSaved] = useState(false);
   const [policySaved, setPolicySaved] = useState(false);
   const [activeTab, setActiveTab] = useState<"applications" | "balances" | "withdrawals" | "policy" | "analytics">("applications");
 
@@ -214,6 +216,8 @@ export default function AdminDashboard() {
     try {
       const saved = localStorage.getItem("lcg_credit_policy");
       if (saved) setRates(JSON.parse(saved));
+      const savedKey = localStorage.getItem("lcg_smartsupp_key");
+      if (savedKey) setSmartsuppKeyInput(savedKey);
     } catch (e) {}
 
     const handleUpdate = () => loadData();
@@ -1654,7 +1658,7 @@ export default function AdminDashboard() {
                 <button
                   type="button"
                   onClick={() => {
-                    const defaults = { persona: 2.85, auto: 3.10, ecosolutions: 2.50, home: 3.45, maxAmount: 75000, maxDTI: 35 };
+                    const defaults = { persona: 2.85, auto: 3.10, ecosolutions: 2.50, home: 3.45, maxAmount: 500000000, maxDTI: 35 };
                     setRates(defaults);
                     localStorage.setItem("lcg_credit_policy", JSON.stringify(defaults));
                     showToast("Policy reset to default benchmarks.");
@@ -1666,6 +1670,58 @@ export default function AdminDashboard() {
                 </button>
               </div>
             </form>
+
+            {/* Smartsupp Live Chat Configuration Box */}
+            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 mt-8 space-y-5">
+              <div className="border-b border-slate-100 pb-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold border border-blue-200 mb-2">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  Smartsupp Live Chat Integration
+                </div>
+                <h3 className="text-lg font-bold text-sterling-navy">
+                  Smartsupp Chat Widget Key
+                </h3>
+                <p className="text-xs text-slate-500">
+                  Connect your Smartsupp account key. The chat widget will automatically load on all website pages and synchronize with the active language (French & English).
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <label className="block text-xs font-bold text-slate-700">
+                  Smartsupp Key (e.g., from smartsupp.com dashboard)
+                </label>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <input
+                    type="text"
+                    value={smartsuppKeyInput}
+                    onChange={(e) => setSmartsuppKeyInput(e.target.value)}
+                    placeholder="Enter Smartsupp key (e.g. c032a...)"
+                    className="flex-1 p-2.5 text-sm font-mono text-sterling-navy border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:border-sterling-gold outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      localStorage.setItem("lcg_smartsupp_key", smartsuppKeyInput.trim());
+                      setSmartsuppSaved(true);
+                      setTimeout(() => setSmartsuppSaved(false), 3000);
+                      showToast("Smartsupp Chat Key saved and activated!");
+                      window.location.reload();
+                    }}
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow transition-colors flex items-center justify-center gap-1.5"
+                  >
+                    <Check className="w-4 h-4" />
+                    Save & Activate Chat
+                  </button>
+                </div>
+
+                {smartsuppSaved && (
+                  <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs font-bold flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                    Smartsupp Live Chat key saved and activated across the website!
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )}
 
